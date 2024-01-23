@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useNavigate } from "@/app/quiz/components/Navigation/Navigate";
 
-const myIntrest = () => {
+const MyIntrest = () => {
   const navigate = useNavigate();
   const [userIntrest, setUserIntrest] = useState([]);
   useEffect(() => {
@@ -72,4 +72,4 @@ const myIntrest = () => {
   );
 };
 
-export default myIntrest;
+export default MyIntrest;

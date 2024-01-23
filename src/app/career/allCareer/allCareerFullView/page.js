@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import careers from "../../../quiz/components/career/career.json";
 
-const allCareerFullView = () => {
+const AllCareerFullView = () => {
   const [userIntrestIndex, setUserIntrestIndex] = useState([]);
   useEffect(() => {
     const storedAnswers = localStorage.getItem("fullViewIndex");
@@ -85,4 +85,4 @@ const allCareerFullView = () => {
   );
 };
 
-export default allCareerFullView;
+export default AllCareerFullView;

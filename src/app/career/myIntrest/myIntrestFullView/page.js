@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "@/app/quiz/components/Navigation/Navigate";
 import careers from "../../../quiz/components/career/career.json";
 
-const myIntrestFullView = () => {
+const MyIntrestFullView = () => {
   const [userIntrestIndex, setUserIntrestIndex] = useState([]);
   useEffect(() => {
     const storedAnswers = localStorage.getItem("fullViewIndex");
@@ -87,4 +87,4 @@ const myIntrestFullView = () => {
   );
 };
 
-export default myIntrestFullView;
+export default MyIntrestFullView;
