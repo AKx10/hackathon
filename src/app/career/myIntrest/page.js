@@ -33,7 +33,7 @@ const MyIntrest = () => {
       <div className="flex flex-1 flex-col gap-y-5 w-full mt-5">
         {userIntrest.map((career, index) => {
           return (
-            <div className="flex flex-1">
+            <div className="flex flex-1" key={index}>
               <div className="card bg-base-100 shadow-xl w-full text-primary-content ">
                 <div className="card-body">
                   <div className="flex flex-col gap-x-5 justify-center  bg-white/10 px-5 py-2 rounded-md">
