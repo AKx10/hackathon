@@ -1,0 +1,65 @@
+{
+    "questions": [
+      {
+        "id": 1,
+        "question": "If you could have any superpower, which would it be?",
+        "options": [
+          "Flying - I love the idea of exploring and being free!",
+          "Invisibility - It'd be cool to observe and discover without being seen.",
+          "Super strength - I want to tackle any challenge head-on!",
+          "Mind reading - Understanding others can really make a difference."
+        ]
+      },
+      {
+        "id": 2,
+        "question": "Imagine you're a YouTube star. What's your channel about?",
+        "options": [
+          "Travel and Adventure - Sharing my exciting journeys around the world.",
+          "Art and DIY Projects - Bringing my creative ideas to life.",
+          "Tech Reviews - Exploring the latest gadgets and innovations.",
+          "Social Issues - Discussing important topics and making a change."
+        ]
+      },
+      {
+        "id": 3,
+        "question": "It's time to choose your sidekick! Who or what do you pick?",
+        "options": [
+          "A loyal dog - Always ready for action and adventure.",
+          "A smart robot - Technology is cool and helpful.",
+          "A wise owl - Knowledge and wisdom are my allies.",
+          "A caring friend - Together, we can help and support others."
+        ]
+      },
+      {
+        "id": 4,
+        "question": "You're in a band! What role do you play?",
+        "options": [
+          "The fearless leader - Lead singer and frontperson!",
+          "The creative soul - Writing songs and setting the vibe.",
+          "The tech wizard - Handling all the sound and special effects.",
+          "The peacemaker - Making sure everyone gets along."
+        ]
+      },
+      {
+        "id": 5,
+        "question": "What's your dream project to work on?",
+        "options": [
+          "Organizing a big sports event or an outdoor festival.",
+          "Creating an art exhibition or a graphic novel.",
+          "Developing a new app or a cool video game.",
+          "Planning a community service project or a charity event."
+        ]
+      },
+      {
+        "id": 6,
+        "question": "If you could time travel, where would you go?",
+        "options": [
+          "The future - To see how advanced the world will become!",
+          "The past - To witness the great historical moments and arts!",
+          "Anywhere with technology milestones - I'm curious about tech evolution!",
+          "Key social movements - I want to experience the change as it happened."
+        ]
+      }
+    ]
+  }
+  
