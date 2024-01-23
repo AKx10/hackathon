@@ -15,7 +15,7 @@ const AllCareerFullView = () => {
     (career) => career.id === userIntrestIndex
   );
   return (
-    <div className="flex h-[100vh] flex-col items-center justify-between p-10 pt-[96px] overflow-scroll">
+    <div className="flex h-[100vh] flex-col items-center justify-between p-10 pt-[96px] overflow-scroll bg-black">
       <div className="flex bg-white/10 flex-col p-10 rounded-3xl">
         {/* <div className="z-10 w-full items-center justify-between font-mono text-sm lg:flex "> */}
         {/* <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none"> */}
@@ -25,7 +25,7 @@ const AllCareerFullView = () => {
               target="_blank"
               rel="noopener noreferrer"
             > */}
-        <h1 className={`text-[60px] text-bold text-white/70 w-full font-mono`}>
+        <h1 className={`text-[60px] text-bold text-white/70 w-full font-mono `}>
           {careerInfo?.title}
         </h1>
         {/* </a> */}
@@ -38,12 +38,12 @@ const AllCareerFullView = () => {
             </div>
           </div>
           <div className="flex flex-col gap-y-4 border-[1px] p-5 rounded-2xl border-white/30 border-dashed bg-blue-900/10">
-            <h3 className="flex text-[20px]">Key Responsibilities :</h3>
+            <h3 className="flex text-[20px] text-white">Key Responsibilities :</h3>
             {careerInfo?.KeyResponsibilities.map((responsibilities, index) => {
               return (
                 <div className="collapse bg-blue-900/30" key={index}>
                   <input type="radio" name="my-accordion-1" checked="checked" />
-                  <div className="collapse-title text-md font-small font-mono">
+                  <div className="collapse-title text-md font-small font-mono text-white">
                     {responsibilities}
                   </div>
                 </div>
@@ -51,7 +51,7 @@ const AllCareerFullView = () => {
             })}
           </div>
           <div className="flex flex-col gap-y-4 border-[1px] p-5 rounded-2xl border-white/30 border-dashed bg-blue-900/10">
-            <h3 className="flex text-[20px] font-mono">Skills Requirement :</h3>
+            <h3 className="flex text-[20px] font-mono text-white">Skills Requirement :</h3>
             {careerInfo?.SkillsRequirement.map((skills, index) => {
               return (
                 <div
@@ -59,11 +59,11 @@ const AllCareerFullView = () => {
                   tabIndex={0}
                   className="collapse collapse-arrow bg-[#154360] text-white-content focus:bg-[#1A5276] focus:text-white-content"
                 >
-                  <div className="collapse-title font-mono">
+                  <div className="collapse-title font-mono text-white">
                     {skills?.title}
                   </div>
                   <div className="collapse-content">
-                    <p className="font-mono">{skills?.Description}</p>
+                    <p className="font-mono text-white">{skills?.Description}</p>
                   </div>
                 </div>
               );

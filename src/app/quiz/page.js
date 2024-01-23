@@ -4,7 +4,7 @@ import QuizContainer from "./components/QuizContainer/QuizContainer";
 import quiz from "./question/quizQuestion.json";
 import { useEffect, useState } from "react";
 
-const About = () => {
+const Quiz = () => {
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
@@ -37,16 +37,16 @@ const About = () => {
     }
   };
   return (
-    <div className="flex h-[100vh] flex-col items-center justify-between p-24">
+    <div className="flex h-[100vh] flex-col items-center justify-between p-24 bg-black">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
           <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
+            className="text-white pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
             href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Take <p className={`m-0 max-w-[30ch] text-xl`}>Quiz</p>
+            Take <p className={`m-0 max-w-[30ch] text-xl text-white`}>Quiz</p>
           </a>
         </div>
       </div>
@@ -54,7 +54,7 @@ const About = () => {
        */}
       <div className="flex flex-1 items-center justify-center flex-col min-w-[700px]">
         <div className="flex p-3 bg-[#8b0000]/40 rounded-xl flex-col w-full">
-          <p className={`m-0 max-w-[30ch] text-xl font-mono`}>
+          <p className={`m-0 max-w-[30ch] text-xl font-mono text-white`}>
             Quiz {"("} {currentQuestionIndex + 1} / {quiz.questions.length}{" "}
             {")"}
           </p>
@@ -64,7 +64,7 @@ const About = () => {
           />
           <button
             onClick={handleNextQuestion}
-            className="btn btn-primary font-mono"
+            className="btn btn-primary font-mono text-white"
             disabled={!userAnswers[currentQuestionIndex]}
           >
             {currentQuestionIndex < quiz.questions.length - 1
@@ -77,4 +77,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Quiz;
