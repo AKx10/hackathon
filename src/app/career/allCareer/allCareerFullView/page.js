@@ -1,11 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useNavigate } from "@/app/quiz/components/Navigation/Navigate";
 import careers from "../../../quiz/components/career/career.json";
 
 const allCareerFullView = () => {
-  const navigate = useNavigate();
   const [userIntrestIndex, setUserIntrestIndex] = useState([]);
   useEffect(() => {
     const storedAnswers = localStorage.getItem("fullViewIndex");

@@ -5,7 +5,6 @@ import { useNavigate } from "@/app/quiz/components/Navigation/Navigate";
 import careers from "../../../quiz/components/career/career.json";
 
 const myIntrestFullView = () => {
-  const navigate = useNavigate();
   const [userIntrestIndex, setUserIntrestIndex] = useState([]);
   useEffect(() => {
     const storedAnswers = localStorage.getItem("fullViewIndex");
