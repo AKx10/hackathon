@@ -3,14 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useNavigate } from "./quiz/components/Navigation/Navigate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [userEmail, setUserEmail] = useState("")
+  const [userEmail, setUserEmail] = useState("");
   const isFormIncomplete = userName === "" || dateOfBirth === "";
 
   const handleChange = (event) => {
@@ -19,16 +19,18 @@ export default function Home() {
   const handleUsernameChange = (event) => {
     setUserName(event.target.value);
   };
-  const handleEmailChange= (event) => {
-    setUserEmail(event.target.value)
-  }
+  const handleEmailChange = (event) => {
+    setUserEmail(event.target.value);
+  };
   const user = {
     name: userName, // assuming userName is a state variable
     email: userEmail,
     dateOfBirth: dateOfBirth, // assuming dateOfBirth is a state variable
   };
   const userString = JSON.stringify(user);
-  localStorage.setItem("user", userString);
+  useEffect(() => {
+    localStorage.setItem("user", userString);
+  }, [userString]);
 
   return (
     <main className="flex flex-1 h-[100vh] w-[100vw] flex-col items-center justify-center p-24 bg-black">
@@ -40,7 +42,8 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By <p className={`m-0 max-w-[30ch] text-xl text-white`}>Hey Prabhu</p>
+            By{" "}
+            <p className={`m-0 max-w-[30ch] text-xl text-white`}>Hey Prabhu</p>
           </a>
         </div>
       </div>
@@ -62,7 +65,9 @@ export default function Home() {
           <div className="flex mb-5">
             <label class="form-control w-full max-w-[400px] min-w-[350px]">
               <div class="label">
-                <span class="label-text font-mono text-white">What is your name?</span>
+                <span class="label-text font-mono text-white">
+                  What is your name?
+                </span>
               </div>
               <input
                 type="text"
@@ -75,7 +80,9 @@ export default function Home() {
           <div className="flex mb-5">
             <label class="form-control w-full max-w-[400px] min-w-[350px]">
               <div class="label">
-                <span class="label-text font-mono text-white">What is your email id?</span>
+                <span class="label-text font-mono text-white">
+                  What is your email id?
+                </span>
               </div>
               <input
                 type="text"
@@ -88,7 +95,9 @@ export default function Home() {
           <div className="flex mb-5">
             <label className="form-control w-full max-w-[400px] min-w-[350px]">
               <div className="label">
-                <span className="label-tex font-monot text-white">Date of Birth</span>
+                <span className="label-tex font-monot text-white">
+                  Date of Birth
+                </span>
               </div>
               <input
                 type="date"
