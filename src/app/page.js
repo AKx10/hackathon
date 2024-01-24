@@ -10,6 +10,7 @@ export default function Home() {
 
   const [userName, setUserName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [userEmail, setUserEmail] = useState("")
   const isFormIncomplete = userName === "" || dateOfBirth === "";
 
   const handleChange = (event) => {
@@ -18,8 +19,12 @@ export default function Home() {
   const handleUsernameChange = (event) => {
     setUserName(event.target.value);
   };
+  const handleEmailChange= (event) => {
+    setUserEmail(event.target.value)
+  }
   const user = {
     name: userName, // assuming userName is a state variable
+    email: userEmail,
     dateOfBirth: dateOfBirth, // assuming dateOfBirth is a state variable
   };
   const userString = JSON.stringify(user);
@@ -53,11 +58,11 @@ export default function Home() {
             toward a fulfilling professional life.
           </a>
         </div>
-        <div className="flex p-3 bg-[#001861] rounded-xl">
+        <div className="flex p-3 bg-[#001861] rounded-xl flex-wrap items-center justify-center">
           <div className="flex mb-5">
             <label class="form-control w-full max-w-[400px] min-w-[350px]">
               <div class="label">
-                <span class="label-text font-mono">What is your name?</span>
+                <span class="label-text font-mono text-white">What is your name?</span>
               </div>
               <input
                 type="text"
@@ -68,9 +73,22 @@ export default function Home() {
             </label>
           </div>
           <div className="flex mb-5">
+            <label class="form-control w-full max-w-[400px] min-w-[350px]">
+              <div class="label">
+                <span class="label-text font-mono text-white">What is your email id?</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Type here"
+                class="input input-bordered w-full max-w-xs"
+                onChange={handleEmailChange}
+              />
+            </label>
+          </div>
+          <div className="flex mb-5">
             <label className="form-control w-full max-w-[400px] min-w-[350px]">
               <div className="label">
-                <span className="label-tex font-monot">Date of Birth</span>
+                <span className="label-tex font-monot text-white">Date of Birth</span>
               </div>
               <input
                 type="date"
