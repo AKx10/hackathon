@@ -73,7 +73,6 @@ const AllAd = () => {
       <Script
         src="https://d2cfeg6k9cklz9.cloudfront.net/creativebyadgeist.js"
         data-ad-serve-url="https://bg-services-api.adgeist.ai"
-        data-env="development"
         data-ad-tracking-url="https://bg-services-api.adgeist.ai"
         onReady={() => {
           setScriptLoaded(true);
