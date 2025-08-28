@@ -225,9 +225,11 @@ const AllAd = () => {
         <div className="flex flex-wrap w-full gap-10 flex-1">
           {ads?.map((ad, index) => {
             return (
-              <div className="flex bg-white/10 h-fit w-fit rounded-md p-1">
+              <div
+                key={index + ad.dataadslot}
+                className="flex bg-white/10 h-fit w-fit rounded-md p-1"
+              >
                 <AdBanner
-                  key={index}
                   datapublisherid={ad.datapublisherid}
                   dataapikey={ad.dataapikey}
                   dataadslot={ad.dataadslot}
