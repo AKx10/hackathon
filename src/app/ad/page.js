@@ -66,23 +66,34 @@ const AllAd = () => {
   useEffect(() => {
     getAdDetails();
   }, []);
-  console.log(ads);
 
   return (
     <div className="flex h-[100vh] flex-col items-center justify-between p-14 overflow-auto bg-black gap-4">
       <Script
-        src="https://d2cfeg6k9cklz9.cloudfront.net/creativebyadgeist.js"
-        data-ad-serve-url="https://bg-services-api.adgeist.ai"
-        data-ad-tracking-url="https://bg-services-api.adgeist.ai"
+        src="https://cdn.adgeist.ai/creativebyadgeist-beta.js"
+        data-should-ingest-events-to-cdp={false}
+        data-publisher-id="68f8c700c40a64049896a72d"
+        data-api-key="6f9c3e1136fc2c64e848ebe0573d83a01cfeb0ebedde2e19d51179f00bca587f"
+        data-env={
+          advertisementType === "TEST_AD" ||
+          process.env.NODE_ENV === "development"
+            ? "development"
+            : "production"
+        }
         onReady={() => {
           setScriptLoaded(true);
           if (window && window?.adsbyadgeist) {
-            window.adsbyadgeist?.setUserDetails({
-              user_id: 99,
-              user_name: "Akshay",
-              email: "akshay@thealteroffice.com",
-            });
-            window.adsbyadgeist?.showConsentBanner();
+            const adsbyadgeist = window.adsbyadgeist;
+            if (adsbyadgeist.setUserDetails) {
+              adsbyadgeist.setUserDetails({
+                user_id: userData.id,
+                user_name: userData.userName,
+                email: userData.email,
+              });
+            }
+            if (adsbyadgeist.showConsentBanner) {
+              adsbyadgeist.showConsentBanner();
+            }
           }
         }}
         onError={(e) => {

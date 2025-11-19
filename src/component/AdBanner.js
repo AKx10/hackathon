@@ -2,11 +2,14 @@
 
 import React, { useEffect } from "react";
 
+import ActivityLoader from "../base/ActivityLoader";
+import TextArea from "../base/TextArea";
+
 const AdBanner = ({
-  datapublisherid,
+  adspaceName = "",
   dataadslot,
-  dataapikey,
   dataslottype,
+  databuytype,
   dataresponsive = false,
   dataresponsivetype = "square",
   width = 300,
@@ -16,21 +19,8 @@ const AdBanner = ({
 
   const loadAd = () => {
     try {
-      (window.adsbyadgeist = window.adsbyadgeist || []).push({});
     } catch (err) {}
   };
-
-  // // mount components every 10 seconds
-  // React.useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setReloading(true);
-  //     setTimeout(() => {
-  //       setReloading(false);
-  //     }, 500); // Wait for 1 second before reloading
-  //   }, 10000); // 10 seconds
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
   useEffect(() => {
     if (!reloading) {
@@ -51,35 +41,52 @@ const AdBanner = ({
           textAlign: "center",
         }}
       >
-        Loading...
+        <ActivityLoader size={30} color="black" />
       </div>
     );
   }
 
   return (
-    <ins
-      className="adsbyadgeist"
-      style={{
-        display: "block",
-        textDecoration: "none",
-        width: dataresponsive
-          ? "100%"
-          : typeof width === "number"
-          ? `${width}px`
-          : width,
-        height: dataresponsive
-          ? "100%"
-          : typeof height === "number"
-          ? `${height}px`
-          : height,
-      }}
-      data-publisher-id={datapublisherid}
-      data-ad-slot={dataadslot}
-      data-api-key={dataapikey}
-      data-slot-type={dataslottype}
-      data-responsive={dataresponsive}
-      data-responsive-type={dataresponsivetype}
-    ></ins>
+    <div>
+      {!!adspaceName && (
+        <div
+          style={{
+            marginBottom: "4px",
+          }}
+        >
+          <TextArea
+            textType="h4"
+            textColor="white"
+            tooltip={adspaceName}
+            noOfLines={1}
+          >
+            {adspaceName}
+          </TextArea>
+        </div>
+      )}
+      <ins
+        className="adsbyadgeist"
+        style={{
+          display: "block",
+          textDecoration: "none",
+          width: dataresponsive
+            ? "100%"
+            : typeof width === "number"
+            ? `${width}px`
+            : width,
+          height: dataresponsive
+            ? "100%"
+            : typeof height === "number"
+            ? `${height}px`
+            : height,
+        }}
+        data-ad-slot={dataadslot}
+        data-slot-type={dataslottype}
+        data-buy-type={databuytype}
+        data-responsive={dataresponsive}
+        data-responsive-type={dataresponsivetype}
+      ></ins>
+    </div>
   );
 };
 
