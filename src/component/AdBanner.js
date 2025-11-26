@@ -2,9 +2,6 @@
 
 import React, { useEffect } from "react";
 
-import ActivityLoader from "../base/ActivityLoader";
-import TextArea from "../base/TextArea";
-
 const AdBanner = ({
   adspaceName = "",
   dataadslot,
@@ -41,7 +38,7 @@ const AdBanner = ({
           textAlign: "center",
         }}
       >
-        <ActivityLoader size={30} color="black" />
+        loading
       </div>
     );
   }
@@ -54,14 +51,7 @@ const AdBanner = ({
             marginBottom: "4px",
           }}
         >
-          <TextArea
-            textType="h4"
-            textColor="white"
-            tooltip={adspaceName}
-            noOfLines={1}
-          >
-            {adspaceName}
-          </TextArea>
+          {adspaceName}
         </div>
       )}
       <ins
@@ -82,7 +72,7 @@ const AdBanner = ({
         }}
         data-ad-slot={dataadslot}
         data-slot-type={dataslottype}
-        data-buy-type={databuytype}
+        data-buy-type={"FIXED"}
         data-responsive={dataresponsive}
         data-responsive-type={dataresponsivetype}
       ></ins>

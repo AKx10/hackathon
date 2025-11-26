@@ -2,7 +2,7 @@
 
 import AdBanner from "@/component/AdBanner";
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const AllAd = () => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -10,8 +10,9 @@ const AllAd = () => {
   const [ads, setAds] = useState([]);
 
   const [bannerFields, setBannerFields] = useState({
-    datapublisherid: "",
-    dataapikey: "",
+    datapublisherid: "68f8c700c40a64049896a72d",
+    dataapikey:
+      "6f9c3e1136fc2c64e848ebe0573d83a01cfeb0ebedde2e19d51179f00bca587f",
     dataadslot: "",
     dataslottype: "",
     dataresponsive: false,
@@ -70,25 +71,20 @@ const AllAd = () => {
   return (
     <div className="flex h-[100vh] flex-col items-center justify-between p-14 overflow-auto bg-black gap-4">
       <Script
-        src="https://cdn.adgeist.ai/creativebyadgeist-beta.js"
+        src="/creativebyadgeist.js"
         data-should-ingest-events-to-cdp={false}
         data-publisher-id="68f8c700c40a64049896a72d"
         data-api-key="6f9c3e1136fc2c64e848ebe0573d83a01cfeb0ebedde2e19d51179f00bca587f"
-        data-env={
-          advertisementType === "TEST_AD" ||
-          process.env.NODE_ENV === "development"
-            ? "development"
-            : "production"
-        }
+        data-env={"development"}
         onReady={() => {
           setScriptLoaded(true);
           if (window && window?.adsbyadgeist) {
             const adsbyadgeist = window.adsbyadgeist;
             if (adsbyadgeist.setUserDetails) {
               adsbyadgeist.setUserDetails({
-                user_id: userData.id,
-                user_name: userData.userName,
-                email: userData.email,
+                user_id: 999,
+                user_name: "Akshay",
+                email: "akshay@thealteroffice.com",
               });
             }
             if (adsbyadgeist.showConsentBanner) {
@@ -237,7 +233,7 @@ const AllAd = () => {
             return (
               <div
                 key={index + ad.dataadslot}
-                className="flex bg-white/10 h-fit w-fit rounded-md p-1"
+                className="flex h-fit w-fit rounded-md"
               >
                 <AdBanner
                   datapublisherid={ad.datapublisherid}
