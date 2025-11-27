@@ -1494,8 +1494,6 @@
       // Clear slot and append iframe
       slot.innerHTML = "";
       const slotElement = slot;
-      slotElement.style.width = "100%";
-      slotElement.style.height = "100%";
       slotElement.style.display = "block";
       slot.appendChild(iframe);
 
