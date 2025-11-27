@@ -12,7 +12,6 @@
       container-name: ad-card;
       max-height: 900px;
       max-width: 1200px;
-      border-radius: 4px;
       overflow: hidden;
       outline: 1px solid #E0E0E0;
       background-color: #FFFFFF;
@@ -63,7 +62,6 @@
         min-width: 240px;
         min-height: 50px;
         max-height: 900px;
-        border-radius: 4px;
         overflow: hidden;
         outline: 1px solid #e0e0e0;
         background-color: #d5d4d4ff;
