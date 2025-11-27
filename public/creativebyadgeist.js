@@ -1418,75 +1418,165 @@
 
       const adSpaceSpec = ADSPACE_DIMENSION_CONFIG[adType];
 
-      const { width, height } = slot.getBoundingClientRect();
-
-      if (width < adSpaceSpec.MIN_WIDTH || height < adSpaceSpec.MIN_HEIGHT) {
-        return;
-      }
-
-      const validMinMaxWidth = Math.min(
-        adSpaceSpec.MAX_WIDTH,
-        Math.max(adSpaceSpec.MIN_WIDTH, width)
-      );
-      const validMinMaxHeight = Math.min(
-        adSpaceSpec.MAX_HEIGHT,
-        Math.max(adSpaceSpec.MIN_HEIGHT, height)
-      );
-      const containerWidth = `${validMinMaxWidth}px`;
-      const containerHeight = `${validMinMaxHeight}px`;
+      // Helper function to calculate valid dimensions within min/max constraints
+      const calculateValidDimensions = (rawWidth, rawHeight) => {
+        const validWidth = Math.min(
+          adSpaceSpec.MAX_WIDTH,
+          Math.max(adSpaceSpec.MIN_WIDTH, rawWidth)
+        );
+        const validHeight = Math.min(
+          adSpaceSpec.MAX_HEIGHT,
+          Math.max(adSpaceSpec.MIN_HEIGHT, rawHeight)
+        );
+        return {
+          width: `${validWidth}px`,
+          height: `${validHeight}px`,
+        };
+      };
 
       const adElementId = `adgeist_ads_iframe_${adSpaceId}`;
       const startTime = performance.now();
 
-      let adCard;
+      // Helper function to generate AdCard HTML with given dimensions
+      const generateAdCardHtml = (width, height) => {
+        if (adType === "banner" || adType === "display") {
+          const adCardRenderer = new window.AdCard({
+            adElementId: adElementId,
+            title: ad.title,
+            description: ad.description,
+            altText: ad.altText,
+            name: "Brand Name",
+            ctaUrl: ad.clickUrl,
+            fileUrl: ad.creativeUrl,
+            type: adType,
+            isResponsive: isAdspaceResponsive,
+            height: height,
+            width: width,
+            mediaType: ad.creativeType,
+            adspaceType: adType,
+            media: [
+              {
+                src: ad.creativeUrl,
+                thumbnailUrl: ad.thumbnailUrl,
+              },
+            ],
+          });
+          return adCardRenderer.renderHtml();
+        }
+        return "";
+      };
 
-      if (adType === "banner" || adType === "video" || adType === "display") {
-        console.log(ad, "ad");
+      // Helper function to check if ad should be collapsed due to size constraints
+      const shouldCollapseAd = (width, height) => {
+        return width < adSpaceSpec.MIN_WIDTH || height < adSpaceSpec.MIN_HEIGHT;
+      };
 
-        const adCardRenderer = new window.AdCard({
-          adElementId: adElementId,
-          title: ad.title,
-          description: ad.description,
-          altText: ad.altText,
-          name: "Brand Name",
-          ctaUrl: ad.clickUrl,
-          fileUrl: ad.creativeUrl,
-          type: adType,
-          isResponsive: isAdspaceResponsive,
-          height: containerHeight,
-          width: containerWidth,
-          mediaType: ad.creativeType,
-          adspaceType: adType,
-          media: [
-            {
-              src: ad.creativeUrl,
-              thumbnailUrl: ad.thumbnailUrl,
-            },
-          ],
-        });
-        adCard = adCardRenderer.renderHtml();
-      } else if (adType === "richmedia" && ad.scriptUrl) {
+      // Handle Rich Media or Unsupported types early
+      if (adType === "richmedia" && ad.scriptUrl) {
         this.injectScript(ad.scriptUrl, () =>
           this.sdk.logger.log("Rich media ad loaded")
         );
         return;
-      } else {
+      } else if (adType !== "banner" && adType !== "display") {
         this.sdk.logger.log(
           `Unsupported slot type or missing scriptUrl: ${adType}`
         );
         return;
       }
 
+      // Create and setup iframe
       const iframe = document.createElement("iframe");
       iframe.setAttribute("id", adElementId);
-      iframe.setAttribute("width", containerWidth);
-      iframe.setAttribute("height", containerHeight);
       iframe.setAttribute("frameborder", "0");
       iframe.setAttribute("scrolling", "no");
       iframe.style.border = "none";
-      iframe.srcdoc = adCard;
+
+      // Clear slot and append iframe
       slot.innerHTML = "";
+      const slotElement = slot;
+      slotElement.style.width = "100%";
+      slotElement.style.height = "100%";
+      slotElement.style.display = "block";
       slot.appendChild(iframe);
+
+      // Unified function to render or update the ad based on dimensions
+      const renderOrUpdateAd = (width, height) => {
+        // Check if ad should be collapsed
+        if (shouldCollapseAd(width, height)) {
+          iframe.style.display = "none";
+          this.sdk.logger.log(
+            `Ad slot too small for ${adSpaceId}: ${Math.round(
+              width
+            )}x${Math.round(height)} (min: ${adSpaceSpec.MIN_WIDTH}x${
+              adSpaceSpec.MIN_HEIGHT
+            }), collapsing ad`
+          );
+          return;
+        }
+
+        // Show iframe if it was hidden
+        if (iframe.style.display === "none") {
+          iframe.style.display = "block";
+          this.sdk.logger.log(
+            `Ad slot size valid again for ${adSpaceId}: ${Math.round(
+              width
+            )}x${Math.round(height)}, showing ad`
+          );
+        }
+
+        // Calculate valid dimensions
+        const { width: validWidth, height: validHeight } =
+          calculateValidDimensions(width, height);
+
+        // Update iframe dimensions
+        iframe.setAttribute("width", validWidth);
+        iframe.setAttribute("height", validHeight);
+        iframe.style.width = validWidth;
+        iframe.style.height = validHeight;
+
+        // Generate and update AdCard HTML
+        const adCardHtml = generateAdCardHtml(validWidth, validHeight);
+        if (adCardHtml) {
+          iframe.srcdoc = adCardHtml;
+        }
+      };
+
+      // Initial render
+      const { width: initialWidth, height: initialHeight } =
+        slot.getBoundingClientRect();
+      renderOrUpdateAd(initialWidth, initialHeight);
+
+      // Set up ResizeObserver
+      let lastResizeTime = 0;
+      const resizeThrottleMs = 100;
+
+      const resizeObserver = new ResizeObserver((entries) => {
+        const now = performance.now();
+        if (now - lastResizeTime < resizeThrottleMs) {
+          return;
+        }
+        lastResizeTime = now;
+
+        for (const entry of entries) {
+          const { width: newWidth, height: newHeight } = entry.contentRect;
+
+          // Verify with getBoundingClientRect for accuracy
+          const rect = slot.getBoundingClientRect();
+          const actualWidth = rect.width || newWidth;
+          const actualHeight = rect.height || newHeight;
+
+          renderOrUpdateAd(actualWidth, actualHeight);
+
+          this.sdk.logger.log(
+            `Ad slot resized for ${adSpaceId}: ${Math.round(
+              actualWidth
+            )}x${Math.round(actualHeight)}`
+          );
+        }
+      });
+
+      // Start observing the slot element
+      resizeObserver.observe(slot);
 
       iframe.addEventListener("load", () => {
         const adElement = document.querySelector(`#${adElementId}`);
@@ -1501,9 +1591,11 @@
             bidResponseMetadata,
             ad.creativeType
           );
+          tracker.resizeObserver = resizeObserver;
           this.sdk.adTrackers.set(adElementId, tracker);
         } else {
           this.sdk.logger.log("No ad element found for tracking");
+          resizeObserver.disconnect();
         }
       });
     }
@@ -1774,6 +1866,10 @@
       if (this.adSlotObserver.observer) {
         this.adSlotObserver.observer.disconnect();
         this.adSlotObserver.observer = null;
+      }
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+        this.resizeObserver = null;
       }
       this.adTrackers.forEach((tracker) => tracker.destroy());
       this.adTrackers.clear();
