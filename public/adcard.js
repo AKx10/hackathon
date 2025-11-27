@@ -246,7 +246,7 @@
         )}" target="_blank" id="banner-container" class="banner-ad-card" style="width:${rawWidth};height:${rawHeight};">
           <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>
 
-          <div class="ad-media">
+          <div class="ad-media adgeist-ad">
              ${
                this.mediaType === "video"
                  ? `
@@ -254,7 +254,7 @@
                     id="ad-video"
                     class="media"
                     poster="${getEffectiveMedia()?.thumbnailUrl || ""}" 
-                    autoplay 
+                    autoplay
                     loop 
                     muted 
                     style="width: 100%; height: 100%; object-fit: contain;" 
@@ -711,6 +711,7 @@
               poster="${this.media[0]?.thumbnailUrl || ""}" 
               autoplay 
               loop 
+              playsinline
               muted 
               style="width: 100%; height: 100%; object-fit: contain;" 
               onloadeddata="if(window.Android){window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'}))}"
@@ -726,24 +727,26 @@
 
       return `
         <style id="${DISPLAY_STYLE_ID}">${DISPLAY_CSS}</style>
-        <a href="${ensureHttpProtocol(
-          this.ctaUrl
-        )}" target="_blank" style="text-decoration:none;color:inherit;" >
-        <div class="ad-card-container" style="width:${this.width}px;height:${
+        <a href="${ensureHttpProtocol(this.ctaUrl)}" 
+        target="_blank" 
+        style="text-decoration:none;color:inherit;" 
+        >
+          <div class="ad-card-container adgeist-ad"
+          style="width:${this.width}px;height:${
         this.height
       }px;display:flex;flex-direction:${details.flexDirection};">
-          <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>
-          
-          <div class="image-container" style="width:${
-            details.imageWidth
-          }px;height:${
+            <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>
+            
+            <div class="image-container" style="width:${
+              details.imageWidth
+            }px;height:${
         details.imageHeight
       }px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#d5d4d4ff;">
-            ${media}
+              ${media}
+            </div>
+            
+            ${this.renderContentHtml(details)}
           </div>
-          
-          ${this.renderContentHtml(details)}
-        </div>
         </a>
       `;
     }

@@ -27,6 +27,39 @@
     ADGEIST_VERSION: "1.0.0",
   };
 
+  const ADSPACE_DIMENSION_CONFIG = {
+    banner: {
+      MIN_WIDTH: 240,
+      MIN_HEIGHT: 50,
+      MAX_WIDTH: 1200,
+      MAX_HEIGHT: 900,
+    },
+    display: {
+      MIN_WIDTH: 300,
+      MIN_HEIGHT: 60,
+      MAX_WIDTH: 1200,
+      MAX_HEIGHT: 900,
+    },
+    video: {
+      MIN_WIDTH: 300,
+      MIN_HEIGHT: 250,
+      MAX_WIDTH: 1920,
+      MAX_HEIGHT: 1080,
+    },
+    native: {
+      MIN_WIDTH: 300,
+      MIN_HEIGHT: 250,
+      MAX_WIDTH: 1200,
+      MAX_HEIGHT: 900,
+    },
+    interactive: {
+      MIN_WIDTH: 300,
+      MIN_HEIGHT: 250,
+      MAX_WIDTH: 1200,
+      MAX_HEIGHT: 900,
+    },
+  };
+
   /**
    * Utility module for reusable functions.
    * @module Utils
@@ -756,6 +789,7 @@
       buyType,
       startTime,
       bidResponseMetadata,
+      mediaType,
       visibilityThreshold = DEFAULTS.VISIBILITY_THRESHOLD
     ) {
       this.sdk = sdk;
@@ -763,7 +797,7 @@
       this.adType = adType;
       this.visibilityThreshold = visibilityThreshold;
       this.minViewTime =
-        adType === "video"
+        mediaType === "video"
           ? DEFAULTS.VIDEO_MIN_VIEW_TIME
           : DEFAULTS.MIN_VIEW_TIME;
       this.isVisible = false;
@@ -790,6 +824,7 @@
         buyType,
         bidResponseMetadata
       );
+      this.mediaType = mediaType;
       this.adElement = document.getElementById(adElementId);
       if (!this.adElement) {
         this.sdk.logger.log(`Ad element not found: ${adElementId}`);
@@ -821,7 +856,7 @@
      */
     setupImpressionTracking() {
       const adCreative = this.getAdCreative();
-      if (this.adType === "banner") {
+      if (this.mediaType === "image" || this.mediaType === "gif") {
         const img = adCreative.querySelector("img");
         if (img) {
           if (img.complete) {
@@ -830,7 +865,7 @@
             img.addEventListener("load", () => this.recordImpression());
           }
         }
-      } else if (this.adType === "video") {
+      } else if (this.mediaType === "video") {
         const video = adCreative.querySelector("video");
         if (video) {
           if (video.complete) {
@@ -906,7 +941,7 @@
         );
       }
 
-      if (this.adType === "video") {
+      if (this.mediaType === "video") {
         const video = this.getAdCreative().querySelector("video");
         video.addEventListener("play", () => {
           if (!this.playbackStartTime) {
@@ -936,7 +971,7 @@
           this.updateViewTime();
           this.updateHoverTime();
           this.updatePlaybackTime();
-          if (this.adType === "video" && !this.hasEnded) {
+          if (this.mediaType === "video" && !this.hasEnded) {
             const video = this.getAdCreative().querySelector("video");
             this.lastPausedTime = video.currentTime;
             video.pause();
@@ -1024,7 +1059,7 @@
         this.currentVisibilityRatio = visibilityRatio;
         this.isVisible = visibilityRatio >= this.visibilityThreshold;
         const video =
-          this.adType === "video"
+          this.mediaType === "video"
             ? this.getAdCreative().querySelector("video")
             : null;
 
@@ -1083,7 +1118,7 @@
      * Updates total playback time for video ads.
      */
     updatePlaybackTime() {
-      if (this.playbackStartTime && this.adType === "video") {
+      if (this.playbackStartTime && this.mediaType === "video") {
         this.totalPlaybackTime += performance.now() - this.playbackStartTime;
         this.playbackStartTime = null;
       }
@@ -1151,7 +1186,7 @@
         this.currentVisibilityRatio = visibilityRatio;
         this.isVisible = visibilityRatio >= this.visibilityThreshold;
         const video =
-          this.adType === "video"
+          this.mediaType === "video"
             ? this.getAdCreative().querySelector("video")
             : null;
 
@@ -1212,7 +1247,7 @@
       this.updateHoverTime();
       this.sendTotalTimeInView();
       this.sendHoverData();
-      if (this.adType === "video" && !this.hasEnded) {
+      if (this.mediaType === "video" && !this.hasEnded) {
         this.sendVideoPlaybackData();
       }
     }
@@ -1381,9 +1416,24 @@
         return;
       }
 
+      const adSpaceSpec = ADSPACE_DIMENSION_CONFIG[adType];
+
       const { width, height } = slot.getBoundingClientRect();
-      const containerWidth = `${width}px`;
-      const containerHeight = `${height}px`;
+
+      if (width < adSpaceSpec.MIN_WIDTH || height < adSpaceSpec.MIN_HEIGHT) {
+        return;
+      }
+
+      const validMinMaxWidth = Math.min(
+        adSpaceSpec.MAX_WIDTH,
+        Math.max(adSpaceSpec.MIN_WIDTH, width)
+      );
+      const validMinMaxHeight = Math.min(
+        adSpaceSpec.MAX_HEIGHT,
+        Math.max(adSpaceSpec.MIN_HEIGHT, height)
+      );
+      const containerWidth = `${validMinMaxWidth}px`;
+      const containerHeight = `${validMinMaxHeight}px`;
 
       const adElementId = `adgeist_ads_iframe_${adSpaceId}`;
       const startTime = performance.now();
@@ -1448,7 +1498,8 @@
             adType,
             buyType,
             startTime,
-            bidResponseMetadata
+            bidResponseMetadata,
+            ad.creativeType
           );
           this.sdk.adTrackers.set(adElementId, tracker);
         } else {
