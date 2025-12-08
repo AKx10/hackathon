@@ -682,16 +682,28 @@
         }
 
         if (this.buyType === "FIXED") {
+          const trackingPayload = {
+            type: eventType,
+            metaData: this.metaData,
+            companyId: this.sdk.publisherId,
+            origin: this.sdk.origin,
+            // isTest: this.sdk.isTestMode,
+            ...analyticsPayload,
+          };
+          
+          // Debug: Log tracking payload
+          console.log('[AdEventSender] FIXED tracking payload:', {
+            type: eventType,
+            companyId: trackingPayload.companyId,
+            origin: trackingPayload.origin,
+            isTest: trackingPayload.isTest,
+            hasMetaData: !!trackingPayload.metaData
+          });
+          
           response = await fetch(`${this.adTrackingUrl}/v2/ssp/impression`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              type: eventType,
-              metaData: this.metaData,
-              companyId: this.sdk.publisherId,
-              origin: this.sdk.origin,
-              ...analyticsPayload,
-            }),
+            body: JSON.stringify(trackingPayload),
           });
         } else {
           response = await fetch(
@@ -1286,19 +1298,30 @@
           }
           let response;
           if (buyType === "FIXED") {
+            const payload = {
+              adSpaceId,
+              timeZone: Utils.getUserTimezone(),
+              userAgent: navigator.userAgent,
+              device: {
+                ...this.sdk.deviceInfo,
+              },
+              companyId: publisherId,
+              origin: this.sdk.origin,
+              // isTest: this.sdk.isTestMode,
+            };
+            
+            // Debug: Log the payload being sent
+            console.log('[AdLoader] FIXED ad request payload:', {
+              ...payload,
+              device: '(device info omitted)',
+              origin: payload.origin,
+              isTest: payload.isTest
+            });
+            
             response = await fetch(`${this.adServeUrl}/v2/dsp/ad/fixed`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                adSpaceId,
-                timeZone: Utils.getUserTimezone(),
-                userAgent: navigator.userAgent,
-                device: {
-                  ...this.sdk.deviceInfo,
-                },
-                companyId: publisherId,
-               origin: this.sdk.origin,
-              }),
+              body: JSON.stringify(payload),
             });
           } else {
             response = await fetch(
@@ -1839,6 +1862,19 @@
       this.publisherId = script.getAttribute("data-publisher-id") || "";
       this.apiKey = script.getAttribute("data-api-key") || "";
       this.origin = script.getAttribute("data-origin") || "https://hackathon-lake-nine.vercel.app";
+      // this.isTestMode = script.getAttribute("data-is-test-mode") == 'true' || false;
+      
+      // Debug logging
+      console.log('[AdgeistSDK] Initialized with:', {
+        publisherId: this.publisherId,
+        apiKey: this.apiKey ? '***' + this.apiKey.slice(-8) : 'none',
+        origin: this.origin,
+        // isTestMode: this.isTestMode,
+        env: this.env,
+        'data-origin attribute': script.getAttribute("data-origin"),
+        'data-is-test-mode attribute': script.getAttribute("data-is-test-mode")
+      });
+      
       this.logger = new Logger(this.env);
       this.cdpManager = new CDPManager(this);
       this.adLoader = new AdLoader(this);
@@ -1887,6 +1923,9 @@
 
   // Initialize SDK
   const sdkInstance = new AdgeistSDK();
+
+  // Expose SDK instance globally for debugging
+  window.sdkInstance = sdkInstance;
 
   // Setup global interface
   window.sspAdsQueue = window.sspAdsQueue || [];
