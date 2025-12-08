@@ -689,7 +689,7 @@
               type: eventType,
               metaData: this.metaData,
               companyId: this.sdk.publisherId,
-              origin: "https://hackathon-lake-nine.vercel.app",
+              origin: this.sdk.origin,
               ...analyticsPayload,
             }),
           });
@@ -1297,7 +1297,7 @@
                   ...this.sdk.deviceInfo,
                 },
                 companyId: publisherId,
-                origin: "https://hackathon-lake-nine.vercel.app",
+               origin: this.sdk.origin,
               }),
             });
           } else {
@@ -1838,6 +1838,7 @@
       this.env = script.getAttribute("data-env") || "production";
       this.publisherId = script.getAttribute("data-publisher-id") || "";
       this.apiKey = script.getAttribute("data-api-key") || "";
+      this.origin = script.getAttribute("data-origin") || "https://hackathon-lake-nine.vercel.app";
       this.logger = new Logger(this.env);
       this.cdpManager = new CDPManager(this);
       this.adLoader = new AdLoader(this);

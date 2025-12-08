@@ -8,47 +8,102 @@ const AllAd = () => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [scriptError, setScriptError] = useState(false);
   const [ads, setAds] = useState([]);
+  const [pasteContent, setPasteContent] = useState("");
+  const [error, setError] = useState("");
 
-  const [bannerFields, setBannerFields] = useState({
-    datapublisherid: "69313010b753c523ef72a5d4",
-    dataapikey:
-      "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
-    dataadslot: "",
-    dataslottype: "",
-    dataresponsive: false,
-    dataresponsivetype: "",
-    width: 0,
-    height: 0,
+  // Global Script Configuration
+  const [scriptConfig, setScriptConfig] = useState({
+      publisherId: "69313010b753c523ef72a5d4",
+      apiKey: "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
+      scriptSrc: "/creativebyadgeist.js",
+      origin: "https://hackathon-lake-nine.vercel.app", // Platform Origin
+      env: "development"
   });
 
-  const handleChange = (key, value) => {
-    try {
-      setBannerFields((prev) => ({
-        ...prev,
-        [key]: value,
-      }));
-    } catch (error) {
-      console.error("Error updating fields:", error);
-    }
+  // Separate inputs state
+  const [originInput, setOriginInput] = useState("/creativebyadgeist.js");
+  const [apiOriginInput, setApiOriginInput] = useState("https://hackathon-lake-nine.vercel.app");
+  
+  const handleScriptSrcChange = (val) => {
+      setOriginInput(val);
+      setScriptConfig(prev => ({ ...prev, scriptSrc: val }));
   };
 
-  const onAddAD = () => {
+  const handleApiOriginChange = (val) => {
+      setApiOriginInput(val);
+      setScriptConfig(prev => ({ ...prev, origin: val }));
+  };
+
+  const handlePasteProcess = (content) => {
     try {
-      const updatedAds = [...ads, bannerFields];
-      setAds(updatedAds);
-      localStorage.setItem("adBannerDetails", JSON.stringify(updatedAds));
-      setBannerFields({
-        datapublisherid: "",
-        dataapikey: "",
-        dataadslot: "",
-        dataslottype: "",
-        dataresponsive: false,
-        dataresponsivetype: "",
-        width: 0,
-        height: 0,
-      });
-    } catch (error) {
-      console.error("Error adding ad:", error);
+      if (!content.trim()) return;
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(content, "text/html");
+      const ins = doc.querySelector("ins");
+      const script = doc.querySelector("script");
+      
+      let newAd = null;
+      let configUpdate = {};
+
+      // Parse Script Tag if present
+      if (script) {
+          const pubId = script.getAttribute("data-publisher-id");
+          const apiKey = script.getAttribute("data-api-key");
+          const src = script.getAttribute("src");
+          const env = script.getAttribute("data-env"); // Optional if present
+          const origin = script.getAttribute("data-origin");
+
+          if (pubId) configUpdate.publisherId = pubId;
+          if (apiKey) configUpdate.apiKey = apiKey;
+          if (src) {
+              configUpdate.scriptSrc = src;
+              setOriginInput(src); // Update valid origin input
+          }
+          if (origin) {
+              configUpdate.origin = origin;
+              setApiOriginInput(origin);
+          }
+          if (env) configUpdate.env = env;
+
+          if (Object.keys(configUpdate).length > 0) {
+              setScriptConfig(prev => ({ ...prev, ...configUpdate }));
+          }
+      }
+
+      // Parse Ins Tag if present
+      if (ins) {
+        const styleWidth = ins.style.width;
+        const styleHeight = ins.style.height;
+
+        newAd = {
+            datapublisherid: ins.getAttribute("data-publisher-id") || configUpdate.publisherId || scriptConfig.publisherId,
+            dataapikey: ins.getAttribute("data-api-key") || configUpdate.apiKey || scriptConfig.apiKey,
+            dataadslot: ins.getAttribute("data-ad-slot") || "",
+            dataslottype: ins.getAttribute("data-slot-type") || "display",
+            dataresponsive: ins.getAttribute("data-responsive") || "false",
+            dataresponsivetype: ins.getAttribute("data-responsive-type") || "",
+            width: styleWidth ? parseInt(styleWidth) : 0,
+            height: styleHeight ? parseInt(styleHeight) : 0,
+        };
+
+        // Update Local Storage and State for Ads
+        const updatedAds = [...ads, newAd];
+        setAds(updatedAds);
+        localStorage.setItem("adBannerDetails", JSON.stringify(updatedAds));
+      }
+
+      if (!ins && !script) {
+         setError("No <ins> or <script> tag found in pasted code.");
+         return;
+      }
+      
+      // Clear input
+      setPasteContent("");
+      setError("");
+    } catch (e) {
+      console.error("Parsing error", e);
+      setError("Failed to parse code.");
     }
   };
 
@@ -64,18 +119,33 @@ const AllAd = () => {
       setAds([]);
     }
   };
+
   useEffect(() => {
     getAdDetails();
   }, []);
 
+  const clearAds = () => {
+      setAds([]);
+      localStorage.removeItem("adBannerDetails");
+  }
+
   return (
-    <div className="flex h-[100vh] flex-col items-center justify-between p-14 overflow-auto bg-black gap-4">
+    <div className="flex h-[100vh] flex-col items-center p-8 overflow-auto bg-black gap-8 text-white relative">
+        {/* Background Gradients for Premium Feel */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-900/20 blur-[120px] rounded-full"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-900/20 blur-[120px] rounded-full"></div>
+        </div>
+
+      {/* Dynamic Script based on Config */}
       <Script
-        src="/creativebyadgeist.js"
+        key={scriptConfig.scriptSrc + scriptConfig.publisherId + scriptConfig.origin} // Force reload on change
+        src={scriptConfig.scriptSrc}
         data-should-ingest-events-to-cdp={false}
-        data-publisher-id="68f8c700c40a64049896a72d"
-        data-api-key="6f9c3e1136fc2c64e848ebe0573d83a01cfeb0ebedde2e19d51179f00bca587f"
-        data-env={"development"}
+        data-publisher-id={scriptConfig.publisherId}
+        data-api-key={scriptConfig.apiKey}
+        data-origin={scriptConfig.origin} 
+        data-env={scriptConfig.env}
         onReady={() => {
           setScriptLoaded(true);
           if (window && window?.adsbyadgeist) {
@@ -97,159 +167,131 @@ const AllAd = () => {
           setScriptError(true);
         }}
       ></Script>
-      <div className="flex p-3 bg-[#001861] rounded-xl flex-wrap items-center justify-center">
-        <div className="flex mb-5">
-          <label class="form-control w-full max-w-[400px] min-w-[350px]">
-            <div class="label">
-              <span class="label-text font-mono text-white">
-                datapublisherid
-              </span>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
-              value={bannerFields.datapublisherid}
-              onChange={(e) => handleChange("datapublisherid", e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex mb-5">
-          <label class="form-control w-full max-w-[400px] min-w-[350px]">
-            <div class="label">
-              <span class="label-text font-mono text-white">dataapikey</span>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
-              value={bannerFields.dataapikey}
-              onChange={(e) => handleChange("dataapikey", e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex mb-5">
-          <label class="form-control w-full max-w-[400px] min-w-[350px]">
-            <div class="label">
-              <span class="label-text font-mono text-white">dataadslot</span>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
-              value={bannerFields.dataadslot}
-              onChange={(e) => handleChange("dataadslot", e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex mb-5">
-          <label class="form-control w-full max-w-[400px] min-w-[350px]">
-            <div class="label">
-              <span class="label-text font-mono text-white">dataslottype</span>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
-              value={bannerFields.dataslottype}
-              onChange={(e) => handleChange("dataslottype", e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex mb-5">
-          <label class="form-control w-full max-w-[400px] min-w-[350px]">
-            <div class="label">
-              <span class="label-text font-mono text-white">
-                dataresponsive
-              </span>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
-              value={bannerFields.dataresponsive}
-              onChange={(e) => handleChange("dataresponsive", e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex mb-5">
-          <label class="form-control w-full max-w-[400px] min-w-[350px]">
-            <div class="label">
-              <span class="label-text font-mono text-white">
-                dataresponsivetype
-              </span>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
-              value={bannerFields.dataresponsivetype}
-              onChange={(e) =>
-                handleChange("dataresponsivetype", e.target.value)
-              }
-            />
-          </label>
-        </div>
-        <div className="flex mb-5">
-          <label class="form-control w-full max-w-[400px] min-w-[350px]">
-            <div class="label">
-              <span class="label-text font-mono text-white">width</span>
-            </div>
-            <input
-              type="number"
-              placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
-              value={bannerFields.width}
-              onChange={(e) => handleChange("width", e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex mb-5">
-          <label class="form-control w-full max-w-[400px] min-w-[350px]">
-            <div class="label">
-              <span class="label-text font-mono text-white">height</span>
-            </div>
-            <input
-              type="number"
-              placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
-              value={bannerFields.height}
-              onChange={(e) => handleChange("height", e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex items-center justify-center w-full ">
-          <button onClick={onAddAD} className="btn btn-primary font-mono">
-            Add AD
-          </button>
-        </div>
+
+      <div className="z-10 w-full max-w-4xl flex flex-col items-center gap-6">
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-bl from-orange-400 to-red-500">
+              Ad Manager
+          </h1>
+          
+          <div className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl flex flex-col gap-4">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                      <label className="text-xs font-mono text-gray-400 uppercase tracking-widest">
+                          Script Source URL
+                      </label>
+                      <input 
+                          type="text"
+                          className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-sm font-mono text-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all"
+                          value={originInput}
+                          onChange={(e) => handleScriptSrcChange(e.target.value)}
+                          placeholder="/creativebyadgeist.js"
+                      />
+                   </div>
+                   <div className="flex flex-col gap-2">
+                      <label className="text-xs font-mono text-gray-400 uppercase tracking-widest">
+                          API Payload Origin
+                      </label>
+                      <input 
+                          type="text"
+                          className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-sm font-mono text-green-300 focus:outline-none focus:ring-1 focus:ring-green-500 transition-all"
+                          value={apiOriginInput}
+                          onChange={(e) => handleApiOriginChange(e.target.value)}
+                          placeholder="https://..."
+                      />
+                   </div>
+               </div>
+                
+                {/* Config Display (Read-only/Editable if needed, making them read-only for now to rely on paste) */}
+               <div className="grid grid-cols-2 gap-4">
+                   <div className="flex flex-col gap-1">
+                       <label className="text-[10px] uppercase text-gray-500 font-bold">Publisher ID</label>
+                       <div className="text-xs font-mono text-gray-300 bg-black/30 p-2 rounded border border-white/5 truncate">
+                           {scriptConfig.publisherId}
+                       </div>
+                   </div>
+                   <div className="flex flex-col gap-1">
+                        <label className="text-[10px] uppercase text-gray-500 font-bold">API Key</label>
+                        <div className="text-xs font-mono text-gray-300 bg-black/30 p-2 rounded border border-white/5 truncate">
+                            {scriptConfig.apiKey}
+                        </div>
+                   </div>
+               </div>
+
+               <div className="h-px w-full bg-white/10 my-2"></div>
+
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Paste Ad Code Snippet (Script + Ins)
+              </label>
+              <div className="relative">
+                <textarea
+                    className="w-full h-[200px] bg-black/50 border border-white/10 rounded-xl p-4 text-sm font-mono text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all resize-none"
+                    placeholder="<script ...></script>
+<ins class='adsbyadgeist' ...></ins>"
+                    value={pasteContent}
+                    onChange={(e) => setPasteContent(e.target.value)}
+                />
+                <div className="absolute bottom-3 right-2 flex gap-2">
+                     <button 
+                        onClick={() => handlePasteProcess(pasteContent)}
+                        disabled={!pasteContent.trim()}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+                    >
+                        ➕ ADD🖕🏼
+                    </button>
+                </div>
+              </div>
+              {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+          </div>
       </div>
+
       {scriptError && (
-        <div className="text-red-500">Error loading ad script</div>
+        <div className="text-red-500 bg-red-900/20 px-4 py-2 rounded border border-red-500/50">
+            Error loading ad script from {scriptConfig.scriptSrc}
+        </div>
       )}
+
+    <div className="z-10 flex flex-col w-full gap-6">
+        <div className="flex justify-between items-center border-b border-white/10 pb-4">
+            <h2 className="text-xl font-semibold text-gray-200">Active Ads ({ads.length})</h2>
+            {ads.length > 0 && (
+                <button 
+                    onClick={clearAds}
+                    className="text-xs text-red-400 hover:text-red-300 transition-colors"
+                >
+                    Clear All
+                </button>
+            )}
+        </div>
+        
       {scriptLoaded && (
-        <div className="flex flex-wrap w-full gap-10 flex-1">
+        <div className="flex flex-wrap w-full gap-8 justify-center">
           {ads?.map((ad, index) => {
             return (
               <div
                 key={index + ad.dataadslot}
-                className="flex h-fit w-fit rounded-md"
+                className="group relative flex flex-col items-center bg-white/5 border border-white/10 rounded-xl p-4 hover:border-white/20 transition-all duration-300"
               >
-                <AdBanner
-                  datapublisherid={ad.datapublisherid}
-                  dataapikey={ad.dataapikey}
-                  dataadslot={ad.dataadslot}
-                  dataslottype={ad.dataslottype}
-                  dataresponsive={ad.dataresponsive == "true" ? true : false}
-                  dataresponsivetype={ad.dataresponsivetype}
-                  width={Number(ad.width)}
-                  height={Number(ad.height)}
-                />
+                <div className="absolute -top-3 left-4 px-2 py-1 bg-black/80 border border-white/10 rounded text-[10px] text-gray-400 font-mono">
+                    {ad.width}x{ad.height} | {ad.dataslottype}
+                </div>
+                <div className="mt-2">
+                    <AdBanner
+                    datapublisherid={ad.datapublisherid}
+                    dataapikey={ad.dataapikey}
+                    dataadslot={ad.dataadslot}
+                    dataslottype={ad.dataslottype}
+                    dataresponsive={ad.dataresponsive === "true" || ad.dataresponsive === true}
+                    dataresponsivetype={ad.dataresponsivetype}
+                    width={Number(ad.width)}
+                    height={Number(ad.height)}
+                    />
+                </div>
               </div>
             );
           })}
         </div>
       )}
+      </div>
     </div>
   );
 };
