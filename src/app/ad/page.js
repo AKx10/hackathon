@@ -10,9 +10,9 @@ const AllAd = () => {
   const [ads, setAds] = useState([]);
 
   const [bannerFields, setBannerFields] = useState({
-    datapublisherid: "68f8c700c40a64049896a72d",
+    datapublisherid: "69313010b753c523ef72a5d4",
     dataapikey:
-      "6f9c3e1136fc2c64e848ebe0573d83a01cfeb0ebedde2e19d51179f00bca587f",
+      "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
     dataadslot: "",
     dataslottype: "",
     dataresponsive: false,
