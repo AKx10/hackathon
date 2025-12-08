@@ -687,19 +687,19 @@
             metaData: this.metaData,
             companyId: this.sdk.publisherId,
             origin: this.sdk.origin,
-            // isTest: this.sdk.isTestMode,
+            isTest: this.sdk.isTestMode,
             ...analyticsPayload,
           };
-          
+
           // Debug: Log tracking payload
-          console.log('[AdEventSender] FIXED tracking payload:', {
+          console.log("[AdEventSender] FIXED tracking payload:", {
             type: eventType,
             companyId: trackingPayload.companyId,
             origin: trackingPayload.origin,
             isTest: trackingPayload.isTest,
-            hasMetaData: !!trackingPayload.metaData
+            hasMetaData: !!trackingPayload.metaData,
           });
-          
+
           response = await fetch(`${this.adTrackingUrl}/v2/ssp/impression`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -1307,17 +1307,17 @@
               },
               companyId: publisherId,
               origin: this.sdk.origin,
-              // isTest: this.sdk.isTestMode,
+              isTest: this.sdk.isTestMode,
             };
-            
+
             // Debug: Log the payload being sent
-            console.log('[AdLoader] FIXED ad request payload:', {
+            console.log("[AdLoader] FIXED ad request payload:", {
               ...payload,
-              device: '(device info omitted)',
+              device: "(device info omitted)",
               origin: payload.origin,
-              isTest: payload.isTest
+              isTest: payload.isTest,
             });
-            
+
             response = await fetch(`${this.adServeUrl}/v2/dsp/ad/fixed`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -1861,20 +1861,23 @@
       this.env = script.getAttribute("data-env") || "production";
       this.publisherId = script.getAttribute("data-publisher-id") || "";
       this.apiKey = script.getAttribute("data-api-key") || "";
-      this.origin = script.getAttribute("data-origin") || "https://hackathon-lake-nine.vercel.app";
-      // this.isTestMode = script.getAttribute("data-is-test-mode") == 'true' || false;
-      
+      this.origin =
+        script.getAttribute("data-origin") ||
+        "https://hackathon-lake-nine.vercel.app";
+      this.isTestMode =
+        script.getAttribute("data-is-test-mode") == "true" || false;
+
       // Debug logging
-      console.log('[AdgeistSDK] Initialized with:', {
+      console.log("[AdgeistSDK] Initialized with:", {
         publisherId: this.publisherId,
-        apiKey: this.apiKey ? '***' + this.apiKey.slice(-8) : 'none',
+        apiKey: this.apiKey ? "***" + this.apiKey.slice(-8) : "none",
         origin: this.origin,
-        // isTestMode: this.isTestMode,
+        isTestMode: this.isTestMode,
         env: this.env,
-        'data-origin attribute': script.getAttribute("data-origin"),
-        'data-is-test-mode attribute': script.getAttribute("data-is-test-mode")
+        "data-origin attribute": script.getAttribute("data-origin"),
+        "data-is-test-mode attribute": script.getAttribute("data-is-test-mode"),
       });
-      
+
       this.logger = new Logger(this.env);
       this.cdpManager = new CDPManager(this);
       this.adLoader = new AdLoader(this);
