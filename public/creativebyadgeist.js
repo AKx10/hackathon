@@ -688,7 +688,7 @@
             body: JSON.stringify({
               type: eventType,
               metaData: this.metaData,
-              companyId: "68f8c700c40a64049896a72d",
+              companyId: this.sdk.publisherId,
               origin: "https://hackathon-lake-nine.vercel.app",
               ...analyticsPayload,
             }),
@@ -1296,7 +1296,7 @@
                 device: {
                   ...this.sdk.deviceInfo,
                 },
-                companyId: "68f8c700c40a64049896a72d",
+                companyId: publisherId,
                 origin: "https://hackathon-lake-nine.vercel.app",
               }),
             });
