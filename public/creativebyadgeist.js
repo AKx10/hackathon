@@ -1900,6 +1900,7 @@
             altText: this.altText,
             placeholderSrc: this.placeholderSrc,
           };
+          console.log(props, "props");
           if (this.adspaceType === "banner") {
             var bannerAdCard = new BannerAdCard(props);
             return bannerAdCard.renderBannerHtml();
@@ -3293,7 +3294,7 @@
           var adElementId = "adgeist_ads_iframe_".concat(adSpaceId);
           var startTime = performance.now();
           var generateAdCardHtml = function generateAdCardHtml(width, height) {
-            if (adType === "banner" || adType === "display") {
+            if (!!adType) {
               var adCardRenderer = new AdCard({
                 adElementId: adElementId,
                 title: ad.title,

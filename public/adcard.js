@@ -273,7 +273,7 @@
             altText: this.altText,
             placeholderSrc: this.placeholderSrc,
           };
-          if ("banner" === this.adspaceType) {
+          if ((void 0, "banner" === this.adspaceType)) {
             var n = new E(t);
             return n.renderBannerHtml();
           }
