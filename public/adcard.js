@@ -1,754 +1,825 @@
-(function () {
+!(function (e, t) {
+  "object" == typeof exports && "undefined" != typeof module
+    ? t(exports)
+    : "function" == typeof define && define.amd
+      ? define(["exports"], t)
+      : ((e = "undefined" != typeof globalThis ? globalThis : e || self),
+        t((e.AdgeistAdCardSDK = {})));
+})(this, function (e) {
   "use strict";
-
-  // Inject shared DISPLAY_CSS styles once
-  const DISPLAY_STYLE_ID = "adcard-v2-styles";
-  const BANNER_STYLES_ID = "banner-card-styles";
-
-  const DISPLAY_CSS = `
-    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
-    .ad-card-container {
-      container-type: size;
-      container-name: ad-card;
-      max-height: 900px;
-      max-width: 1200px;
-      overflow: hidden;
-      outline: 1px solid #E0E0E0;
-      background-color: #FFFFFF;
-      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    .ad-title-text {
-      margin: 0;
-      color: #000;
-    }
-    .ad-description-text {
-      margin: 0;
-      color: #4B5563;
-    }
-    .ad-name-text {
-      margin: 0;
-      color: #9CA3AF;
-    }
-    .cta-button {
-      background: #85C896;
-      color: rgba(29, 29, 29, 1);
-      border-radius: 9999px;
-      padding: 6px 16px;
-      font-weight: 500;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow:
-        inset 0 0 2px -2px #ACFFB1,
-        inset 8px 3px 15px 0 #6FC974,
-        inset -4px -4px 13px -5px rgba(51,51,51,0.74),
-        inset 4px 0 4px 0 rgba(38,100,42,0.68);
-      transition: transform .2s;
-    }
-    .cta-button:hover { transform: scale(1.01); }
-`;
-
-  const BANNER_CSS = `
-    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
-      .banner-ad-card {
-        container-type: size;
-        container-name: banner-ad;
-        max-width: 1200px;
-        min-width: 240px;
-        min-height: 50px;
-        max-height: 900px;
-        overflow: hidden;
-        outline: 1px solid #e0e0e0;
-        background-color: #d5d4d4ff;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        position: relative;
-        display: flex;
-        flex-grow: 1;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .ad-media {
-        position: relative;
-        width: 100%;
-        height: 100%;
-      }
-
-      .ad-media img,
-      .ad-media video {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-      }
-
-      .mute-button { cursor: pointer; transition: opacity 0.2s; }
-      .mute-button:hover { opacity: 0.8; }
-  `;
-
-  function ensureHttpProtocol(url) {
-    if (!url) return "";
-    if (!/^https?:\/\//i.test(url)) return "https://" + url;
-    return url;
-  }
-
-  function getAdLayout(width, height) {
-    const ratio = width / height;
-    const heightDifference = height > width ? height - width : 0;
-    console.log(heightDifference, "heightDifference");
-
-    if (height > 450 && width > 450) return null;
-    if (heightDifference > 60) return "layout-4rows";
-    if (ratio <= 1.4) return "layout-3rows";
-    if (ratio <= 2) return "layout-2rows";
-    if (ratio <= 3.3) return "layout-2row-2col";
-    return "layout-1row";
-  }
-
-  class AdAudioManager {
-    constructor(sdk) {
-      this.sdk = sdk;
-      this.activeUnmutedAd = null;
-      this.setupMuteEventListener();
-    }
-
-    setupMuteEventListener() {
-      window.addEventListener("message", (event) => {
-        if (event.data.type === "adgeist_mute_event") {
-          const { adElementId, muted } = event.data;
-          if (!muted && this.activeUnmutedAd !== adElementId) {
-            this.activeUnmutedAd = adElementId;
-            this.muteAllOtherAds(adElementId);
-          } else if (muted && this.activeUnmutedAd === adElementId) {
-            this.activeUnmutedAd = null;
-          }
-        }
-      });
-    }
-
-    muteAllOtherAds(excludeAdElementId) {
-      const iframes = document.querySelectorAll(
-        'iframe[id^="adgeist_ads_iframe_"]'
+  function t(e) {
+    if (void 0 === e)
+      throw new ReferenceError(
+        "this hasn't been initialised - super() hasn't been called",
       );
-      iframes.forEach((iframe) => {
-        if (iframe.id !== excludeAdElementId) {
-          try {
-            iframe.contentWindow.postMessage(
-              { type: "adgeist_mute", mute: true },
-              "*"
-            );
-          } catch (error) {
-            this.sdk.logger.log(
-              `Failed to send mute message to iframe ${iframe.id}: ${error.message}`
-            );
-          }
-        }
-      });
+    return e;
+  }
+  function n(e, t, n) {
+    return (
+      (t = s(t)),
+      h(
+        e,
+        c() ? Reflect.construct(t, n || [], s(e).constructor) : t.apply(e, n),
+      )
+    );
+  }
+  function i(e, t) {
+    if (!(e instanceof t))
+      throw new TypeError("Cannot call a class as a function");
+  }
+  function a(e, t) {
+    for (var n = 0; n < t.length; n++) {
+      var i = t[n];
+      ((i.enumerable = i.enumerable || !1),
+        (i.configurable = !0),
+        "value" in i && (i.writable = !0),
+        Object.defineProperty(e, f(i.key), i));
     }
   }
-
-  class AdCard {
-    constructor(options = {}) {
-      this.adAudioManager = new AdAudioManager(this);
-      this.adElementId = options.adElementId;
-      this.title = options.title || "Headline 25 characters";
-      this.description =
-        options.description ||
-        "Body text with 50 characters of describing the advertisement.";
-      this.name = options.name || "-";
-      this.ctaUrl = options.ctaUrl || "https://www.example.com";
-      this.fileUrl = options.fileUrl || "/assets/png/dummy-preview-bg.png";
-      this.type = options.type || "image";
-      this.isResponsive = options.isResponsive ?? false;
-      this.responsiveType = options.responsiveType || "Square";
-      this.width = parseInt(options.width || 300);
-      this.height = parseInt(options.height || 300);
-      this.appliedClass = getAdLayout(this.width, this.height);
-      this.adspaceType = options.adspaceType || "banner";
-      this.media = options?.media || [];
-      this.mediaType = options?.mediaType || "image";
-      this.altText = options?.altText || "";
-    }
-
-    renderHtml() {
-      console.log(this.adspaceType, "this.adspaceType");
-
-      if (this.adspaceType === "banner") {
-        const bannerAdCard = new BannerAdCard(this);
-        return bannerAdCard.renderBannerHtml();
-      } else if (this.adspaceType === "display") {
-        const displayAdCard = new DisplayAdCard(this);
-        return displayAdCard.renderDisplayHtml();
-      }
-    }
-
-    mount(targetEl) {
-      if (!targetEl) {
-        throw new Error("AdCard: mount target element not found");
-      }
-      targetEl.innerHTML = this.renderHtml();
-    }
+  function o(e, t, n) {
+    return (
+      t && a(e.prototype, t),
+      Object.defineProperty(e, "prototype", { writable: !1 }),
+      e
+    );
   }
-
-  class BannerAdCard extends AdCard {
-    constructor(options = {}) {
-      super(options);
-      this.isResponsive = options.isResponsive ?? true;
-      this.media = options?.media || [];
-      this.ctaUrl = options?.ctaUrl || "#";
-      this.mediaType = options?.mediaType || "image";
-      this.adElementId = options?.adElementId;
-      this.altText = options?.altText || "Banner Image";
-    }
-
-    renderBannerHtml() {
-      const rawWidth = this.isResponsive ? "100%" : this.width + "px";
-      const rawHeight = this.isResponsive ? "100%" : this.height + "px";
-
-      const getEffectiveMedia = () => {
-        if (!Array.isArray(this.media) || this.media.length === 0) {
-          return null;
-        }
-
-        if (this.media.length === 1) return this.media[0];
-
-        const width = parseFloat(this.width);
-        const height = parseFloat(this.height);
-        if (!width || !height || height === 0) {
-          return this.media[0];
-        }
-        const containerRatio = width / height;
-
-        return this.media.reduce((closest, media) => {
-          const mediaRatio = parseFloat(media.ratio);
-          if (!isFinite(mediaRatio)) return closest; // skip invalid ratios
-
-          const diff = Math.abs(containerRatio - mediaRatio);
-          const closestDiff = Math.abs(
-            containerRatio - parseFloat(closest.ratio)
-          );
-
-          return diff < closestDiff ? media : closest;
-        });
-      };
-
-      return `
-        <style id="${BANNER_STYLES_ID}">${BANNER_CSS}</style>
-        <a href="${ensureHttpProtocol(
-          this.ctaUrl
-        )}" target="_blank" id="banner-container" class="banner-ad-card" style="width:${rawWidth};height:${rawHeight};">
-          <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>
-
-          <div class="ad-media adgeist-ad">
-             ${
-               this.mediaType === "video"
-                 ? `
-                  <video
-                    id="ad-video"
-                    class="media"
-                    poster="${getEffectiveMedia()?.thumbnailUrl || ""}" 
-                    autoplay
-                    loop 
-                    muted 
-                    style="width: 100%; height: 100%; object-fit: contain;" 
-                    onloadeddata="if(window.Android){window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'}))}"
-                  }>
-                      <source src="${
-                        getEffectiveMedia()?.src || ""
-                      }" type="video/mp4">
-                  </video>
-                  `
-                 : `
-                <img
-                  class="media"
-                  src="${getEffectiveMedia()?.src || ""}"
-                  fallback="${getEffectiveMedia()?.thumbnailUrl || ""}"
-                  alt="${this.altText}"
-                  loading="eager"
-                  style="aspect-ratio: ${
-                    getEffectiveMedia()?.ratio || "1.91/1"
-                  };"
-                  type="${getEffectiveMedia()?.mimeType || "image/*"}"
-                  onload="if(window.Android){window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'}))}"
-                />
-              `
-             }
-          </div>
-        </a>
-      `;
-    }
+  function r(e, t, n) {
+    return (
+      (t = f(t)) in e
+        ? Object.defineProperty(e, t, {
+            value: n,
+            enumerable: !0,
+            configurable: !0,
+            writable: !0,
+          })
+        : (e[t] = n),
+      e
+    );
   }
-
-  class DisplayAdCard extends AdCard {
-    constructor(options = {}) {
-      super(options);
+  function s(e) {
+    return (
+      (s = Object.setPrototypeOf
+        ? Object.getPrototypeOf.bind()
+        : function (e) {
+            return e.__proto__ || Object.getPrototypeOf(e);
+          }),
+      s(e)
+    );
+  }
+  function d(e, t) {
+    if ("function" != typeof t && null !== t)
+      throw new TypeError("Super expression must either be null or a function");
+    ((e.prototype = Object.create(t && t.prototype, {
+      constructor: { value: e, writable: !0, configurable: !0 },
+    })),
+      Object.defineProperty(e, "prototype", { writable: !1 }),
+      t && u(e, t));
+  }
+  function c() {
+    try {
+      var e = !Boolean.prototype.valueOf.call(
+        Reflect.construct(Boolean, [], function () {}),
+      );
+    } catch (e) {}
+    return (c = function () {
+      return !!e;
+    })();
+  }
+  function l(e, t) {
+    var n = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+      var i = Object.getOwnPropertySymbols(e);
+      (t &&
+        (i = i.filter(function (t) {
+          return Object.getOwnPropertyDescriptor(e, t).enumerable;
+        })),
+        n.push.apply(n, i));
     }
-
-    estimateTextHeight(chars, baseSize, isBold, availableWidth) {
-      const effectiveSize = baseSize;
-      // Increased multiplier from 0.5 to 0.6 to be more conservative and prevent clipping
-      const avgCharWidth = effectiveSize * 0.6 * (isBold ? 1.1 : 1.0);
-      const totalTextWidth = chars * avgCharWidth;
-      const lines = Math.max(1, Math.ceil(totalTextWidth / availableWidth));
-      // Increased line height multiplier for safety
-      const lineHeight = effectiveSize * 1.4;
-      return lines * lineHeight;
+    return n;
+  }
+  function p(e) {
+    for (var t = 1; t < arguments.length; t++) {
+      var n = null != arguments[t] ? arguments[t] : {};
+      t % 2
+        ? l(Object(n), !0).forEach(function (t) {
+            r(e, t, n[t]);
+          })
+        : Object.getOwnPropertyDescriptors
+          ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n))
+          : l(Object(n)).forEach(function (t) {
+              Object.defineProperty(
+                e,
+                t,
+                Object.getOwnPropertyDescriptor(n, t),
+              );
+            });
     }
-
-    getLayoutConfig() {
-      const width = this.width;
-      const height = this.height;
-      const MEDIA_ASPECT_RATIO = 1.91;
-
-      // Calculate theoretical height if full width
-      let stackedImageHeight = width / MEDIA_ASPECT_RATIO;
-      let remainingHeight = height - stackedImageHeight;
-
-      // Stacked Preferred
-      const MIN_TEXT_HEIGHT = 40;
-      const isStacked = remainingHeight >= MIN_TEXT_HEIGHT;
-
-      if (isStacked) {
-        // Enforce Min Content Height (e.g. 35% of total height)
-        const minContentH = height * 0.35;
-        if (remainingHeight < minContentH) {
-          stackedImageHeight = height - minContentH;
-        }
-
-        return {
-          type: "stacked",
-          imageHeight: stackedImageHeight,
-          imageWidth: width,
-          contentHeight: remainingHeight,
-          flexDirection: "column",
-        };
-      } else {
-        // Side-by-Side Fallback
-        let imgH = height;
-        let imgW = imgH * MEDIA_ASPECT_RATIO;
-
-        // Micro Banner Optimization (Height < 70px)
-        // User Request: "scale the image down and make space for title"
-        if (height < 70) {
-          // Force image to be smaller to give text room
-          // Max 20% width or aspect ratio width, whichever is smaller
-          const maxMicroImgWidth = width * 0.2;
-          imgW = Math.min(imgW, maxMicroImgWidth);
-        }
-
-        const MIN_TEXT_WIDTH = 110;
-        let maxImgW = width - MIN_TEXT_WIDTH;
-
-        // Enforce Min Content Width (e.g. 45% of total width)
-        const minContentW = width * 0.45;
-        if (width - imgW < minContentW) {
-          maxImgW = width - minContentW;
-        }
-
-        if (imgW > maxImgW) {
-          imgW = Math.max(0, maxImgW);
-          // Force full height to allow pillarboxing/letterboxing within the container
-          imgH = height;
-        }
-
-        return {
-          type: "side",
-          imageHeight: imgH,
-          imageWidth: imgW,
-          contentHeight: height,
-          flexDirection: "row",
-        };
-      }
+    return e;
+  }
+  function h(e, n) {
+    if (n && ("object" == typeof n || "function" == typeof n)) return n;
+    if (void 0 !== n)
+      throw new TypeError(
+        "Derived constructors may only return object or undefined",
+      );
+    return t(e);
+  }
+  function u(e, t) {
+    return (
+      (u = Object.setPrototypeOf
+        ? Object.setPrototypeOf.bind()
+        : function (e, t) {
+            return ((e.__proto__ = t), e);
+          }),
+      u(e, t)
+    );
+  }
+  function g(e, t) {
+    if ("object" != typeof e || !e) return e;
+    var n = e[Symbol.toPrimitive];
+    if (void 0 !== n) {
+      var i = n.call(e, t);
+      if ("object" != typeof i) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
     }
-    calculateLayoutDetails(layoutConfig) {
-      const width = this.width;
-      const height = this.height;
-      const isStacked = layoutConfig.type === "stacked";
-
-      const contentAreaHeight = isStacked
-        ? height - layoutConfig.imageHeight
-        : height;
-      const contentAreaWidth = isStacked
-        ? width
-        : width - layoutConfig.imageWidth;
-
-      // Dynamic Padding
-      let PADDING_Y = height < 150 ? 16 : height < 350 ? 20 : 32;
-      let GAP = 4;
-      const PADDING_X = width < 200 ? 16 : 32;
-
-      if (height < 60) {
-        PADDING_Y = 8;
-        GAP = 2;
-      }
-
-      const isSplitContent = !isStacked && contentAreaWidth > 480;
-      const isHorizontalContent = !isSplitContent && height < 90;
-
-      let availableTextWidth = Math.max(10, contentAreaWidth - PADDING_X);
-      const hCTA = 40;
-      const wCTA = 100;
-
-      if (isHorizontalContent) {
-        availableTextWidth -= wCTA;
-      } else if (isSplitContent) {
-        availableTextWidth = (contentAreaWidth - PADDING_X - 16) / 2;
-      } else if (height < 90 && !isStacked) {
-        availableTextWidth = (contentAreaWidth - PADDING_X - 32) / 2;
-      }
-
-      const baseTitleSize = 16;
-      const baseBodySize = 14;
-      const availableH = contentAreaHeight - PADDING_Y;
-
-      // --- Helper to try a specific configuration ---
-      const tryLayout = (showTitle, showBody, showCTA) => {
-        // 1. Determine Content Height at Base Scale (Scale = 1.0)
-        let contentHeightBase = 0;
-        let hTitleBase = 0;
-        let hBodyBase = 0;
-
-        if (showTitle) {
-          hTitleBase = this.estimateTextHeight(
-            this.title.length,
-            baseTitleSize,
-            true,
-            availableTextWidth
-          );
-        }
-        if (showBody) {
-          hBodyBase = this.estimateTextHeight(
-            this.description.length,
-            baseBodySize,
-            false,
-            availableTextWidth
-          );
-        }
-
-        if (isSplitContent) {
-          // Split: Max of Col1 (Title) or Col2 (Desc)
-          const hCol1 = showTitle ? hTitleBase + GAP : 0;
-          const hCol2 = showBody ? hBodyBase : 0;
-          contentHeightBase = Math.max(hCol1, hCol2);
-        } else {
-          // Stacked/Standard: Sum of heights
-          if (showTitle) contentHeightBase += hTitleBase;
-          if (showBody) contentHeightBase += hBodyBase;
-          if (showTitle && showBody) contentHeightBase += GAP;
-
-          if (showCTA && !isHorizontalContent) {
-            // CTA Height + Margin
-            contentHeightBase += 16 + hCTA; // 16px margin
-          }
-        }
-
-        // 2. Calculate Ideal Scale to fill Available Height
-        // availableH = scale * contentHeightBase  => scale = availableH / contentHeightBase
-        // BUT text height doesn't scale linearly with font size (wrapping changes).
-        // We use a heuristic: Scale ~ sqrt(HeightRatio) or similar, but let's try a direct ratio first
-        // and then clamp.
-
-        let targetScale = 1.0;
-        if (contentHeightBase > 0) {
-          // If we have content, we want it to fill the space comfortably.
-          // Let's aim for filling 90% of space to leave some breathing room?
-          // Or 100%? Let's try to calculate the scale that makes it FIT.
-
-          // We can't easily inverse `estimateTextHeight`.
-          // So we use the iterative approach from before, but we start with a guess.
-
-          const heightRatio = availableH / contentHeightBase;
-          targetScale = Math.sqrt(heightRatio); // Heuristic
-        }
-
-        // Clamp Scale
-        const maxScaleByWidth = availableTextWidth / 7 / baseTitleSize; // Prevent super wide chars
-        const maxScale = Math.min(2.5, maxScaleByWidth); // Allow up to 2.5x if space permits
-        targetScale = Math.max(0.1, Math.min(maxScale, targetScale));
-
-        // 3. Verify Fit with Iterative Downscaling
-        let finalScale = targetScale;
-        let fits = false;
-        let retries = 10;
-
-        while (retries >= 0) {
-          const titleSizePx = Math.max(14, baseTitleSize * finalScale);
-          const bodySizePx = Math.max(12, baseBodySize * finalScale);
-
-          let currentHTitle = 0;
-          let currentHBody = 0;
-
-          if (showTitle) {
-            currentHTitle = this.estimateTextHeight(
-              this.title.length,
-              titleSizePx,
-              true,
-              availableTextWidth
-            );
-          }
-          if (showBody) {
-            currentHBody = this.estimateTextHeight(
-              this.description.length,
-              bodySizePx,
-              false,
-              availableTextWidth
-            );
-          }
-
-          let neededH = 0;
-          if (isSplitContent) {
-            const hCol1 = showTitle ? currentHTitle + GAP : 0;
-            const hCol2 = showBody ? currentHBody : 0;
-            if (hCol1 <= availableH && hCol2 <= availableH) {
-              fits = true;
+    return String(e);
+  }
+  function f(e) {
+    var t = g(e, "string");
+    return "symbol" == typeof t ? t : t + "";
+  }
+  var v = "adcard-v2-styles";
+  var m = "banner-card-styles";
+  var w = "companion-card-styles";
+  var y =
+    "\n    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }\n    .card-container {\n      position: relative;\n      container-type: size;\n      container-name: adgeist-card;\n      max-height: 900px;\n      max-width: 1200px;\n      overflow: hidden;\n      outline: 1px solid #E0E0E0;\n      background-color: #FFFFFF;\n      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);\n      box-sizing: border-box;\n      font-family: system-ui, -apple-system, sans-serif;\n    }\n    .adgeist-title-text {\n      margin: 0;\n      color: #000;\n      word-break: break-word;\n    }\n    .adgeist-description-text {\n      margin: 0;\n      color: #4B5563;\n      word-break: break-word;\n    }\n    .adgeist-name-text {\n      margin: 0;\n      color: #9CA3AF;\n    }\n    .cta-button {\n      background: #85C896;\n      color: rgba(29, 29, 29, 1);\n      border-radius: 9999px;\n      padding: 6px 16px;\n      font-weight: 500;\n      text-decoration: none;\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      cursor: pointer;\n      white-space: nowrap;\n      box-shadow:\n        inset 0 0 2px -2px #ACFFB1,\n        inset 8px 3px 15px 0 #6FC974,\n        inset -4px -4px 13px -5px rgba(51,51,51,0.74),\n        inset 4px 0 4px 0 rgba(38,100,42,0.68);\n      transition: transform .2s;\n    }\n    .cta-button:hover { transform: scale(1.01); }\n";
+  var x =
+    "\n    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }\n      .banner-adgeist-card {\n        container-type: size;\n        container-name: banner-ad;\n        max-width: 1200px;\n        min-width: 240px;\n        min-height: 50px;\n        max-height: 900px;\n        overflow: hidden;\n        outline: 1px solid #e0e0e0;\n        background-color: #d5d4d4ff;\n        box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n        position: relative;\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n        justify-content: center;\n      }\n\n      .adgeist-media {\n        position: relative;\n        width: 100%;\n        height: 100%;\n      }\n\n      .adgeist-media img,\n      .adgeist-media video {\n        width: 100%;\n        height: 100%;\n        object-fit: contain;\n        display: block;\n      }\n\n      .mute-button { cursor: pointer; transition: opacity 0.2s; }\n      .mute-button:hover { opacity: 0.8; }\n  ";
+  var b =
+    "\n    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }\n\n  .companion-ad-container {\n            display:flex;\n            position: relative;\n            flex-direction: column;\n            outline: 1px solid #E0E0E0;\n            background-color: #FFFFFF;\n            width:100%;\n            height:max-content;\n            max-width: 560px;\n            min-width: 320px;\n            min-height: 180px;\n            max-height: 470px;\n            overflow: hidden;\n            text-decoration: none;\n            color: inherit;\n        }\n        .cta-button {\n            background: #85C896;\n            color: rgba(29, 29, 29, 1);\n            border-radius: 9999px;\n            padding: 6px 16px;\n            font-weight: 500;\n            text-decoration: none;\n            display: inline-flex;\n            align-items: center;\n            justify-content: center;\n            cursor: pointer;\n            white-space: nowrap;\n            box-shadow:\n                inset 0 0 2px -2px #ACFFB1,\n                inset 8px 3px 15px 0 #6FC974,\n                inset -4px -4px 13px -5px rgba(51,51,51,0.74),\n                inset 4px 0 4px 0 rgba(38,100,42,0.68);\n            transition: transform .2s;\n        }\n        .cta-button:hover { transform: scale(1.01); }\n        .adgeist-title-text {\n          margin: 0;\n          color: #000;\n          word-break: break-word;\n        }\n        .adgeist-description-text {\n          margin: 0;\n          color: #4B5563;\n          word-break: break-word;\n        }\n";
+  function S(e) {
+    return e ? (/^https?:\/\//i.test(e) ? e : "https://" + e) : "";
+  }
+  function k(e, t) {
+    var n = e / t;
+    return t > 450 && e > 450
+      ? null
+      : t > e
+        ? "layout-4rows "
+        : n <= 1.4
+          ? "layout-3rows"
+          : n <= 2
+            ? "layout-2rows"
+            : n <= 3.3
+              ? "layout-2row-2col"
+              : "layout-1row";
+  }
+  var A = (function () {
+    function e(t) {
+      (i(this, e),
+        (this.activeUnmutedAd = null),
+        (this.sdk = t),
+        this.setupMuteEventListener());
+    }
+    return o(e, [
+      {
+        key: "setupMuteEventListener",
+        value: function e() {
+          var t = this;
+          window.addEventListener("message", function (e) {
+            if ("adgeist_mute_event" === e.data.type) {
+              var n = e.data,
+                i = n.adElementId,
+                a = n.muted;
+              a || t.activeUnmutedAd === i
+                ? a && t.activeUnmutedAd === i && (t.activeUnmutedAd = null)
+                : ((t.activeUnmutedAd = i), t.muteAllOtherAds(i));
             }
-          } else {
-            if (showTitle) neededH += currentHTitle;
-            if (showBody) neededH += currentHBody;
-            if (showTitle && showBody) neededH += GAP;
-
-            if (showCTA && !isHorizontalContent) {
-              const ctaFontSize = Math.max(12, 14 * finalScale);
-              const currentHCta = ctaFontSize * 1.2 + 12;
-              neededH += 16 + currentHCta;
-            }
-
-            if (neededH <= availableH) {
-              fits = true;
-            }
-          }
-
-          if (fits) break;
-
-          finalScale *= 0.9; // Reduce by 10%
-          retries--;
-        }
-
-        return {
-          fits,
-          scale: finalScale,
-          showTitle,
-          showBody,
-          showCTA,
-        };
-      };
-
-      // --- Priority Configurations ---
-      // 1. Full Content: Title + Desc + CTA
-      // 2. No Desc: Title + CTA (Preferred for performance)
-      // 3. No CTA: Title + Desc (Fallback)
-      // 4. Minimal: Title Only
-
-      const configs = [
-        { t: true, d: true, c: true }, // Full
-        { t: true, d: true, c: false }, // No CTA
-        { t: true, d: false, c: false }, // Title Only (Preferred over Title+CTA if space is tight)
-        { t: true, d: false, c: true }, // No Desc (Title + CTA)
-      ];
-
-      let bestLayout = null;
-
-      for (const config of configs) {
-        // Skip CTA if horizontal content mode and height is too small for CTA
-        if (config.c && isHorizontalContent && contentAreaHeight < hCTA)
-          continue;
-
-        // In Split Content, we rarely want to hide things unless necessary,
-        // but the logic still holds: if full doesn't fit, try hiding.
-
-        const result = tryLayout(config.t, config.d, config.c);
-
-        if (result.fits) {
-          // If it fits, is it "good enough"?
-          // If we are dropping content (e.g. Desc), we should only do it if
-          // the Full content scale was terrible (e.g. < 0.6).
-          // But here we are iterating in priority order.
-          // If Full fits (even at 0.8 scale), we take it.
-          // If Full DOESN'T fit (scale dropped below threshold in loop? No, loop just finds MAX scale that fits),
-          // Wait, the loop finds *a* scale that fits. It might be 0.1.
-
-          // We need a minimum acceptable scale.
-          // For "No CTA" (Title + Desc), we are more lenient because showing description is high priority.
-          const isNoCTA = config.d && !config.c;
-          const threshold = isNoCTA ? 0.35 : 0.75;
-
-          if (result.scale >= threshold) {
-            bestLayout = result;
-            break; // Found a good fit!
-          }
-
-          // If it fits but scale is tiny, we treat it as "doesn't fit well" and try next config (which has less content, so scale should improve).
-          // However, we should keep track of the "best so far" just in case nothing meets the threshold.
-          if (!bestLayout || result.scale > bestLayout.scale) {
-            bestLayout = result;
-          }
-        }
-      }
-
-      // Fallback if absolutely nothing "fits" (shouldn't happen with Title Only and tiny scale)
-      if (!bestLayout) {
-        bestLayout = tryLayout(true, false, false); // Force Title Only
-      }
-
-      return {
-        ...layoutConfig,
-        fontSizeScale: bestLayout.scale,
-        isHorizontalContent,
-        isSplitContent,
-        paddingY: PADDING_Y / 2,
-        fontSizes: {
-          title: Math.max(14, baseTitleSize * bestLayout.scale),
-          body: Math.max(12, baseBodySize * bestLayout.scale),
+          });
         },
-        visible: {
-          title: bestLayout.showTitle,
-          description: bestLayout.showBody,
-          cta: bestLayout.showCTA,
+      },
+      {
+        key: "muteAllOtherAds",
+        value: function e(t) {
+          var n = this;
+          var i = document.querySelectorAll(
+            'iframe[id^="adgeist_ads_iframe_"]',
+          );
+          i.forEach(function (e) {
+            var i;
+            if (e.id !== t)
+              try {
+                null === (i = e.contentWindow) || void 0 === i
+                  ? void 0
+                  : i.postMessage({ type: "adgeist_mute", mute: !0 }, "*");
+              } catch (a) {
+                n.sdk.logger.log(
+                  "Failed to send mute message to iframe "
+                    .concat(e.id, ": ")
+                    .concat(a instanceof Error ? a.message : String(a)),
+                );
+              }
+          });
         },
-      };
+      },
+    ]);
+  })();
+  var T = (function () {
+    function e() {
+      var t =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      var n;
+      (i(this, e),
+        (this.logger = { log: console.log }),
+        (this.adAudioManager = new A(this)),
+        (this.adElementId = t.adElementId || ""),
+        (this.title = t.title || "Headline 25 characters"),
+        (this.description =
+          t.description ||
+          "Body text with 50 characters of describing the advertisement."),
+        (this.name = t.name || "-"),
+        (this.ctaUrl = t.ctaUrl || "https://www.example.com"),
+        (this.fileUrl = t.fileUrl || "/assets/png/dummy-preview-bg.png"),
+        (this.type = t.type || "image"),
+        (this.isResponsive =
+          null !== (n = t.isResponsive) && void 0 !== n && n),
+        (this.responsiveType = t.responsiveType || "Square"),
+        (this.width = parseInt(String(t.width || 300))),
+        (this.height = parseInt(String(t.height || 300))),
+        (this.appliedClass = k(this.width, this.height)),
+        (this.adspaceType = t.adspaceType || "banner"),
+        (this.media = t.media || []),
+        (this.altText = t.altText || ""),
+        (this.placeholderSrc = t.placeholderSrc || ""));
     }
-
-    renderContentHtml(details) {
-      const {
-        fontSizes,
-        visible,
-        type,
-        isHorizontalContent,
-        isSplitContent,
-        paddingY,
-      } = details;
-      const isStacked = type === "stacked";
-
-      // Styles
-      const titleStyle = visible.title
-        ? `font-size:${fontSizes.title}px;line-height:1.2;margin-bottom:4px;font-weight:700;`
-        : "display:none;";
-      const descStyle = visible.description
-        ? `font-size:${fontSizes.body}px;line-height:1.35;margin-bottom:4px;opacity:0.8;`
-        : "display:none;";
-      // const nameStyle = visible.name
-      //   ? `font-size:${fontSizes.brand}px;line-height:1.2;opacity:0.6;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;`
-      //   : 'display:none;'; // Removed
-      const ctaStyle = visible.cta
-        ? `font-size:${Math.max(12, 14 * details.fontSizeScale)}px;`
-        : "display:none;";
-
-      if (isSplitContent) {
-        // Split Layout: Col 1 (Title/Name) | Col 2 (Desc) - No CTA, No Separator
-        return `
-            <div class="ad-content-container" style="flex:1;display:flex;flex-direction:row;align-items:center;padding:${paddingY}px 16px;overflow:visible;justify-content:center;">
-                <div style="display:flex;flex-direction:column;justify-content:center;flex:1;padding-right:16px;text-align:left;height:100%;overflow:visible;">
-                    <div class="ad-title-text" style="${titleStyle}">${this.title}</div>
-                </div>
-                <div style="display:flex;flex-direction:column;justify-content:center;flex:2;text-align:left;height:100%;overflow:visible;">
-                    <div class="ad-description-text" style="${descStyle}">${this.description}</div>
-                </div>
-            </div>
-        `;
-      }
-
-      // Alignment
-      const contentDir = isHorizontalContent ? "row" : "column";
-      const alignStyle = isStacked
-        ? "align-items:center;text-align:center;"
-        : "align-items:flex-start;text-align:left;";
-      // Horizontal: Space between Text and CTA. Stacked: Center.
-      const containerAlign = isHorizontalContent
-        ? "align-items:center;justify-content:space-between;text-align:left;"
-        : isStacked
-        ? "align-items:center;justify-content:space-around;"
-        : "align-items:center;justify-content:center;";
-
-      // CTA Margin: Horizontal -> Left margin. Stacked -> Top margin (gap).
-      // Note: In Stacked, TextContainer will be flex:1, so it pushes CTA down.
-      const ctaMargin = isHorizontalContent
-        ? "margin-left:16px;"
-        : "margin-top:16px;";
-
-      // Text Container:
-      // Horizontal: Width 100%, Center Vertically.
-      // Stacked: Flex 1 (to fill space), Center Vertically (justify-content: center).
-      const textContainerStyle = isHorizontalContent
-        ? "width:100%;justify-content:center;"
-        : isStacked
-        ? "justify-content:center;width:100%;"
-        : "width:100%;";
-
-      return `
-        <div class="ad-content-container" style="flex:1;display:flex;flex-direction:${contentDir};${containerAlign}padding:${paddingY}px 16px;overflow:visible;">
-            <div style="display:flex;flex-direction:column;${textContainerStyle}${alignStyle}overflow:visible;">
-                <div class="ad-title-text" style="${titleStyle}">${
-        this.title
-      }</div>
-                <div class="ad-description-text" style="${descStyle}">${
-        this.description
-      }</div>
-            </div>
-            <a href="${ensureHttpProtocol(
-              this.ctaUrl
-            )}" target="_blank" class="cta-button" style="${ctaStyle}${ctaMargin}flex-shrink:0;">Open</a>
-        </div>
-      `;
+    return o(e, [
+      {
+        key: "renderHtml",
+        value: function e() {
+          var t = {
+            adElementId: this.adElementId,
+            title: this.title,
+            description: this.description,
+            name: this.name,
+            ctaUrl: this.ctaUrl,
+            fileUrl: this.fileUrl,
+            type: this.type,
+            isResponsive: this.isResponsive,
+            responsiveType: this.responsiveType,
+            width: this.width,
+            height: this.height,
+            adspaceType: this.adspaceType,
+            media: this.media,
+            altText: this.altText,
+            placeholderSrc: this.placeholderSrc,
+          };
+          if ("banner" === this.adspaceType) {
+            var n = new E(t);
+            return n.renderBannerHtml();
+          }
+          if ("display" === this.adspaceType) {
+            var i = new O(t);
+            return i.renderDisplayHtml();
+          }
+          if ("companion" === this.adspaceType) {
+            var a = new M(t);
+            return a.renderCompanionHtml();
+          }
+          return "";
+        },
+      },
+      {
+        key: "mount",
+        value: function e(t) {
+          if (!t) throw new Error("AdCard: mount target element not found");
+          t.innerHTML = this.renderHtml();
+        },
+      },
+    ]);
+  })();
+  var E = (function (e) {
+    function t() {
+      var e;
+      var a =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      var o;
+      return (
+        i(this, t),
+        (e = n(this, t, [a])),
+        (e.isResponsive = null === (o = a.isResponsive) || void 0 === o || o),
+        (e.media = a.media || []),
+        (e.ctaUrl = a.ctaUrl || "#"),
+        (e.adElementId = a.adElementId || ""),
+        (e.altText = a.altText || "Banner Image"),
+        e
+      );
     }
-
-    renderDisplayHtml() {
-      const baseConfig = this.getLayoutConfig();
-      const details = this.calculateLayoutDetails(baseConfig);
-      console.log(details, "details");
-      console.log(this.media, "this.media");
-
-      // Use object-fit: contain to allow letterbox/pillarbox
-      const media =
-        this.mediaType === "video"
-          ? `<video
-              poster="${this.media[0]?.thumbnailUrl || ""}" 
-              autoplay 
-              loop 
-              playsinline
-              muted 
-              style="width: 100%; height: 100%; object-fit: contain;" 
-              onloadeddata="if(window.Android){window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'}))}"
-            }>
-              <source src="${this.media[0].src || ""}" type="video/mp4">
-            </video>`
-          : `<img 
-              src="${this.media[0].src}"  
-              fallback="${this.media[0]?.thumbnailUrl || ""}"
-              alt="${this.altText}" 
-              style="width:100%;height:100%;object-fit:contain;"
-            />`;
-
-      return `
-        <style id="${DISPLAY_STYLE_ID}">${DISPLAY_CSS}</style>
-        <a href="${ensureHttpProtocol(this.ctaUrl)}" 
-        target="_blank" 
-        style="text-decoration:none;color:inherit;" 
-        >
-          <div class="ad-card-container adgeist-ad"
-          style="width:${this.width}px;height:${
-        this.height
-      }px;display:flex;flex-direction:${details.flexDirection};">
-            <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>
-            
-            <div class="image-container" style="width:${
-              details.imageWidth
-            }px;height:${
-        details.imageHeight
-      }px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#d5d4d4ff;">
-              ${media}
-            </div>
-            
-            ${this.renderContentHtml(details)}
-          </div>
-        </a>
-      `;
+    return (
+      d(t, e),
+      o(t, [
+        {
+          key: "renderBannerHtml",
+          value: function e() {
+            var t = this.isResponsive ? "100%" : this.width + "px";
+            var n = this.isResponsive ? "100%" : this.height + "px";
+            var i = this.media[0];
+            return '\n        <style id="'
+              .concat(m, '">')
+              .concat(x, '</style>\n        <a href="')
+              .concat(
+                S(this.ctaUrl),
+                '" target="_blank" id="banner-container" class="banner-adgeist-card" style="width:',
+              )
+              .concat(t, ";height:")
+              .concat(
+                n,
+                ';">\n          <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>\n\n          <div class="adgeist-media adgeist-ad">\n             ',
+              )
+              .concat(
+                "video" === i.type
+                  ? '\n                  <video\n                    id="adgeist-video"\n                    class="media"\n                    poster="'
+                      .concat(
+                        (null == i ? void 0 : i.thumbnailUrl) || "",
+                        '" \n                    autoplay muted loop\n                    playsinline\n                    webkit-playsinline\n                    width="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.width) || "100%",
+                        '"\n                    height="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.height) || "100%",
+                        "\"\n                    style=\"object-fit: contain;\" \n                    onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                                  if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n                    preload=\"auto\"\n                  >\n                      <source src=\"",
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.src) ||
+                          this.placeholderSrc ||
+                          "",
+                        '" type="video/mp4">\n                  </video>\n                  ',
+                      )
+                  : '\n                <img\n                  class="media"\n                  src="'
+                      .concat(
+                        (null == i ? void 0 : i.src) ||
+                          this.placeholderSrc ||
+                          "",
+                        '"\n                  fallback="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.thumbnailUrl) ||
+                          this.placeholderSrc ||
+                          "",
+                        '"\n                  alt="',
+                      )
+                      .concat(
+                        this.altText,
+                        '"\n                  loading="eager"s\n                  width="',
+                      )
+                      .concat(
+                        null == i ? void 0 : i.width,
+                        '"\n                  height="',
+                      )
+                      .concat(
+                        null == i ? void 0 : i.height,
+                        '"\n                  type="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.mimeType) || "image/*",
+                        "\"\n                  onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                          if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n                />\n              ",
+                      ),
+                "\n          </div>\n        </a>\n      ",
+              );
+          },
+        },
+      ])
+    );
+  })(T);
+  var O = (function (e) {
+    function t() {
+      var e =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      return (i(this, t), n(this, t, [e]));
     }
-  }
-
-  window.AdCard = AdCard;
-})();
+    return (
+      d(t, e),
+      o(t, [
+        {
+          key: "estimateTextHeight",
+          value: function e(t, n, i, a) {
+            var o = n;
+            var r = 0.6 * o * (i ? 1.1 : 1);
+            var s = t * r;
+            var d = Math.max(1, Math.ceil(s / a));
+            var c = 1.4 * o;
+            return d * c;
+          },
+        },
+        {
+          key: "getLayoutConfig",
+          value: function e() {
+            var t = this.width;
+            var n = this.height;
+            var i = 1.91;
+            var a = t / i;
+            var o = n - a;
+            var r = 40;
+            var s = o >= r;
+            if (s) {
+              var d = 0.35 * n;
+              return (
+                o < d && (a = n - d),
+                {
+                  type: "stacked",
+                  imageHeight: a,
+                  imageWidth: t,
+                  contentHeight: o,
+                  flexDirection: "column",
+                }
+              );
+            }
+            var c = n;
+            var l = c * i;
+            if (n < 70) {
+              var p = 0.2 * t;
+              l = Math.min(l, p);
+            }
+            var h = 110;
+            var u = t - h;
+            var g = 0.45 * t;
+            return (
+              t - l < g && (u = t - g),
+              l > u && ((l = Math.max(0, u)), (c = n)),
+              {
+                type: "side",
+                imageHeight: c,
+                imageWidth: l,
+                contentHeight: n,
+                flexDirection: "row",
+              }
+            );
+          },
+        },
+        {
+          key: "calculateLayoutDetails",
+          value: function e(t) {
+            var n = this;
+            var i = this.width;
+            var a = this.height;
+            var o = "stacked" === t.type;
+            var r = o ? a - t.imageHeight : a;
+            var s = o ? i : i - t.imageWidth;
+            var d = a < 150 ? 16 : a < 350 ? 20 : 32;
+            var c = 4;
+            var l = i < 200 ? 16 : 32;
+            a < 60 && ((d = 8), (c = 2));
+            var h = !o && s > 480;
+            var u = !h && a < 90;
+            var g = Math.max(10, s - l);
+            var f = 40;
+            var v = 100;
+            u
+              ? (g -= v)
+              : h
+                ? (g = (s - l - 16) / 2)
+                : a < 90 && !o && (g = (s - l - 32) / 2);
+            var m = 16;
+            var w = 14;
+            var y = r - d;
+            var x = function e(t, i, a) {
+              var o = 0;
+              var r = 0;
+              var s = 0;
+              if (
+                (t && (r = n.estimateTextHeight(n.title.length, m, !0, g)),
+                i && (s = n.estimateTextHeight(n.description.length, w, !1, g)),
+                h)
+              ) {
+                var d = t ? r + c : 0;
+                var l = i ? s : 0;
+                o = Math.max(d, l);
+              } else
+                (t && (o += r),
+                  i && (o += s),
+                  t && i && (o += c),
+                  a && !u && (o += 16 + f));
+              var p = 1;
+              if (o > 0) {
+                var v = y / o;
+                p = Math.sqrt(v);
+              }
+              var x = g / 7 / m;
+              var b = Math.min(2.5, x);
+              p = Math.max(0.1, Math.min(b, p));
+              var S = p;
+              var k = !1;
+              var A = 10;
+              for (; A >= 0; ) {
+                var T = Math.max(14, m * S);
+                var E = Math.max(12, w * S);
+                var O = 0;
+                var M = 0;
+                (t && (O = n.estimateTextHeight(n.title.length, T, !0, g)),
+                  i &&
+                    (M = n.estimateTextHeight(n.description.length, E, !1, g)));
+                var H = 0;
+                if (h) {
+                  var j = t ? O + c : 0;
+                  var R = i ? M : 0;
+                  j <= y && R <= y && (k = !0);
+                } else {
+                  if (
+                    (t && (H += O), i && (H += M), t && i && (H += c), a && !u)
+                  ) {
+                    var _ = Math.max(12, 14 * S);
+                    var D = 1.2 * _ + 12;
+                    H += 16 + D;
+                  }
+                  H <= y && (k = !0);
+                }
+                if (k) break;
+                ((S *= 0.9), A--);
+              }
+              return {
+                fits: k,
+                scale: S,
+                showTitle: t,
+                showBody: i,
+                showCTA: a,
+              };
+            };
+            var b = [
+              { t: !0, d: !0, c: !0 },
+              { t: !0, d: !0, c: !1 },
+              { t: !0, d: !1, c: !1 },
+              { t: !0, d: !1, c: !0 },
+            ];
+            var S = null;
+            for (var k = 0, A = b; k < A.length; k++) {
+              var T = A[k];
+              if (!(T.c && u && r < f)) {
+                var E = x(T.t, T.d, T.c);
+                if (E.fits) {
+                  var O = T.d && !T.c;
+                  var M = O ? 0.35 : 0.75;
+                  if (E.scale >= M) {
+                    S = E;
+                    break;
+                  }
+                  (!S || E.scale > S.scale) && (S = E);
+                }
+              }
+            }
+            return (
+              S || (S = x(!0, !1, !1)),
+              p(
+                p({}, t),
+                {},
+                {
+                  fontSizeScale: S.scale,
+                  isHorizontalContent: u,
+                  isSplitContent: h,
+                  paddingY: d / 2,
+                  fontSizes: {
+                    title: Math.max(14, m * S.scale),
+                    body: Math.max(12, w * S.scale),
+                  },
+                  visible: {
+                    title: S.showTitle,
+                    description: S.showBody,
+                    cta: S.showCTA,
+                  },
+                },
+              )
+            );
+          },
+        },
+        {
+          key: "renderContentHtml",
+          value: function e(t) {
+            var n = t.fontSizes,
+              i = t.visible,
+              a = t.type,
+              o = t.isHorizontalContent,
+              r = t.isSplitContent,
+              s = t.paddingY;
+            var d = "stacked" === a;
+            var c = i.title
+              ? "font-size:".concat(
+                  n.title,
+                  "px;line-height:1.2;margin-bottom:4px;font-weight:700;",
+                )
+              : "display:none;";
+            var l = i.description
+              ? "font-size:".concat(
+                  n.body,
+                  "px;line-height:1.35;margin-bottom:4px;opacity:0.8;",
+                )
+              : "display:none;";
+            var p = i.cta
+              ? "font-size:".concat(Math.max(12, 14 * t.fontSizeScale), "px;")
+              : "display:none;";
+            if (r)
+              return '\n            <div class="adgeist-content-container" style="flex:1;display:flex;flex-direction:row;align-items:center;padding:'
+                .concat(
+                  s,
+                  'px 16px;overflow:visible;justify-content:center;">\n                <div style="display:flex;flex-direction:column;justify-content:center;flex:1;padding-right:16px;text-align:left;height:100%;overflow:visible;">\n                    <div class="adgeist-title-text" style="',
+                )
+                .concat(c, '">')
+                .concat(
+                  this.title,
+                  '</div>\n                </div>\n                <div style="display:flex;flex-direction:column;justify-content:center;flex:2;text-align:left;height:100%;overflow:visible;">\n                    <div class="adgeist-description-text" style="',
+                )
+                .concat(l, '">')
+                .concat(
+                  this.description,
+                  "</div>\n                </div>\n            </div>\n        ",
+                );
+            var h = o ? "row" : "column";
+            var u = d
+              ? "align-items:center;text-align:center;"
+              : "align-items:flex-start;text-align:left;";
+            var g = o
+              ? "align-items:center;justify-content:space-between;text-align:left;"
+              : d
+                ? "align-items:center;justify-content:space-around;"
+                : "align-items:center;justify-content:center;";
+            var f = o ? "margin-left:16px;" : "margin-top:16px;";
+            var v = o
+              ? "width:100%;justify-content:center;"
+              : d
+                ? "justify-content:center;width:100%;"
+                : "width:100%;";
+            return '\n        <div class="adgeist-content-container" style="flex:1;display:flex;flex-direction:'
+              .concat(h, ";")
+              .concat(g, "padding:")
+              .concat(
+                s,
+                'px 16px;overflow:visible;">\n            <div style="display:flex;flex-direction:column;',
+              )
+              .concat(v)
+              .concat(
+                u,
+                'overflow:visible;">\n                <div class="adgeist-title-text" style="',
+              )
+              .concat(c, '">')
+              .concat(
+                this.title,
+                '</div>\n                <div class="adgeist-description-text" style="',
+              )
+              .concat(l, '">')
+              .concat(
+                this.description,
+                '</div>\n            </div>\n            <div class="cta-button" style="',
+              )
+              .concat(p)
+              .concat(f, 'flex-shrink:0;">Open</div>\n        </div>\n      ');
+          },
+        },
+        {
+          key: "renderDisplayHtml",
+          value: function e() {
+            var t, n, i;
+            var a = this.getLayoutConfig();
+            var o = this.calculateLayoutDetails(a);
+            var r =
+              "video" ===
+              (null === (t = this.media[0]) || void 0 === t ? void 0 : t.type)
+                ? '<video\n              id="adgeist-video"\n              poster="'
+                    .concat(
+                      (null === (n = this.media[0]) || void 0 === n
+                        ? void 0
+                        : n.thumbnailUrl) || "",
+                      "\" \n              autoplay muted loop\n              playsinline\n              webkit-playsinline\n              style=\"width: 100%; height: 100%; object-fit: contain;\" \n              onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                            if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n              preload=\"auto\"\n            >\n              <source src=\"",
+                    )
+                    .concat(
+                      this.media[0].src || this.placeholderSrc || "",
+                      '" type="video/mp4">\n            </video>',
+                    )
+                : '<img \n              src="'
+                    .concat(
+                      this.media[0].src || this.placeholderSrc,
+                      '"  \n              fallback="',
+                    )
+                    .concat(
+                      (null === (i = this.media[0]) || void 0 === i
+                        ? void 0
+                        : i.thumbnailUrl) || "",
+                      '"\n              alt="',
+                    )
+                    .concat(
+                      this.altText,
+                      "\" \n              style=\"width:100%;height:100%;object-fit:contain;\"\n              onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                      if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n            />",
+                    );
+            return '\n        <style id="'
+              .concat(v, '">')
+              .concat(y, '</style>\n        <a href="')
+              .concat(
+                S(this.ctaUrl),
+                '" \n        target="_blank" \n        style="text-decoration:none;color:inherit;"\n        >\n          <div class="card-container adgeist-ad"\n          style="width:',
+              )
+              .concat(this.width, "px;height:")
+              .concat(this.height, "px;display:flex;flex-direction:")
+              .concat(
+                o.flexDirection,
+                ';"\n          >\n            <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>\n            \n            <div class="image-container" style="width:',
+              )
+              .concat(o.imageWidth, "px;height:")
+              .concat(
+                o.imageHeight,
+                'px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#d5d4d4ff;">\n              ',
+              )
+              .concat(r, "\n            </div>\n            \n            ")
+              .concat(
+                this.renderContentHtml(o),
+                "\n          </div>\n        </a>\n      ",
+              );
+          },
+        },
+      ])
+    );
+  })(T);
+  var M = (function (e) {
+    function t() {
+      var e =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      return (i(this, t), n(this, t, [e]));
+    }
+    return (
+      d(t, e),
+      o(t, [
+        {
+          key: "renderCompanionHtml",
+          value: function e() {
+            var t =
+              this.media.find(function (e) {
+                var t;
+                return null === (t = e.mimeType) || void 0 === t
+                  ? void 0
+                  : t.startsWith("video");
+              }) || this.media[0];
+            var n =
+              this.media.find(function (e) {
+                var t;
+                return null === (t = e.mimeType) || void 0 === t
+                  ? void 0
+                  : t.startsWith("image");
+              }) || this.media[1];
+            var i = (null == t ? void 0 : t.src) || this.placeholderSrc || "";
+            var a =
+              (null == t ? void 0 : t.thumbnailUrl) ||
+              this.placeholderSrc ||
+              "";
+            var o = (null == n ? void 0 : n.src) || this.placeholderSrc || "";
+            return '\n     <style id="'
+              .concat(w, '">')
+              .concat(b, '</style>\n    <a href="')
+              .concat(
+                S(this.ctaUrl),
+                '" target="_blank" class=\'companion-ad-container\'>\n      <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>\n      \n      <video\n        id="adgeist-video"\n        poster="',
+              )
+              .concat(
+                a,
+                '" \n        autoplay loop\n        muted\n        playsinline\n        webkit-playsinline\n        controls\n        style="width: 100%; aspect-ratio: 16/9; display: block;" \n        onloadeddata="if(window.Android) { window.Android.postMessage(JSON.stringify({type:\'RENDER_STATUS\',message:\'Success\'})) }\n                      if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:\'RENDER_STATUS\',message:\'Success\'})) }"\n        controlsList="nodownload"\n        disablePictureInPicture\n        preload="auto"\n      >\n        <source src="',
+              )
+              .concat(
+                i,
+                '" type="video/mp4">\n      </video>\n      \n      <img \n        src="',
+              )
+              .concat(o, '"  \n        alt="')
+              .concat(
+                this.altText,
+                "\" \n        style=\"width: 100%; aspect-ratio: 16/3; display: block; background-color: #d5d4d4ff;\"\n        onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n      />\n      \n      <div class='companion-meta' style='display:flex; flex-direction: row; height: max-content; padding:8px 12px; font-size:12px; color:#666; text-align:center; align-items:center; gap: 8px;'>\n          <div class='adgeist-name-text' style='display:flex;flex-direction:column;flex:1; text-align:start; justify-content:center;'> \n              <span class=\"adgeist-title-text\" style=\"font-size: 14px; margin-bottom: 2px; line-height: 1.2;\">",
+              )
+              .concat(
+                this.title,
+                '</span>\n              <span class="adgeist-description-text" style="font-size: 12px; line-height: 1.3;">',
+              )
+              .concat(
+                this.description,
+                '</span>\n          </div>\n          <div class="cta-button" style="flex-shrink:0;">Open</div>\n      </div>\n    </a>',
+              );
+          },
+        },
+      ])
+    );
+  })(T);
+  (!(function () {
+    "undefined" != typeof window &&
+      ((window.AdCard = T),
+      (window.BannerAdCard = E),
+      (window.DisplayAdCard = O),
+      (window.AdAudioManager = A),
+      (window.ensureHttpProtocol = S),
+      (window.getAdLayout = k),
+      (window.DISPLAY_CSS = y),
+      (window.BANNER_CSS = x));
+  })(),
+    (e.AdAudioManager = A),
+    (e.AdCard = T),
+    (e.BANNER_CSS = x),
+    (e.BANNER_STYLES_ID = m),
+    (e.BannerAdCard = E),
+    (e.DISPLAY_CSS = y),
+    (e.DISPLAY_STYLE_ID = v),
+    (e.DisplayAdCard = O),
+    (e.ensureHttpProtocol = S),
+    (e.getAdLayout = k));
+});
