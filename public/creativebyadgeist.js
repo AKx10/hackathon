@@ -17,6 +17,9 @@
   function _arrayWithHoles(r) {
     if (Array.isArray(r)) return r;
   }
+  function _arrayWithoutHoles(r) {
+    if (Array.isArray(r)) return _arrayLikeToArray(r);
+  }
   function _assertThisInitialized(e) {
     if (void 0 === e)
       throw new ReferenceError(
@@ -184,6 +187,13 @@
       return !!t;
     })();
   }
+  function _iterableToArray(r) {
+    if (
+      ("undefined" != typeof Symbol && null != r[Symbol.iterator]) ||
+      null != r["@@iterator"]
+    )
+      return Array.from(r);
+  }
   function _iterableToArrayLimit(r, l) {
     var t =
       null == r
@@ -222,6 +232,11 @@
   function _nonIterableRest() {
     throw new TypeError(
       "Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
+    );
+  }
+  function _nonIterableSpread() {
+    throw new TypeError(
+      "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
     );
   }
   function ownKeys(e, r) {
@@ -454,6 +469,14 @@
       _iterableToArrayLimit(r, e) ||
       _unsupportedIterableToArray(r, e) ||
       _nonIterableRest()
+    );
+  }
+  function _toConsumableArray(r) {
+    return (
+      _arrayWithoutHoles(r) ||
+      _iterableToArray(r) ||
+      _unsupportedIterableToArray(r) ||
+      _nonIterableSpread()
     );
   }
   function _toPrimitive(t, r) {
@@ -1742,7 +1765,7 @@
   var BANNER_STYLES_ID = "banner-card-styles";
   var COMPANION_STYLES_ID = "companion-card-styles";
   var DISPLAY_CSS =
-    "\n    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }\n    .card-container {\n      container-type: size;\n      container-name: adgeist-card;\n      max-height: 900px;\n      max-width: 1200px;\n      overflow: hidden;\n      outline: 1px solid #E0E0E0;\n      background-color: #FFFFFF;\n      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);\n      box-sizing: border-box;\n      font-family: system-ui, -apple-system, sans-serif;\n    }\n    .adgeist-title-text {\n      margin: 0;\n      color: #000;\n      word-break: break-word;\n    }\n    .adgeist-description-text {\n      margin: 0;\n      color: #4B5563;\n      word-break: break-word;\n    }\n    .adgeist-name-text {\n      margin: 0;\n      color: #9CA3AF;\n    }\n    .cta-button {\n      background: #85C896;\n      color: rgba(29, 29, 29, 1);\n      border-radius: 9999px;\n      padding: 6px 16px;\n      font-weight: 500;\n      text-decoration: none;\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      cursor: pointer;\n      white-space: nowrap;\n      box-shadow:\n        inset 0 0 2px -2px #ACFFB1,\n        inset 8px 3px 15px 0 #6FC974,\n        inset -4px -4px 13px -5px rgba(51,51,51,0.74),\n        inset 4px 0 4px 0 rgba(38,100,42,0.68);\n      transition: transform .2s;\n    }\n    .cta-button:hover { transform: scale(1.01); }\n";
+    "\n    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }\n    .card-container {\n      position: relative;\n      container-type: size;\n      container-name: adgeist-card;\n      max-height: 900px;\n      max-width: 1200px;\n      overflow: hidden;\n      outline: 1px solid #E0E0E0;\n      background-color: #FFFFFF;\n      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);\n      box-sizing: border-box;\n      font-family: system-ui, -apple-system, sans-serif;\n    }\n    .adgeist-title-text {\n      margin: 0;\n      color: #000;\n      word-break: break-word;\n    }\n    .adgeist-description-text {\n      margin: 0;\n      color: #4B5563;\n      word-break: break-word;\n    }\n    .adgeist-name-text {\n      margin: 0;\n      color: #9CA3AF;\n    }\n    .cta-button {\n      background: #85C896;\n      color: rgba(29, 29, 29, 1);\n      border-radius: 9999px;\n      padding: 6px 16px;\n      font-weight: 500;\n      text-decoration: none;\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      cursor: pointer;\n      white-space: nowrap;\n      box-shadow:\n        inset 0 0 2px -2px #ACFFB1,\n        inset 8px 3px 15px 0 #6FC974,\n        inset -4px -4px 13px -5px rgba(51,51,51,0.74),\n        inset 4px 0 4px 0 rgba(38,100,42,0.68);\n      transition: transform .2s;\n    }\n    .cta-button:hover { transform: scale(1.01); }\n";
   var BANNER_CSS =
     "\n    html, body { margin: 0; padding: 0; width: 100%; height: 100%; }\n      .banner-adgeist-card {\n        container-type: size;\n        container-name: banner-ad;\n        max-width: 1200px;\n        min-width: 240px;\n        min-height: 50px;\n        max-height: 900px;\n        overflow: hidden;\n        outline: 1px solid #e0e0e0;\n        background-color: #d5d4d4ff;\n        box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n        position: relative;\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n        justify-content: center;\n      }\n\n      .adgeist-media {\n        position: relative;\n        width: 100%;\n        height: 100%;\n      }\n\n      .adgeist-media img,\n      .adgeist-media video {\n        width: 100%;\n        height: 100%;\n        object-fit: contain;\n        display: block;\n      }\n\n      .mute-button { cursor: pointer; transition: opacity 0.2s; }\n      .mute-button:hover { opacity: 0.8; }\n  ";
   var COMPANION_CSS =
@@ -1853,7 +1876,6 @@
       this.appliedClass = getAdLayout(this.width, this.height);
       this.adspaceType = options.adspaceType || "banner";
       this.media = options.media || [];
-      this.mediaType = options.mediaType || "image";
       this.altText = options.altText || "";
       this.placeholderSrc = options.placeholderSrc || "";
     }
@@ -1875,7 +1897,6 @@
             height: this.height,
             adspaceType: this.adspaceType,
             media: this.media,
-            mediaType: this.mediaType,
             altText: this.altText,
             placeholderSrc: this.placeholderSrc,
           };
@@ -1916,7 +1937,6 @@
         (_a = options.isResponsive) !== null && _a !== void 0 ? _a : true;
       _this3.media = options.media || [];
       _this3.ctaUrl = options.ctaUrl || "#";
-      _this3.mediaType = options.mediaType || "image";
       _this3.adElementId = options.adElementId || "";
       _this3.altText = options.altText || "Banner Image";
       return _this3;
@@ -1950,8 +1970,6 @@
           //   });
           // };
           var effectiveMedia = this.media[0];
-          console.log(effectiveMedia, "effectiveMedia");
-          console.log(this.placeholderSrc, "placeholderSrc");
           return '\n        <style id="'
             .concat(BANNER_STYLES_ID, '">')
             .concat(BANNER_CSS, '</style>\n        <a href="')
@@ -1965,7 +1983,7 @@
               ';">\n          <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;">AD</span>\n\n          <div class="adgeist-media adgeist-ad">\n             ',
             )
             .concat(
-              this.mediaType === "video"
+              effectiveMedia.type === "video"
                 ? '\n                  <video\n                    id="adgeist-video"\n                    class="media"\n                    poster="'
                     .concat(
                       (effectiveMedia === null || effectiveMedia === void 0
@@ -2467,17 +2485,19 @@
       {
         key: "renderDisplayHtml",
         value: function renderDisplayHtml() {
-          var _a, _b;
+          var _a, _b, _c;
           var baseConfig = this.getLayoutConfig();
           var details = this.calculateLayoutDetails(baseConfig);
           // Use object-fit: contain to allow letterbox/pillarbox
           var media =
-            this.mediaType === "video"
+            ((_a = this.media[0]) === null || _a === void 0
+              ? void 0
+              : _a.type) === "video"
               ? '<video\n              id="adgeist-video"\n              poster="'
                   .concat(
-                    ((_a = this.media[0]) === null || _a === void 0
+                    ((_b = this.media[0]) === null || _b === void 0
                       ? void 0
-                      : _a.thumbnailUrl) || "",
+                      : _b.thumbnailUrl) || "",
                     "\" \n              autoplay muted loop\n              playsinline\n              webkit-playsinline\n              style=\"width: 100%; height: 100%; object-fit: contain;\" \n              onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                            if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n              preload=\"auto\"\n            >\n              <source src=\"",
                   )
                   .concat(
@@ -2485,13 +2505,14 @@
                     '" type="video/mp4">\n            </video>',
                   )
               : '<img \n              src="'
-                  .concat(this.media[0].src, '"  \n              fallback="')
                   .concat(
-                    ((_b = this.media[0]) === null || _b === void 0
+                    this.media[0].src || this.placeholderSrc,
+                    '"  \n              fallback="',
+                  )
+                  .concat(
+                    ((_c = this.media[0]) === null || _c === void 0
                       ? void 0
-                      : _b.thumbnailUrl) ||
-                      this.placeholderSrc ||
-                      "",
+                      : _c.thumbnailUrl) || "",
                     '"\n              alt="',
                   )
                   .concat(
@@ -2898,7 +2919,25 @@
             _y,
             _z,
             _0,
-            _1;
+            _1,
+            _2,
+            _3,
+            _4,
+            _5,
+            _6,
+            _7,
+            _8,
+            _9,
+            _10,
+            _11,
+            _12,
+            _13,
+            _14,
+            _15,
+            _16,
+            _17,
+            _18,
+            _19;
           var slotAttrs = this.getAdSlotAttributes(slot);
           if (!slotAttrs) {
             this.sdk.logger.log("Could not get ad slot attributes");
@@ -3067,6 +3106,57 @@
                     : _x[0]) === null || _y === void 0
                   ? void 0
                   : _y.thumbnailUrl) || "",
+              primaryCreative: {
+                src:
+                  (_0 =
+                    (_z =
+                      creativeData === null || creativeData === void 0
+                        ? void 0
+                        : creativeData.creatives) === null || _z === void 0
+                      ? void 0
+                      : _z[0].primary) === null || _0 === void 0
+                    ? void 0
+                    : _0.fileUrl,
+                thumbnailUrl:
+                  (_2 =
+                    (_1 =
+                      creativeData === null || creativeData === void 0
+                        ? void 0
+                        : creativeData.creatives) === null || _1 === void 0
+                      ? void 0
+                      : _1[0].primary) === null || _2 === void 0
+                    ? void 0
+                    : _2.thumbnailUrl,
+                type:
+                  (_4 =
+                    (_3 =
+                      creativeData === null || creativeData === void 0
+                        ? void 0
+                        : creativeData.creatives) === null || _3 === void 0
+                      ? void 0
+                      : _3[0].primary) === null || _4 === void 0
+                    ? void 0
+                    : _4.type,
+              },
+              companionCreative:
+                ((_7 =
+                  (_6 =
+                    (_5 =
+                      creativeData === null || creativeData === void 0
+                        ? void 0
+                        : creativeData.creatives) === null || _5 === void 0
+                      ? void 0
+                      : _5[0]) === null || _6 === void 0
+                    ? void 0
+                    : _6.companions) === null || _7 === void 0
+                  ? void 0
+                  : _7.map(function (companion) {
+                      return {
+                        src: companion.fileUrl,
+                        thumbnailUrl: companion.thumbnailUrl,
+                        type: companion.type,
+                      };
+                    })) || [],
             };
             bidResponseMetadata = {
               responseId: creativeData.id || "",
@@ -3092,12 +3182,12 @@
               ),
               type: adType,
               fileUrl:
-                (_z =
+                (_8 =
                   adDetail === null || adDetail === void 0
                     ? void 0
-                    : adDetail.creative) === null || _z === void 0
+                    : adDetail.creative) === null || _8 === void 0
                   ? void 0
-                  : _z.fileUrl,
+                  : _8.fileUrl,
               title:
                 (creativeData === null || creativeData === void 0
                   ? void 0
@@ -3107,15 +3197,15 @@
                   ? void 0
                   : creativeData.creativeDescription) || "Ad Description",
               altText:
-                ((_1 =
-                  (_0 =
+                ((_10 =
+                  (_9 =
                     creativeData === null || creativeData === void 0
                       ? void 0
-                      : creativeData.creatives) === null || _0 === void 0
+                      : creativeData.creatives) === null || _9 === void 0
                     ? void 0
-                    : _0[0]) === null || _1 === void 0
+                    : _9[0]) === null || _10 === void 0
                   ? void 0
-                  : _1.altText) || "",
+                  : _10.altText) || "",
               scriptUrl:
                 creativeData === null || creativeData === void 0
                   ? void 0
@@ -3132,6 +3222,57 @@
                 (creativeData === null || creativeData === void 0
                   ? void 0
                   : creativeData.thumbnailUrl) || "",
+              primaryCreative: {
+                src:
+                  (_12 =
+                    (_11 =
+                      creativeData === null || creativeData === void 0
+                        ? void 0
+                        : creativeData.creatives) === null || _11 === void 0
+                      ? void 0
+                      : _11[0].primary) === null || _12 === void 0
+                    ? void 0
+                    : _12.fileUrl,
+                thumbnailUrl:
+                  (_14 =
+                    (_13 =
+                      creativeData === null || creativeData === void 0
+                        ? void 0
+                        : creativeData.creatives) === null || _13 === void 0
+                      ? void 0
+                      : _13[0].primary) === null || _14 === void 0
+                    ? void 0
+                    : _14.thumbnailUrl,
+                type:
+                  (_16 =
+                    (_15 =
+                      creativeData === null || creativeData === void 0
+                        ? void 0
+                        : creativeData.creatives) === null || _15 === void 0
+                      ? void 0
+                      : _15[0].primary) === null || _16 === void 0
+                    ? void 0
+                    : _16.type,
+              },
+              companionCreative:
+                ((_19 =
+                  (_18 =
+                    (_17 =
+                      creativeData === null || creativeData === void 0
+                        ? void 0
+                        : creativeData.creatives) === null || _17 === void 0
+                      ? void 0
+                      : _17[0]) === null || _18 === void 0
+                    ? void 0
+                    : _18.companions) === null || _19 === void 0
+                  ? void 0
+                  : _19.map(function (companion) {
+                      return {
+                        src: companion.fileUrl,
+                        thumbnailUrl: companion.thumbnailUrl,
+                        type: companion.type,
+                      };
+                    })) || [],
             };
             bidResponseMetadata = {
               responseId: adDetail.id || "",
@@ -3153,8 +3294,6 @@
           var startTime = performance.now();
           var generateAdCardHtml = function generateAdCardHtml(width, height) {
             if (adType === "banner" || adType === "display") {
-              console.log(ad, "ad");
-              this.sdk.logger.log("Ad data: ".concat(ad));
               var adCardRenderer = new AdCard({
                 adElementId: adElementId,
                 title: ad.title,
@@ -3167,14 +3306,10 @@
                 isResponsive: isAdspaceResponsive,
                 height: height,
                 width: width,
-                mediaType: ad.creativeType,
                 adspaceType: adType,
-                media: [
-                  {
-                    src: ad.creativeUrl,
-                    thumbnailUrl: ad.thumbnailUrl,
-                  },
-                ],
+                media: [ad.primaryCreative].concat(
+                  _toConsumableArray(ad.companionCreative),
+                ),
               });
               return adCardRenderer.renderHtml();
             }
