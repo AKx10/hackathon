@@ -1,10 +1,11 @@
 "use client";
 import { useNavigate } from "./quiz/components/Navigation/Navigate";
 import { Suspense, useEffect, useState } from "react";
-import Script from "next/script";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const navigate = useNavigate();
+  const router = useRouter();
 
   const [userName, setUserName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
@@ -49,6 +50,23 @@ export default function Home() {
           </div>
         </div>
 
+        <div className="flex flex gap-3 items-center">
+          <button
+            onClick={() => router.push("/ad")}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+          >
+            router.push('/')
+          </button>
+          <button
+            onClick={() => router.replace("/ad")}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+          >
+            router.replace('/')
+          </button>
+
+          <a href="/ad">Anchor Navigation</a>
+          <a href="/ad">Anchor #</a>
+        </div>
         {/* <button onClick={() => router.push("/about")}>Go to About</button> */}
         <div className="flex flex-1 items-center justify-center flex-col ">
           <div className="flex mb-5">

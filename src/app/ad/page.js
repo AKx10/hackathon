@@ -1,6 +1,7 @@
 "use client";
 
 import AdBanner from "@/component/AdBanner";
+import { useRouter } from "next/navigation";
 import Script from "next/script";
 import React, { useEffect, useState } from "react";
 
@@ -12,20 +13,23 @@ const AllAd = () => {
   const [pasteContent, setPasteContent] = useState("");
   const [error, setError] = useState("");
 
+  const router = useRouter();
+
   // Global Script Configuration with localStorage persistence
   const [scriptConfig, setScriptConfig] = useState(() => {
     // During SSR or initial render, use defaults to avoid hydration mismatch
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return {
         publisherId: "69313010b753c523ef72a5d4",
-        apiKey: "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
+        apiKey:
+          "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
         scriptSrc: "/creativebyadgeist.js",
         origin: "https://hackathon-lake-nine.vercel.app",
         env: "development",
         isTestMode: false,
       };
     }
-    
+
     // On client, try to read from localStorage
     try {
       const stored = localStorage.getItem("adScriptConfig");
@@ -35,11 +39,12 @@ const AllAd = () => {
     } catch (error) {
       console.error("Error reading adScriptConfig from localStorage:", error);
     }
-    
+
     // Default configuration
     return {
       publisherId: "69313010b753c523ef72a5d4",
-      apiKey: "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
+      apiKey:
+        "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
       scriptSrc: "/creativebyadgeist.js",
       origin: "https://hackathon-lake-nine.vercel.app", // Platform Origin
       env: "development",
@@ -50,7 +55,7 @@ const AllAd = () => {
   // Set mounted state after first render (client-side only)
   useEffect(() => {
     setMounted(true);
-    
+
     // Re-sync from localStorage after mounting to get the actual stored values
     try {
       const stored = localStorage.getItem("adScriptConfig");
@@ -69,7 +74,7 @@ const AllAd = () => {
   // Persist scriptConfig to localStorage whenever it changes (only after mount)
   useEffect(() => {
     if (!mounted) return; // Don't save during SSR or first render
-    
+
     try {
       localStorage.setItem("adScriptConfig", JSON.stringify(scriptConfig));
     } catch (error) {
@@ -80,7 +85,9 @@ const AllAd = () => {
   // Separate inputs state - initialize from scriptConfig
   const [originInput, setOriginInput] = useState(scriptConfig.scriptSrc);
   const [apiOriginInput, setApiOriginInput] = useState(scriptConfig.origin);
-  const [isTestModeInput, setIsTestModeInput] = useState(scriptConfig.isTestMode);
+  const [isTestModeInput, setIsTestModeInput] = useState(
+    scriptConfig.isTestMode,
+  );
 
   const handleScriptSrcChange = (val) => {
     setOriginInput(val);
@@ -220,24 +227,30 @@ const AllAd = () => {
         data-env={scriptConfig.env}
         onReady={() => {
           setScriptLoaded(true);
-          
+
           // Debug: Log script configuration
-          console.log('[Ad Manager] Script loaded with config:', {
+          console.log("[Ad Manager] Script loaded with config:", {
             origin: scriptConfig.origin,
             publisherId: scriptConfig.publisherId,
             isTestMode: scriptConfig.isTestMode,
-            env: scriptConfig.env
+            env: scriptConfig.env,
           });
-          
+
           if (window && window?.adsbyadgeist) {
             const adsbyadgeist = window.adsbyadgeist;
-            
+
             // Debug: Log SDK instance if available
             if (window.sdkInstance) {
-              console.log('[Ad Manager] SDK origin:', window.sdkInstance?.origin);
-              console.log('[Ad Manager] SDK isTestMode:', window.sdkInstance?.isTestMode);
+              console.log(
+                "[Ad Manager] SDK origin:",
+                window.sdkInstance?.origin,
+              );
+              console.log(
+                "[Ad Manager] SDK isTestMode:",
+                window.sdkInstance?.isTestMode,
+              );
             }
-            
+
             if (adsbyadgeist.setUserDetails) {
               adsbyadgeist.setUserDetails({
                 user_id: 999,
@@ -262,6 +275,30 @@ const AllAd = () => {
         </h1>
 
         <div className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl flex flex-col gap-4">
+          <div className="flex flex gap-3 items-center">
+            <button
+              onClick={() => router.push("/")}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+            >
+              router.push('/')
+            </button>
+            <button
+              onClick={() => router.replace("/")}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+            >
+              router.replace('/')
+            </button>
+            <button
+              onClick={() => router.back()}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+            >
+              router.back()
+            </button>
+            <a href="/">Anchor Navigation</a>
+            <a href="/" target="#">
+              Anchor #
+            </a>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-mono text-gray-400 uppercase tracking-widest">
@@ -295,7 +332,10 @@ const AllAd = () => {
               <label className="text-[10px] uppercase text-gray-500 font-bold">
                 Publisher ID
               </label>
-              <div className="text-xs font-mono text-gray-300 bg-black/30 p-2 rounded border border-white/5 truncate" suppressHydrationWarning>
+              <div
+                className="text-xs font-mono text-gray-300 bg-black/30 p-2 rounded border border-white/5 truncate"
+                suppressHydrationWarning
+              >
                 {scriptConfig.publisherId}
               </div>
             </div>
@@ -303,7 +343,10 @@ const AllAd = () => {
               <label className="text-[10px] uppercase text-gray-500 font-bold">
                 API Key
               </label>
-              <div className="text-xs font-mono text-gray-300 bg-black/30 p-2 rounded border border-white/5 truncate" suppressHydrationWarning>
+              <div
+                className="text-xs font-mono text-gray-300 bg-black/30 p-2 rounded border border-white/5 truncate"
+                suppressHydrationWarning
+              >
                 {scriptConfig.apiKey}
               </div>
             </div>
@@ -312,12 +355,15 @@ const AllAd = () => {
               <label className="text-[10px] uppercase text-gray-500 font-bold">
                 Test Mode
               </label>
-              <input type='checkbox' checked={scriptConfig.isTestMode} onChange={(e) => {
-                setScriptConfig({
-                  ...scriptConfig,
-                  isTestMode: e.target.checked,
-                });
-              }}
+              <input
+                type="checkbox"
+                checked={scriptConfig.isTestMode}
+                onChange={(e) => {
+                  setScriptConfig({
+                    ...scriptConfig,
+                    isTestMode: e.target.checked,
+                  });
+                }}
                 style={{
                   width: "20px",
                   height: "20px",
