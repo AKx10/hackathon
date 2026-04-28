@@ -1262,6 +1262,7 @@
   (function (ADVERTISER_CONVERSION_EVENTS) {
     ADVERTISER_CONVERSION_EVENTS["VISIT"] = "VISIT";
     ADVERTISER_CONVERSION_EVENTS["SESSION_DURATION"] = "SESSION_DURATION";
+    ADVERTISER_CONVERSION_EVENTS["ROUTE_CHANGE"] = "ROUTE_CHANGE";
   })(ADVERTISER_CONVERSION_EVENTS || (ADVERTISER_CONVERSION_EVENTS = {}));
   var ADVERTISER_SDK_DEFAULTS = {
     AD_TRACKING_URL: "https://beta.v2.bg-services.adgeist.ai",
@@ -1653,6 +1654,28 @@
         },
       },
       {
+        key: "setupRouteChangeListener",
+        value: function setupRouteChangeListener() {
+          var _this4 = this;
+          var originalPushState = history.pushState.bind(history);
+          var originalReplaceState = history.replaceState.bind(history);
+          history.pushState = function () {
+            originalPushState.apply(void 0, arguments);
+            if (_this4.isInitialized)
+              _this4.sendEvent(ADVERTISER_CONVERSION_EVENTS.ROUTE_CHANGE);
+          };
+          history.replaceState = function () {
+            originalReplaceState.apply(void 0, arguments);
+            if (_this4.isInitialized)
+              _this4.sendEvent(ADVERTISER_CONVERSION_EVENTS.ROUTE_CHANGE);
+          };
+          window.addEventListener("popstate", function () {
+            if (_this4.isInitialized)
+              _this4.sendEvent(ADVERTISER_CONVERSION_EVENTS.ROUTE_CHANGE);
+          });
+        },
+      },
+      {
         key: "initialize",
         value: (function () {
           var _initialize = _asyncToGenerator(
@@ -1671,13 +1694,16 @@
                         );
                         return _context2.a(2);
                       case 1:
-                        this.isInitialized = true;
                         this.adTrackingEndpoint = "".concat(
                           adTrackingUrl,
                           "/v2/ssp/analytics-event",
                         );
-                        this.sendVisitEvent();
+                        _context2.n = 2;
+                        return this.sendVisitEvent();
                       case 2:
+                        this.setupRouteChangeListener();
+                        this.isInitialized = true;
+                      case 3:
                         return _context2.a(2);
                     }
                 },
@@ -1696,7 +1722,7 @@
   })();
   _a = AdvertiserUTMTracker;
   AdvertiserUTMTracker.UTM_STORAGE_KEY = "adgeist_utm_params";
-  AdvertiserUTMTracker.UTM_ATTRIBUTION_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day
+  AdvertiserUTMTracker.UTM_ATTRIBUTION_EXPIRATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 day
   AdvertiserUTMTracker.UTM_LOCAL_STORAGE_KEY = "adgeist_utm_attribution";
   AdvertiserUTMTracker.adTrackingEndpoint = "";
   AdvertiserUTMTracker.logger = new Logger({
