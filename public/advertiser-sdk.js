@@ -1485,17 +1485,17 @@
                                 _b === void 0
                                   ? void 0
                                   : _b.visitorId) || undefined,
-                              fingerPrintType: (
-                                (_c = this.cachedFingerprint) === null ||
+                              fingerPrintType:
+                                "signalHash" +
+                                ((_c = this.cachedFingerprint) === null ||
                                 _c === void 0
                                   ? void 0
-                                  : _c.version
-                              )
-                                ? (_d = this.cachedFingerprint) === null ||
-                                  _d === void 0
-                                  ? void 0
-                                  : _d.version
-                                : undefined,
+                                  : _c.version)
+                                  ? (_d = this.cachedFingerprint) === null ||
+                                    _d === void 0
+                                    ? void 0
+                                    : _d.version
+                                  : undefined,
                             },
                             deviceInfo,
                           ),
@@ -1774,10 +1774,11 @@
                             ? void 0
                             : _c.version
                         )
-                          ? (_d = _a.cachedFingerprint) === null ||
+                          ? "signalHash" +
+                            ((_d = _a.cachedFingerprint) === null ||
                             _d === void 0
-                            ? void 0
-                            : _d.version
+                              ? void 0
+                              : _d.version)
                           : undefined,
                       },
                       deviceInfo,
