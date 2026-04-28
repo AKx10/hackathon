@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         {children}
-        <Script async src="/advertiser-sdk.js"></Script>
+        <Script src="/advertiser-sdk.js" strategy="beforeInteractive" />
       </body>
     </html>
   );
