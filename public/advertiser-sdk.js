@@ -1383,66 +1383,91 @@
               : 0;
           return Math.round(this.totalActiveTime + live);
         },
-        // Resolved once at init — non-blocking, cached for all subsequent events
+        // Resolved once before VISIT — ensures identity is present in all events
       },
       {
         key: "resolveIdentity",
-        value: function resolveIdentity() {
-          var _this = this;
-          Promise.all([
-            this.fingerprintManager.getCustomFingerprint(),
-            new DeviceInfoCollector({
-              logger: this.logger,
-            }).getDeviceInfo(),
-          ])
-            .then(function (_ref) {
-              var _ref2 = _slicedToArray(_ref, 2),
-                fp = _ref2[0],
-                di = _ref2[1];
-              _this.cachedFingerprint = fp || null;
-              _this.cachedDeviceInfo = di;
-            })
-            .catch(function (err) {
-              return _this.logger.error("Failed to resolve identity", err);
-            });
-        },
-        // PRIMARY: visibilitychange (most reliable cross-browser signal)
+        value: (function () {
+          var _resolveIdentity = _asyncToGenerator(
+            /*#__PURE__*/ _regenerator().m(function _callee() {
+              var _yield$Promise$all, _yield$Promise$all2, fp, di, _t;
+              return _regenerator().w(
+                function (_context) {
+                  while (1)
+                    switch ((_context.p = _context.n)) {
+                      case 0:
+                        _context.p = 0;
+                        _context.n = 1;
+                        return Promise.all([
+                          this.fingerprintManager.getCustomFingerprint(),
+                          new DeviceInfoCollector({
+                            logger: this.logger,
+                          }).getDeviceInfo(),
+                        ]);
+                      case 1:
+                        _yield$Promise$all = _context.v;
+                        _yield$Promise$all2 = _slicedToArray(
+                          _yield$Promise$all,
+                          2,
+                        );
+                        fp = _yield$Promise$all2[0];
+                        di = _yield$Promise$all2[1];
+                        this.cachedFingerprint = fp || null;
+                        this.cachedDeviceInfo = di;
+                        _context.n = 3;
+                        break;
+                      case 2:
+                        _context.p = 2;
+                        _t = _context.v;
+                        this.logger.error("Failed to resolve identity", _t);
+                      case 3:
+                        return _context.a(2);
+                    }
+                },
+                _callee,
+                this,
+                [[0, 2]],
+              );
+            }),
+          );
+          function resolveIdentity() {
+            return _resolveIdentity.apply(this, arguments);
+          }
+          return resolveIdentity;
+        })(), // PRIMARY: visibilitychange (most reliable cross-browser signal)
         // SECONDARY: pagehide with dedup guard
         // TERTIARY: heartbeat while active (safety net)
       },
       {
         key: "setupLifecycle",
         value: function setupLifecycle() {
-          var _this2 = this;
+          var _this = this;
           document.addEventListener("visibilitychange", function () {
             if (document.hidden) {
-              _this2.pauseSessionTracking();
-              _this2.flushSessionEvent(true);
+              _this.pauseSessionTracking();
+              _this.flushSessionEvent(true);
             } else {
-              _this2.resumeSessionTracking();
+              _this.resumeSessionTracking();
             }
           });
           // Guard: skip if visibilitychange already flushed within threshold
           window.addEventListener("pagehide", function () {
-            if (
-              Date.now() - _this2.lastFlushTs <
-              _this2.FLUSH_GUARD_THRESHOLD_MS
-            )
+            if (Date.now() - _this.lastFlushTs < _this.FLUSH_GUARD_THRESHOLD_MS)
               return;
-            _this2.flushSessionEvent(true);
+            _this.flushSessionEvent(true);
           });
           setInterval(function () {
-            if (!document.hidden) _this2.flushSessionEvent(false);
+            if (!document.hidden) _this.flushSessionEvent(false);
           }, this.HEARTBEAT_INTERVAL_MS);
         },
       },
       {
         key: "setupNavigationObserver",
         value: function setupNavigationObserver() {
-          var _this3 = this;
+          var _this2 = this;
           var onRouteChange = function onRouteChange() {
-            _this3.hasEngaged = true;
-            _this3.flushSessionEvent(false);
+            _this2.hasEngaged = true;
+            _this2.flushSessionEvent(false);
           };
           // Intercept pushState / replaceState — only reliable SPA route change signal
           var originalPushState = history.pushState.bind(history);
@@ -1462,7 +1487,7 @@
       {
         key: "flushSessionEvent",
         value: function flushSessionEvent(useBeacon) {
-          var _this4 = this;
+          var _this3 = this;
           var _b, _c;
           var duration = this.getTotalSessionDuration();
           if (duration <= 0 || duration === this.latestSessionTimeEventSent)
@@ -1530,7 +1555,7 @@
                   body: data,
                   keepalive: true,
                 }).catch(function () {
-                  return _this4.logger.error(
+                  return _this3.logger.error(
                     "SESSION_DURATION keepalive fetch failed",
                   );
                 });
@@ -1543,7 +1568,7 @@
                 },
                 body: data,
               }).catch(function () {
-                return _this4.logger.error("SESSION_DURATION fetch failed");
+                return _this3.logger.error("SESSION_DURATION fetch failed");
               });
             }
           } catch (error) {
@@ -1654,20 +1679,20 @@
         key: "initialize",
         value: (function () {
           var _initialize = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee(adTrackingUrl) {
+            /*#__PURE__*/ _regenerator().m(function _callee2(adTrackingUrl) {
               return _regenerator().w(
-                function (_context) {
+                function (_context2) {
                   while (1)
-                    switch (_context.n) {
+                    switch (_context2.n) {
                       case 0:
                         if (!this.isInitialized) {
-                          _context.n = 1;
+                          _context2.n = 1;
                           break;
                         }
                         this.logger.log(
                           "Already initialized, skipping duplicate initialization",
                         );
-                        return _context.a(2);
+                        return _context2.a(2);
                       case 1:
                         // Guard first — prevents re-entry if initialize() is called concurrently
                         this.isInitialized = true;
@@ -1675,18 +1700,23 @@
                           adTrackingUrl,
                           "/v2/ssp/analytics-event",
                         );
-                        // Start session and lifecycle immediately — don't gate on VISIT success
                         this.startSessionTracking();
-                        this.resolveIdentity(); // non-blocking, caches for all future events
                         this.setupLifecycle();
-                        this.setupNavigationObserver();
-                        _context.n = 2;
-                        return this.sendVisitEvent();
+                        // Await identity so VISIT payload includes device info and fingerprint
+                        _context2.n = 2;
+                        return this.resolveIdentity();
                       case 2:
-                        return _context.a(2);
+                        _context2.n = 3;
+                        return this.sendVisitEvent();
+                      case 3:
+                        // Set up navigation observer only after VISIT — prevents framework router
+                        // pushState calls during init from firing a premature SESSION_DURATION
+                        this.setupNavigationObserver();
+                      case 4:
+                        return _context2.a(2);
                     }
                 },
-                _callee,
+                _callee2,
                 this,
               );
             }),
@@ -1723,27 +1753,27 @@
   AdvertiserUTMTracker.latestSessionTimeEventSent = 0;
   AdvertiserUTMTracker.lastFlushTs = 0;
   AdvertiserUTMTracker.sendEvent = /*#__PURE__*/ (function () {
-    var _ref3 = _asyncToGenerator(
-      /*#__PURE__*/ _regenerator().m(function _callee2(eventType) {
+    var _ref = _asyncToGenerator(
+      /*#__PURE__*/ _regenerator().m(function _callee3(eventType) {
         var additionalData,
           _b,
           _c,
           utmParams,
           payload,
           response,
-          _args2 = arguments,
-          _t;
+          _args3 = arguments,
+          _t2;
         return _regenerator().w(
-          function (_context2) {
+          function (_context3) {
             while (1)
-              switch ((_context2.p = _context2.n)) {
+              switch ((_context3.p = _context3.n)) {
                 case 0:
                   additionalData =
-                    _args2.length > 1 && _args2[1] !== undefined
-                      ? _args2[1]
+                    _args3.length > 1 && _args3[1] !== undefined
+                      ? _args3[1]
                       : {};
                   utmParams = _a.getVisitSession();
-                  _context2.p = 1;
+                  _context3.p = 1;
                   payload = _objectSpread2(
                     _objectSpread2(
                       {
@@ -1784,7 +1814,7 @@
                   _a.logger.log(
                     "Sending tracking event: " + JSON.stringify(payload),
                   );
-                  _context2.n = 2;
+                  _context3.n = 2;
                   return fetch(_a.adTrackingEndpoint, {
                     method: "POST",
                     headers: {
@@ -1793,39 +1823,39 @@
                     body: JSON.stringify(payload),
                   });
                 case 2:
-                  response = _context2.v;
+                  response = _context3.v;
                   if (response.ok) {
-                    _context2.n = 3;
+                    _context3.n = 3;
                     break;
                   }
                   throw new Error(
                     "HTTP error! status: ".concat(response.status),
                   );
                 case 3:
-                  return _context2.a(2, true);
+                  return _context3.a(2, true);
                 case 4:
-                  _context2.p = 4;
-                  _t = _context2.v;
-                  _a.logger.error("Failed to send UTM event", _t);
-                  return _context2.a(2, false);
+                  _context3.p = 4;
+                  _t2 = _context3.v;
+                  _a.logger.error("Failed to send UTM event", _t2);
+                  return _context3.a(2, false);
               }
           },
-          _callee2,
+          _callee3,
           null,
           [[1, 4]],
         );
       }),
     );
     return function (_x2) {
-      return _ref3.apply(this, arguments);
+      return _ref.apply(this, arguments);
     };
   })();
   AdvertiserUTMTracker.sendVisitEvent = /*#__PURE__*/ _asyncToGenerator(
-    /*#__PURE__*/ _regenerator().m(function _callee3() {
+    /*#__PURE__*/ _regenerator().m(function _callee4() {
       var attributionParams, session;
-      return _regenerator().w(function (_context3) {
+      return _regenerator().w(function (_context4) {
         while (1)
-          switch (_context3.n) {
+          switch (_context4.n) {
             case 0:
               attributionParams = _a.resolveAttributionParams();
               session = _a.storeVisitSession(
@@ -1834,15 +1864,15 @@
                   : undefined,
               );
               if (!session) {
-                _context3.n = 1;
+                _context4.n = 1;
                 break;
               }
-              _context3.n = 1;
+              _context4.n = 1;
               return _a.sendEvent(ADVERTISER_CONVERSION_EVENTS.VISIT);
             case 1:
-              return _context3.a(2);
+              return _context4.a(2);
           }
-      }, _callee3);
+      }, _callee4);
     }),
   );
 
