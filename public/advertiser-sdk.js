@@ -1392,6 +1392,9 @@
           document.addEventListener("visibilitychange", function () {
             if (document.hidden) {
               _this.pauseSessionTracking();
+              _this.sendSessionTimeEvent({
+                isEngaged: _this.hasEngaged,
+              });
             } else if (document.visibilityState === "visible") {
               _this.resumeSessionTracking();
             }
@@ -1403,6 +1406,7 @@
         value: function setupUnloadListener() {
           var _this2 = this;
           var handleUnload = function handleUnload() {
+            if (Date.now() - _this2.lastSessionEventTs < 200) return;
             _this2.sendSessionTimeEvent({
               isEngaged: _this2.hasEngaged,
             });
@@ -1440,7 +1444,10 @@
           var _b, _c;
           var duration = this.getTotalSessionDuration();
           var utmParams = this.getVisitSession();
-          if (duration <= 0 || duration === this.latestSessionTimeEventSent) {
+          if (
+            duration <= 0 ||
+            duration === this.latestSessionDurationEventSent
+          ) {
             return;
           }
           try {
@@ -1478,7 +1485,8 @@
               {
                 additionalData: _objectSpread2(
                   {
-                    sessionDuration: duration - this.latestSessionTimeEventSent,
+                    sessionDuration:
+                      duration - this.latestSessionDurationEventSent,
                     totalSessionDuration: duration,
                   },
                   additionalData,
@@ -1487,7 +1495,8 @@
             );
             var endpoint = this.adTrackingEndpoint;
             var data = JSON.stringify(payload);
-            this.latestSessionTimeEventSent = duration;
+            this.latestSessionDurationEventSent = duration;
+            this.lastSessionEventTs = Date.now();
             this.logger.log("Sending SESSION_DURATION event: ".concat(data));
             fetch(endpoint, {
               method: "POST",
@@ -1707,7 +1716,8 @@
   AdvertiserUTMTracker.isPaused = false;
   AdvertiserUTMTracker.isInitialized = false;
   AdvertiserUTMTracker.hasEngaged = false;
-  AdvertiserUTMTracker.latestSessionTimeEventSent = 0;
+  AdvertiserUTMTracker.latestSessionDurationEventSent = 0;
+  AdvertiserUTMTracker.lastSessionEventTs = 0;
   AdvertiserUTMTracker.sendEvent = /*#__PURE__*/ (function () {
     var _ref = _asyncToGenerator(
       /*#__PURE__*/ _regenerator().m(function _callee2(eventType) {
