@@ -1360,8 +1360,8 @@
         value: function pauseSessionTracking() {
           if (!this.isPaused && this.sessionStartTime !== null) {
             this.totalActiveTime += performance.now() - this.sessionStartTime;
-            this.sessionStartTime = null; // clear so getTotalSessionDuration doesn't double-count
             this.isPaused = true;
+            this.logger.log("Session tracking paused");
           }
         },
       },
@@ -1371,128 +1371,78 @@
           if (this.isPaused) {
             this.sessionStartTime = performance.now();
             this.isPaused = false;
+            this.logger.log("Session tracking resumed");
           }
         },
       },
       {
         key: "getTotalSessionDuration",
         value: function getTotalSessionDuration() {
-          var live =
-            !this.isPaused && this.sessionStartTime !== null
-              ? performance.now() - this.sessionStartTime
-              : 0;
-          return Math.round(this.totalActiveTime + live);
-        },
-        // Resolved once before VISIT — ensures identity is present in all events
-      },
-      {
-        key: "resolveIdentity",
-        value: (function () {
-          var _resolveIdentity = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee() {
-              var _yield$Promise$all, _yield$Promise$all2, fp, di, _t;
-              return _regenerator().w(
-                function (_context) {
-                  while (1)
-                    switch ((_context.p = _context.n)) {
-                      case 0:
-                        _context.p = 0;
-                        _context.n = 1;
-                        return Promise.all([
-                          this.fingerprintManager.getCustomFingerprint(),
-                          new DeviceInfoCollector({
-                            logger: this.logger,
-                          }).getDeviceInfo(),
-                        ]);
-                      case 1:
-                        _yield$Promise$all = _context.v;
-                        _yield$Promise$all2 = _slicedToArray(
-                          _yield$Promise$all,
-                          2,
-                        );
-                        fp = _yield$Promise$all2[0];
-                        di = _yield$Promise$all2[1];
-                        this.cachedFingerprint = fp || null;
-                        this.cachedDeviceInfo = di;
-                        _context.n = 3;
-                        break;
-                      case 2:
-                        _context.p = 2;
-                        _t = _context.v;
-                        this.logger.error("Failed to resolve identity", _t);
-                      case 3:
-                        return _context.a(2);
-                    }
-                },
-                _callee,
-                this,
-                [[0, 2]],
-              );
-            }),
-          );
-          function resolveIdentity() {
-            return _resolveIdentity.apply(this, arguments);
+          var currentSegmentTime = 0;
+          if (!this.isPaused && this.sessionStartTime !== null) {
+            currentSegmentTime = performance.now() - this.sessionStartTime;
           }
-          return resolveIdentity;
-        })(), // PRIMARY: visibilitychange (most reliable cross-browser signal)
-        // SECONDARY: pagehide with dedup guard
-        // TERTIARY: heartbeat while active (safety net)
+          return Math.round(this.totalActiveTime + currentSegmentTime);
+        },
       },
       {
-        key: "setupLifecycle",
-        value: function setupLifecycle() {
+        key: "setupVisibilityListener",
+        value: function setupVisibilityListener() {
           var _this = this;
           document.addEventListener("visibilitychange", function () {
             if (document.hidden) {
               _this.pauseSessionTracking();
-              _this.flushSessionEvent(true);
-            } else {
+            } else if (document.visibilityState === "visible") {
               _this.resumeSessionTracking();
             }
           });
-          // Guard: skip if visibilitychange already flushed within threshold
-          window.addEventListener("pagehide", function () {
-            if (Date.now() - _this.lastFlushTs < _this.FLUSH_GUARD_THRESHOLD_MS)
-              return;
-            _this.flushSessionEvent(true);
-          });
-          setInterval(function () {
-            if (!document.hidden) _this.flushSessionEvent(false);
-          }, this.HEARTBEAT_INTERVAL_MS);
         },
       },
       {
-        key: "setupNavigationObserver",
-        value: function setupNavigationObserver() {
+        key: "setupUnloadListener",
+        value: function setupUnloadListener() {
           var _this2 = this;
-          var onRouteChange = function onRouteChange() {
-            _this2.hasEngaged = true;
-            _this2.flushSessionEvent(false);
+          var handleUnload = function handleUnload() {
+            _this2.sendSessionTimeEvent({
+              isEngaged: _this2.hasEngaged,
+            });
           };
-          // Intercept pushState / replaceState — only reliable SPA route change signal
-          var originalPushState = history.pushState.bind(history);
-          var originalReplaceState = history.replaceState.bind(history);
-          history.pushState = function () {
-            originalPushState.apply(void 0, arguments);
-            onRouteChange();
-          };
-          history.replaceState = function () {
-            originalReplaceState.apply(void 0, arguments);
-            onRouteChange();
-          };
-          // popstate fires on browser back/forward — passive, no interception needed
-          window.addEventListener("popstate", onRouteChange);
+          // beforeunload for desktop browsers
+          window.addEventListener("beforeunload", handleUnload);
+          // pagehide for mobile Safari compatibility
+          window.addEventListener("pagehide", handleUnload);
+        },
+        // sendBeacon is the fallback for unreliable fetch on page unload
+      },
+      {
+        key: "sendBeaconFallback",
+        value: function sendBeaconFallback(endpoint, data) {
+          if (navigator.sendBeacon) {
+            var blob = new Blob([data], {
+              type: "application/json",
+            });
+            navigator.sendBeacon(endpoint, blob);
+          } else {
+            this.logger.error(
+              "Failed to send SESSION_DURATION event: no sendBeacon support",
+            );
+          }
         },
       },
       {
-        key: "flushSessionEvent",
-        value: function flushSessionEvent(useBeacon) {
+        key: "sendSessionTimeEvent",
+        value: function sendSessionTimeEvent() {
           var _this3 = this;
+          var additionalData =
+            arguments.length > 0 && arguments[0] !== undefined
+              ? arguments[0]
+              : {};
           var _b, _c;
           var duration = this.getTotalSessionDuration();
-          if (duration <= 0 || duration === this.latestSessionTimeEventSent)
-            return;
           var utmParams = this.getVisitSession();
+          if (duration <= 0 || duration === this.latestSessionTimeEventSent) {
+            return;
+          }
           try {
             var payload = _objectSpread2(
               _objectSpread2(
@@ -1519,60 +1469,38 @@
                       ? void 0
                       : _c.version
                   )
-                    ? "signalHash_" + this.cachedFingerprint.version
+                    ? "signalHash" + this.cachedFingerprint.version
                     : undefined,
                 },
                 this.cachedDeviceInfo,
               ),
               {},
               {
-                additionalData: {
-                  sessionDuration: duration - this.latestSessionTimeEventSent,
-                  totalSessionDuration: duration,
-                  isEngaged: this.hasEngaged,
-                },
+                additionalData: _objectSpread2(
+                  {
+                    sessionDuration: duration - this.latestSessionTimeEventSent,
+                    totalSessionDuration: duration,
+                  },
+                  additionalData,
+                ),
               },
             );
-            this.latestSessionTimeEventSent = duration;
-            this.lastFlushTs = Date.now();
             var endpoint = this.adTrackingEndpoint;
             var data = JSON.stringify(payload);
-            this.logger.log("Flushing SESSION_DURATION event: ".concat(data));
-            if (useBeacon && navigator.sendBeacon) {
-              var sent = navigator.sendBeacon(
-                endpoint,
-                new Blob([data], {
-                  type: "application/json",
-                }),
-              );
-              if (!sent) {
-                // Beacon queue full — fall back to keepalive fetch
-                fetch(endpoint, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: data,
-                  keepalive: true,
-                }).catch(function () {
-                  return _this3.logger.error(
-                    "SESSION_DURATION keepalive fetch failed",
-                  );
-                });
-              }
-            } else {
-              fetch(endpoint, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: data,
-              }).catch(function () {
-                return _this3.logger.error("SESSION_DURATION fetch failed");
-              });
-            }
+            this.latestSessionTimeEventSent = duration;
+            this.logger.log("Sending SESSION_DURATION event: ".concat(data));
+            fetch(endpoint, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: data,
+              keepalive: true,
+            }).catch(function () {
+              return _this3.sendBeaconFallback(endpoint, data);
+            });
           } catch (error) {
-            this.logger.error("Failed to flush session event", error);
+            this.logger.error("Failed to send SESSION_DURATION event", error);
           }
         },
       },
@@ -1591,39 +1519,43 @@
               utmParams.utm_campaign ||
               utmParams.utm_data
             ) {
+              // store the utmParams in localStorage for attribution, the expiration UTM_ATTRIBUTION_EXPIRATION_MS
+              var attributionData = _objectSpread2(
+                _objectSpread2({}, utmParams),
+                {},
+                {
+                  timestamp: Date.now(),
+                },
+              );
               localStorage.setItem(
                 this.UTM_LOCAL_STORAGE_KEY,
-                JSON.stringify(
-                  _objectSpread2(
-                    _objectSpread2({}, utmParams),
-                    {},
-                    {
-                      timestamp: Date.now(),
-                    },
-                  ),
-                ),
+                JSON.stringify(attributionData),
               );
               return utmParams;
-            }
-            var storedAttribution = localStorage.getItem(
-              this.UTM_LOCAL_STORAGE_KEY,
-            );
-            if (storedAttribution) {
-              var parsed = JSON.parse(storedAttribution);
-              if (
-                Date.now() - parsed.timestamp <
-                this.UTM_ATTRIBUTION_EXPIRATION_MS
-              ) {
-                this.logger.log("Using stored UTM attribution data");
-                return {
-                  utm_source: parsed.utm_source,
-                  utm_campaign: parsed.utm_campaign,
-                  utm_data: parsed.utm_data,
-                };
+            } else {
+              // return stored attribution data if available and not expired
+              var storedAttribution = localStorage.getItem(
+                this.UTM_LOCAL_STORAGE_KEY,
+              );
+              if (storedAttribution) {
+                var parsedAttribution = JSON.parse(storedAttribution);
+                var age = Date.now() - parsedAttribution.timestamp;
+                if (age < this.UTM_ATTRIBUTION_EXPIRATION_MS) {
+                  this.logger.log("Using stored UTM attribution data");
+                  return {
+                    utm_source: parsedAttribution.utm_source,
+                    utm_campaign: parsedAttribution.utm_campaign,
+                    utm_data: parsedAttribution.utm_data,
+                  };
+                } else {
+                  this.logger.log(
+                    "Stored UTM attribution data expired, clearing",
+                  );
+                  localStorage.removeItem(this.UTM_LOCAL_STORAGE_KEY);
+                }
               }
-              localStorage.removeItem(this.UTM_LOCAL_STORAGE_KEY);
+              return null;
             }
-            return null;
           } catch (error) {
             this.logger.error("Failed to extract UTM parameters", error);
             return null;
@@ -1666,7 +1598,9 @@
         value: function getVisitSession() {
           try {
             var storedParams = sessionStorage.getItem(this.UTM_STORAGE_KEY);
-            if (!storedParams) return null;
+            if (!storedParams) {
+              return null;
+            }
             return JSON.parse(storedParams);
           } catch (error) {
             this.logger.error("Failed to retrieve visit session", error);
@@ -1676,47 +1610,72 @@
         },
       },
       {
+        key: "setupRouteChangeListener",
+        value: function setupRouteChangeListener() {
+          var _this4 = this;
+          var originalPushState = history.pushState.bind(history);
+          var originalReplaceState = history.replaceState.bind(history);
+          history.pushState = function () {
+            originalPushState.apply(void 0, arguments);
+            if (_this4.isInitialized) {
+              _this4.hasEngaged = true;
+              _this4.sendSessionTimeEvent({
+                isEngaged: true,
+              });
+            }
+          };
+          history.replaceState = function () {
+            originalReplaceState.apply(void 0, arguments);
+            if (_this4.isInitialized) {
+              _this4.hasEngaged = true;
+              _this4.sendSessionTimeEvent({
+                isEngaged: true,
+              });
+            }
+          };
+          window.addEventListener("popstate", function () {
+            if (_this4.isInitialized) {
+              _this4.hasEngaged = true;
+              _this4.sendSessionTimeEvent({
+                isEngaged: true,
+              });
+            }
+          });
+        },
+      },
+      {
         key: "initialize",
         value: (function () {
           var _initialize = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee2(adTrackingUrl) {
+            /*#__PURE__*/ _regenerator().m(function _callee(adTrackingUrl) {
               return _regenerator().w(
-                function (_context2) {
+                function (_context) {
                   while (1)
-                    switch (_context2.n) {
+                    switch (_context.n) {
                       case 0:
                         if (!this.isInitialized) {
-                          _context2.n = 1;
+                          _context.n = 1;
                           break;
                         }
                         this.logger.log(
                           "Already initialized, skipping duplicate initialization",
                         );
-                        return _context2.a(2);
+                        return _context.a(2);
                       case 1:
-                        // Guard first — prevents re-entry if initialize() is called concurrently
-                        this.isInitialized = true;
                         this.adTrackingEndpoint = "".concat(
                           adTrackingUrl,
                           "/v2/ssp/analytics-event",
                         );
-                        this.startSessionTracking();
-                        this.setupLifecycle();
-                        // Await identity so VISIT payload includes device info and fingerprint
-                        _context2.n = 2;
-                        return this.resolveIdentity();
-                      case 2:
-                        _context2.n = 3;
+                        _context.n = 2;
                         return this.sendVisitEvent();
+                      case 2:
+                        this.setupRouteChangeListener();
+                        this.isInitialized = true;
                       case 3:
-                        // Set up navigation observer only after VISIT — prevents framework router
-                        // pushState calls during init from firing a premature SESSION_DURATION
-                        this.setupNavigationObserver();
-                      case 4:
-                        return _context2.a(2);
+                        return _context.a(2);
                     }
                 },
-                _callee2,
+                _callee,
                 this,
               );
             }),
@@ -1731,10 +1690,8 @@
   })();
   _a = AdvertiserUTMTracker;
   AdvertiserUTMTracker.UTM_STORAGE_KEY = "adgeist_utm_params";
-  AdvertiserUTMTracker.UTM_ATTRIBUTION_EXPIRATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+  AdvertiserUTMTracker.UTM_ATTRIBUTION_EXPIRATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 day
   AdvertiserUTMTracker.UTM_LOCAL_STORAGE_KEY = "adgeist_utm_attribution";
-  AdvertiserUTMTracker.HEARTBEAT_INTERVAL_MS = 30000;
-  AdvertiserUTMTracker.FLUSH_GUARD_THRESHOLD_MS = 200;
   AdvertiserUTMTracker.adTrackingEndpoint = "";
   AdvertiserUTMTracker.logger = new Logger({
     enableConsoleLogging: false,
@@ -1744,36 +1701,52 @@
   AdvertiserUTMTracker.cachedFingerprint = null;
   AdvertiserUTMTracker.cachedDeviceInfo = null;
   AdvertiserUTMTracker.fingerprintManager = new FingerprintManager();
-  // Session state
+  // Session tracking properties
   AdvertiserUTMTracker.sessionStartTime = null;
   AdvertiserUTMTracker.totalActiveTime = 0;
   AdvertiserUTMTracker.isPaused = false;
   AdvertiserUTMTracker.isInitialized = false;
   AdvertiserUTMTracker.hasEngaged = false;
   AdvertiserUTMTracker.latestSessionTimeEventSent = 0;
-  AdvertiserUTMTracker.lastFlushTs = 0;
   AdvertiserUTMTracker.sendEvent = /*#__PURE__*/ (function () {
     var _ref = _asyncToGenerator(
-      /*#__PURE__*/ _regenerator().m(function _callee3(eventType) {
+      /*#__PURE__*/ _regenerator().m(function _callee2(eventType) {
         var additionalData,
           _b,
           _c,
+          _d,
           utmParams,
+          deviceInfoCollector,
+          adgeistFingerprint,
+          deviceInfo,
           payload,
           response,
-          _args3 = arguments,
-          _t2;
+          _args2 = arguments,
+          _t;
         return _regenerator().w(
-          function (_context3) {
+          function (_context2) {
             while (1)
-              switch ((_context3.p = _context3.n)) {
+              switch ((_context2.p = _context2.n)) {
                 case 0:
                   additionalData =
-                    _args3.length > 1 && _args3[1] !== undefined
-                      ? _args3[1]
+                    _args2.length > 1 && _args2[1] !== undefined
+                      ? _args2[1]
                       : {};
-                  utmParams = _a.getVisitSession();
-                  _context3.p = 1;
+                  utmParams = _a.getVisitSession(); // if (!utmParams) return false;
+                  _context2.p = 1;
+                  deviceInfoCollector = new DeviceInfoCollector({
+                    logger: _a.logger,
+                  });
+                  _context2.n = 2;
+                  return _a.fingerprintManager.getCustomFingerprint();
+                case 2:
+                  adgeistFingerprint = _context2.v;
+                  _a.cachedFingerprint = adgeistFingerprint || null;
+                  _context2.n = 3;
+                  return deviceInfoCollector.getDeviceInfo();
+                case 3:
+                  deviceInfo = _context2.v;
+                  _a.cachedDeviceInfo = deviceInfo;
                   payload = _objectSpread2(
                     _objectSpread2(
                       {
@@ -1799,10 +1772,14 @@
                             ? void 0
                             : _c.version
                         )
-                          ? "signalHash" + _a.cachedFingerprint.version
+                          ? "signalHash" +
+                            ((_d = _a.cachedFingerprint) === null ||
+                            _d === void 0
+                              ? void 0
+                              : _d.version)
                           : undefined,
                       },
-                      _a.cachedDeviceInfo,
+                      deviceInfo,
                     ),
                     {},
                     {
@@ -1814,7 +1791,7 @@
                   _a.logger.log(
                     "Sending tracking event: " + JSON.stringify(payload),
                   );
-                  _context3.n = 2;
+                  _context2.n = 4;
                   return fetch(_a.adTrackingEndpoint, {
                     method: "POST",
                     headers: {
@@ -1822,27 +1799,27 @@
                     },
                     body: JSON.stringify(payload),
                   });
-                case 2:
-                  response = _context3.v;
+                case 4:
+                  response = _context2.v;
                   if (response.ok) {
-                    _context3.n = 3;
+                    _context2.n = 5;
                     break;
                   }
                   throw new Error(
                     "HTTP error! status: ".concat(response.status),
                   );
-                case 3:
-                  return _context3.a(2, true);
-                case 4:
-                  _context3.p = 4;
-                  _t2 = _context3.v;
-                  _a.logger.error("Failed to send UTM event", _t2);
-                  return _context3.a(2, false);
+                case 5:
+                  return _context2.a(2, true);
+                case 6:
+                  _context2.p = 6;
+                  _t = _context2.v;
+                  _a.logger.error("Failed to send UTM event", _t);
+                  return _context2.a(2, false);
               }
           },
-          _callee3,
+          _callee2,
           null,
-          [[1, 4]],
+          [[1, 6]],
         );
       }),
     );
@@ -1851,11 +1828,11 @@
     };
   })();
   AdvertiserUTMTracker.sendVisitEvent = /*#__PURE__*/ _asyncToGenerator(
-    /*#__PURE__*/ _regenerator().m(function _callee4() {
-      var attributionParams, session;
-      return _regenerator().w(function (_context4) {
+    /*#__PURE__*/ _regenerator().m(function _callee3() {
+      var attributionParams, session, success;
+      return _regenerator().w(function (_context3) {
         while (1)
-          switch (_context4.n) {
+          switch (_context3.n) {
             case 0:
               attributionParams = _a.resolveAttributionParams();
               session = _a.storeVisitSession(
@@ -1864,15 +1841,22 @@
                   : undefined,
               );
               if (!session) {
-                _context4.n = 1;
+                _context3.n = 2;
                 break;
               }
-              _context4.n = 1;
+              _context3.n = 1;
               return _a.sendEvent(ADVERTISER_CONVERSION_EVENTS.VISIT);
             case 1:
-              return _context4.a(2);
+              success = _context3.v;
+              if (success) {
+                _a.startSessionTracking();
+                _a.setupVisibilityListener();
+                _a.setupUnloadListener();
+              }
+            case 2:
+              return _context3.a(2);
           }
-      }, _callee4);
+      }, _callee3);
     }),
   );
 
