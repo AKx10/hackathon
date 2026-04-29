@@ -1392,6 +1392,14 @@
           document.addEventListener("visibilitychange", function () {
             if (document.hidden) {
               _this.pauseSessionTracking();
+              // Most reliable tab-close signal across all browsers — send here
+              // in case beforeunload/pagehide don't fire (common on mobile/Safari)
+              _this.sendSessionTimeEvent(
+                {
+                  isEngaged: _this.hasEngaged,
+                },
+                true,
+              );
             } else if (document.visibilityState === "visible") {
               _this.resumeSessionTracking();
             }
@@ -1431,7 +1439,7 @@
           var _b, _c, _d;
           var duration = this.getTotalSessionDuration();
           var utmParams = this.getVisitSession();
-          if (duration <= 0) {
+          if (duration <= 0 || duration === this.latestSessionTimeEventSent) {
             return;
           }
           try {
