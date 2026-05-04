@@ -14,7 +14,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         {children}
-        <Script src="/advertiser-sdk.js" strategy="beforeInteractive" />
+        <Script
+          src="https://cdn.adgeist.ai/adgeist-advertiser-sdk-beta.js"
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );
