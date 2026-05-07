@@ -52,16 +52,27 @@ export default function Home() {
 
         <div className="flex flex gap-3 items-center">
           <button
-            onClick={() => router.push("/ad")}
+            onClick={() => {
+              adgeistAdvertiser.trackConversionEvent("purchase", {
+                userName: "Akshay",
+                userEmail: "akshay@test.com",
+                amount: 1500,
+              });
+            }}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
           >
-            router.push('/')
+            Purchase
           </button>
           <button
-            onClick={() => router.replace("/ad")}
+            onClick={() => {
+              adgeistAdvertiser.trackConversionEvent("add_to_cart", {
+                userName: "Akshay",
+                userEmail: "akshay@test.com",
+              });
+            }}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
           >
-            router.replace('/')
+            Add to Cart
           </button>
 
           <a href="/ad">Anchor Navigation</a>

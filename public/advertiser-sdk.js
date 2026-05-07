@@ -1406,7 +1406,6 @@
         value: function setupUnloadListener() {
           var _this2 = this;
           var handleUnload = function handleUnload() {
-            if (Date.now() - _this2.lastSessionEventTs < 200) return;
             _this2.sendSessionTimeEvent({
               isEngaged: _this2.hasEngaged,
             });
@@ -1496,7 +1495,6 @@
             var endpoint = this.adTrackingEndpoint;
             var data = JSON.stringify(payload);
             this.latestSessionDurationEventSent = duration;
-            this.lastSessionEventTs = Date.now();
             this.logger.log("Sending SESSION_DURATION event: ".concat(data));
             fetch(endpoint, {
               method: "POST",
@@ -1717,11 +1715,11 @@
   AdvertiserUTMTracker.isInitialized = false;
   AdvertiserUTMTracker.hasEngaged = false;
   AdvertiserUTMTracker.latestSessionDurationEventSent = 0;
-  AdvertiserUTMTracker.lastSessionEventTs = 0;
   AdvertiserUTMTracker.sendEvent = /*#__PURE__*/ (function () {
     var _ref = _asyncToGenerator(
       /*#__PURE__*/ _regenerator().m(function _callee2(eventType) {
         var additionalData,
+          type,
           _b,
           _c,
           _d,
@@ -1742,6 +1740,10 @@
                     _args2.length > 1 && _args2[1] !== undefined
                       ? _args2[1]
                       : {};
+                  type =
+                    _args2.length > 2 && _args2[2] !== undefined
+                      ? _args2[2]
+                      : "analytical";
                   utmParams = _a.getVisitSession(); // if (!utmParams) return false;
                   _context2.p = 1;
                   deviceInfoCollector = new DeviceInfoCollector({
@@ -1793,9 +1795,16 @@
                     ),
                     {},
                     {
-                      additionalData: Object.keys(additionalData).length
-                        ? additionalData
-                        : undefined,
+                      additionalData:
+                        Object.keys(additionalData).length &&
+                        type === "analytical"
+                          ? additionalData
+                          : undefined,
+                      properties:
+                        Object.keys(additionalData).length &&
+                        type === "conversion"
+                          ? additionalData
+                          : undefined,
                     },
                   );
                   _a.logger.log(
@@ -1878,7 +1887,7 @@
           arguments.length > 1 && arguments[1] !== undefined
             ? arguments[1]
             : {};
-        return AdvertiserUTMTracker.sendEvent(eventType, payload);
+        return AdvertiserUTMTracker.sendEvent(eventType, payload, "conversion");
       },
       version: ADVERTISER_SDK_DEFAULTS.VERSION,
     };
