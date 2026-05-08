@@ -1802,7 +1802,7 @@
                           : Object.keys(additionalData).length &&
                               type === "conversion"
                             ? {
-                                isEngaged: _a.hasEngaged,
+                                isEngaged: true,
                               }
                             : undefined,
                       properties:
