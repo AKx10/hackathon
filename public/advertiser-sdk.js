@@ -1778,7 +1778,7 @@
                           sessionDuration:
                             duration - _a.latestSessionDurationEventSent,
                           totalSessionDuration: duration,
-                          isEngaged: _a.hasEngaged,
+                          isEngaged: true,
                         },
                         properties: Object.keys(properties).length
                           ? properties
@@ -1834,7 +1834,6 @@
     var _ref2 = _asyncToGenerator(
       /*#__PURE__*/ _regenerator().m(function _callee3(eventType) {
         var additionalData,
-          type,
           _b,
           _c,
           _d,
@@ -1855,10 +1854,6 @@
                     _args3.length > 1 && _args3[1] !== undefined
                       ? _args3[1]
                       : {};
-                  type =
-                    _args3.length > 2 && _args3[2] !== undefined
-                      ? _args3[2]
-                      : "analytical";
                   utmParams = _a.getVisitSession(); // if (!utmParams) return false;
                   _context3.p = 1;
                   deviceInfoCollector = new DeviceInfoCollector({
@@ -1910,11 +1905,9 @@
                     ),
                     {},
                     {
-                      additionalData:
-                        Object.keys(additionalData).length &&
-                        type === "analytical"
-                          ? additionalData
-                          : undefined,
+                      additionalData: Object.keys(additionalData).length
+                        ? additionalData
+                        : undefined,
                     },
                   );
                   _a.logger.log(
