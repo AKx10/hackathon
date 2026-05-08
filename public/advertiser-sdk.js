@@ -1799,7 +1799,12 @@
                         Object.keys(additionalData).length &&
                         type === "analytical"
                           ? additionalData
-                          : undefined,
+                          : Object.keys(additionalData).length &&
+                              type === "conversion"
+                            ? {
+                                isEngaged: _a.hasEngaged,
+                              }
+                            : undefined,
                       properties:
                         Object.keys(additionalData).length &&
                         type === "conversion"
