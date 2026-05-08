@@ -393,7 +393,7 @@
       if ("object" != typeof i) return i;
       throw new TypeError("@@toPrimitive must return a primitive value.");
     }
-    return ("string" === r ? String : Number)(t);
+    return String(t);
   }
   function _toPropertyKey(t) {
     var i = _toPrimitive(t, "string");
@@ -1715,125 +1715,11 @@
   AdvertiserUTMTracker.isInitialized = false;
   AdvertiserUTMTracker.hasEngaged = false;
   AdvertiserUTMTracker.latestSessionDurationEventSent = 0;
-  AdvertiserUTMTracker.sendConversationTrackingEvent =
-    /*#__PURE__*/ (function () {
-      var _ref = _asyncToGenerator(
-        /*#__PURE__*/ _regenerator().m(function _callee2(type) {
-          var properties,
-            _b,
-            _c,
-            duration,
-            utmParams,
-            payload,
-            response,
-            _args2 = arguments,
-            _t;
-          return _regenerator().w(
-            function (_context2) {
-              while (1)
-                switch ((_context2.p = _context2.n)) {
-                  case 0:
-                    properties =
-                      _args2.length > 1 && _args2[1] !== undefined
-                        ? _args2[1]
-                        : {};
-                    duration = _a.getTotalSessionDuration();
-                    utmParams = _a.getVisitSession();
-                    _context2.p = 1;
-                    payload = _objectSpread2(
-                      _objectSpread2(
-                        {
-                          platform: "WEB",
-                          metaData:
-                            utmParams === null || utmParams === void 0
-                              ? void 0
-                              : utmParams.utm_data,
-                          flowId:
-                            utmParams === null || utmParams === void 0
-                              ? void 0
-                              : utmParams.sessionId,
-                          type: type,
-                          origin: window.location.origin,
-                          pageUrl: window.location.href,
-                          userAgent: navigator.userAgent,
-                          deviceFingerPrint:
-                            ((_b = _a.cachedFingerprint) === null ||
-                            _b === void 0
-                              ? void 0
-                              : _b.visitorId) || undefined,
-                          fingerPrintType: (
-                            (_c = _a.cachedFingerprint) === null ||
-                            _c === void 0
-                              ? void 0
-                              : _c.version
-                          )
-                            ? "signalHash" + _a.cachedFingerprint.version
-                            : undefined,
-                        },
-                        _a.cachedDeviceInfo,
-                      ),
-                      {},
-                      {
-                        additionalData: {
-                          sessionDuration:
-                            duration - _a.latestSessionDurationEventSent,
-                          totalSessionDuration: duration,
-                          isEngaged: true,
-                        },
-                        properties: Object.keys(properties).length
-                          ? properties
-                          : undefined,
-                      },
-                    );
-                    _a.logger.log(
-                      "Sending CONVERSION_TRACKING event: ".concat(
-                        JSON.stringify(payload),
-                      ),
-                    );
-                    _context2.n = 2;
-                    return fetch(_a.adTrackingEndpoint, {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify(payload),
-                      keepalive: true,
-                    });
-                  case 2:
-                    response = _context2.v;
-                    if (response.ok) {
-                      _context2.n = 3;
-                      break;
-                    }
-                    throw new Error(
-                      "HTTP error! status: ".concat(response.status),
-                    );
-                  case 3:
-                    return _context2.a(2, true);
-                  case 4:
-                    _context2.p = 4;
-                    _t = _context2.v;
-                    _a.logger.error(
-                      "Failed to send CONVERSION_TRACKING event",
-                      _t,
-                    );
-                    return _context2.a(2, false);
-                }
-            },
-            _callee2,
-            null,
-            [[1, 4]],
-          );
-        }),
-      );
-      return function (_x2) {
-        return _ref.apply(this, arguments);
-      };
-    })();
   AdvertiserUTMTracker.sendEvent = /*#__PURE__*/ (function () {
-    var _ref2 = _asyncToGenerator(
-      /*#__PURE__*/ _regenerator().m(function _callee3(eventType) {
+    var _ref = _asyncToGenerator(
+      /*#__PURE__*/ _regenerator().m(function _callee2(eventType) {
         var additionalData,
+          type,
           _b,
           _c,
           _d,
@@ -1843,32 +1729,39 @@
           deviceInfo,
           payload,
           response,
-          _args3 = arguments,
-          _t2;
+          _args2 = arguments,
+          _t;
         return _regenerator().w(
-          function (_context3) {
+          function (_context2) {
             while (1)
-              switch ((_context3.p = _context3.n)) {
+              switch ((_context2.p = _context2.n)) {
                 case 0:
                   additionalData =
-                    _args3.length > 1 && _args3[1] !== undefined
-                      ? _args3[1]
+                    _args2.length > 1 && _args2[1] !== undefined
+                      ? _args2[1]
                       : {};
+                  type =
+                    _args2.length > 2 && _args2[2] !== undefined
+                      ? _args2[2]
+                      : "analytical";
                   utmParams = _a.getVisitSession(); // if (!utmParams) return false;
-                  _context3.p = 1;
+                  _context2.p = 1;
                   deviceInfoCollector = new DeviceInfoCollector({
                     logger: _a.logger,
                   });
-                  _context3.n = 2;
+                  _context2.n = 2;
                   return _a.fingerprintManager.getCustomFingerprint();
                 case 2:
-                  adgeistFingerprint = _context3.v;
+                  adgeistFingerprint = _context2.v;
                   _a.cachedFingerprint = adgeistFingerprint || null;
-                  _context3.n = 3;
+                  _context2.n = 3;
                   return deviceInfoCollector.getDeviceInfo();
                 case 3:
-                  deviceInfo = _context3.v;
+                  deviceInfo = _context2.v;
                   _a.cachedDeviceInfo = deviceInfo;
+                  if (type === "conversion") {
+                    _a.hasEngaged = true;
+                  }
                   payload = _objectSpread2(
                     _objectSpread2(
                       {
@@ -1905,15 +1798,22 @@
                     ),
                     {},
                     {
-                      additionalData: Object.keys(additionalData).length
-                        ? additionalData
-                        : undefined,
+                      additionalData:
+                        Object.keys(additionalData).length &&
+                        type === "analytical"
+                          ? additionalData
+                          : undefined,
+                      properties:
+                        Object.keys(additionalData).length &&
+                        type === "conversion"
+                          ? additionalData
+                          : undefined,
                     },
                   );
                   _a.logger.log(
                     "Sending tracking event: " + JSON.stringify(payload),
                   );
-                  _context3.n = 4;
+                  _context2.n = 4;
                   return fetch(_a.adTrackingEndpoint, {
                     method: "POST",
                     headers: {
@@ -1922,39 +1822,39 @@
                     body: JSON.stringify(payload),
                   });
                 case 4:
-                  response = _context3.v;
+                  response = _context2.v;
                   if (response.ok) {
-                    _context3.n = 5;
+                    _context2.n = 5;
                     break;
                   }
                   throw new Error(
                     "HTTP error! status: ".concat(response.status),
                   );
                 case 5:
-                  return _context3.a(2, true);
+                  return _context2.a(2, true);
                 case 6:
-                  _context3.p = 6;
-                  _t2 = _context3.v;
-                  _a.logger.error("Failed to send UTM event", _t2);
-                  return _context3.a(2, false);
+                  _context2.p = 6;
+                  _t = _context2.v;
+                  _a.logger.error("Failed to send UTM event", _t);
+                  return _context2.a(2, false);
               }
           },
-          _callee3,
+          _callee2,
           null,
           [[1, 6]],
         );
       }),
     );
-    return function (_x3) {
-      return _ref2.apply(this, arguments);
+    return function (_x2) {
+      return _ref.apply(this, arguments);
     };
   })();
   AdvertiserUTMTracker.sendVisitEvent = /*#__PURE__*/ _asyncToGenerator(
-    /*#__PURE__*/ _regenerator().m(function _callee4() {
+    /*#__PURE__*/ _regenerator().m(function _callee3() {
       var attributionParams, session, success;
-      return _regenerator().w(function (_context4) {
+      return _regenerator().w(function (_context3) {
         while (1)
-          switch (_context4.n) {
+          switch (_context3.n) {
             case 0:
               attributionParams = _a.resolveAttributionParams();
               session = _a.storeVisitSession(
@@ -1963,22 +1863,22 @@
                   : undefined,
               );
               if (!session) {
-                _context4.n = 2;
+                _context3.n = 2;
                 break;
               }
-              _context4.n = 1;
+              _context3.n = 1;
               return _a.sendEvent(ADVERTISER_CONVERSION_EVENTS.VISIT);
             case 1:
-              success = _context4.v;
+              success = _context3.v;
               if (success) {
                 _a.startSessionTracking();
                 _a.setupVisibilityListener();
                 _a.setupUnloadListener();
               }
             case 2:
-              return _context4.a(2);
+              return _context3.a(2);
           }
-      }, _callee4);
+      }, _callee3);
     }),
   );
 
@@ -1990,10 +1890,7 @@
           arguments.length > 1 && arguments[1] !== undefined
             ? arguments[1]
             : {};
-        return AdvertiserUTMTracker.sendConversationTrackingEvent(
-          eventType,
-          payload,
-        );
+        return AdvertiserUTMTracker.sendEvent(eventType, payload, "conversion");
       },
       version: ADVERTISER_SDK_DEFAULTS.VERSION,
     };
