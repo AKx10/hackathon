@@ -1231,7 +1231,7 @@
                               return null;
                             }
                           })(),
-                          architecture:
+                          coreArchitecture:
                             (architecture === null || architecture === void 0
                               ? void 0
                               : architecture.toUpperCase()) || null,
