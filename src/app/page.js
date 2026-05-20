@@ -75,6 +75,16 @@ export default function Home() {
             Add to Cart
           </button>
 
+          <button
+            onClick={() => {
+              adgeistAdvertiser.trackConversionEvent("route_to_ad_page");
+              router.push("/ad");
+            }}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+          >
+            GO to Ad Page
+          </button>
+
           <a href="/ad">Anchor Navigation</a>
           <a href="/ad">Anchor #</a>
         </div>
