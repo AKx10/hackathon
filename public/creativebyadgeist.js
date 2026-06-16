@@ -1,760 +1,604 @@
-(function (global, factory) {
-  typeof exports === "object" && typeof module !== "undefined"
-    ? (module.exports = factory())
-    : typeof define === "function" && define.amd
-      ? define(factory)
-      : ((global =
-          typeof globalThis !== "undefined" ? globalThis : global || self),
-        (global.AdgeistSDK = factory()));
+/*! Adgeist Publisher SDK | Copyright (c) 2026 The Alter Office. All Rights Reserved. | Proprietary and confidential. */
+!(function (e, t) {
+  "object" == typeof exports && "undefined" != typeof module
+    ? (module.exports = t())
+    : "function" == typeof define && define.amd
+      ? define(t)
+      : ((e = "undefined" != typeof globalThis ? globalThis : e || self),
+        (e.AdgeistSDK = t()));
 })(this, function () {
   "use strict";
-
-  function _arrayLikeToArray(r, a) {
-    (null == a || a > r.length) && (a = r.length);
-    for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
-    return n;
+  function e(e, t) {
+    (null == t || t > e.length) && (t = e.length);
+    for (var n = 0, i = Array(t); n < t; n++) i[n] = e[n];
+    return i;
   }
-  function _arrayWithHoles(r) {
-    if (Array.isArray(r)) return r;
+  function t(e) {
+    if (Array.isArray(e)) return e;
   }
-  function _arrayWithoutHoles(r) {
-    if (Array.isArray(r)) return _arrayLikeToArray(r);
+  function n(t) {
+    if (Array.isArray(t)) return e(t);
   }
-  function _assertThisInitialized(e) {
+  function i(e) {
     if (void 0 === e)
       throw new ReferenceError(
         "this hasn't been initialised - super() hasn't been called",
       );
     return e;
   }
-  function asyncGeneratorStep(n, t, e, r, o, a, c) {
+  function r(e, t, n, i, r, a, o) {
     try {
-      var i = n[a](c),
-        u = i.value;
-    } catch (n) {
-      return void e(n);
+      var s = e[a](o),
+        l = s.value;
+    } catch (e) {
+      return void n(e);
     }
-    i.done ? t(u) : Promise.resolve(u).then(r, o);
+    s.done ? t(l) : Promise.resolve(l).then(i, r);
   }
-  function _asyncToGenerator(n) {
+  function a(e) {
     return function () {
       var t = this,
-        e = arguments;
-      return new Promise(function (r, o) {
-        var a = n.apply(t, e);
-        function _next(n) {
-          asyncGeneratorStep(a, r, o, _next, _throw, "next", n);
+        n = arguments;
+      return new Promise(function (i, a) {
+        var o = e.apply(t, n);
+        function s(e) {
+          r(o, i, a, s, l, "next", e);
         }
-        function _throw(n) {
-          asyncGeneratorStep(a, r, o, _next, _throw, "throw", n);
+        function l(e) {
+          r(o, i, a, s, l, "throw", e);
         }
-        _next(void 0);
+        s(void 0);
       });
     };
   }
-  function _callSuper(t, o, e) {
+  function o(e, t, n) {
     return (
-      (o = _getPrototypeOf(o)),
-      _possibleConstructorReturn(
-        t,
-        _isNativeReflectConstruct()
-          ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor)
-          : o.apply(t, e),
+      (t = v(t)),
+      k(
+        e,
+        h() ? Reflect.construct(t, n || [], v(e).constructor) : t.apply(e, n),
       )
     );
   }
-  function _classCallCheck(a, n) {
-    if (!(a instanceof n))
+  function s(e, t) {
+    if (!(e instanceof t))
       throw new TypeError("Cannot call a class as a function");
   }
-  function _defineProperties(e, r) {
-    for (var t = 0; t < r.length; t++) {
-      var o = r[t];
-      ((o.enumerable = o.enumerable || false),
-        (o.configurable = true),
-        "value" in o && (o.writable = true),
-        Object.defineProperty(e, _toPropertyKey(o.key), o));
+  function l(e, t) {
+    for (var n = 0; n < t.length; n++) {
+      var i = t[n];
+      ((i.enumerable = i.enumerable || !1),
+        (i.configurable = !0),
+        "value" in i && (i.writable = !0),
+        Object.defineProperty(e, C(i.key), i));
     }
   }
-  function _createClass(e, r, t) {
+  function c(e, t, n) {
     return (
-      r && _defineProperties(e.prototype, r),
-      t && _defineProperties(e, t),
-      Object.defineProperty(e, "prototype", {
-        writable: false,
-      }),
+      t && l(e.prototype, t),
+      n && l(e, n),
+      Object.defineProperty(e, "prototype", { writable: !1 }),
       e
     );
   }
-  function _createForOfIteratorHelper(r, e) {
-    var t =
-      ("undefined" != typeof Symbol && r[Symbol.iterator]) || r["@@iterator"];
-    if (!t) {
-      if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e) {
-        t && (r = t);
-        var n = 0,
-          F = function () {};
+  function d(e, t) {
+    var n =
+      ("undefined" != typeof Symbol && e[Symbol.iterator]) || e["@@iterator"];
+    if (!n) {
+      if (Array.isArray(e) || (n = P(e)) || t) {
+        n && (e = n);
+        var i = 0,
+          r = function () {};
         return {
-          s: F,
+          s: r,
           n: function () {
-            return n >= r.length
-              ? {
-                  done: true,
-                }
-              : {
-                  done: false,
-                  value: r[n++],
-                };
+            return i >= e.length ? { done: !0 } : { done: !1, value: e[i++] };
           },
-          e: function (r) {
-            throw r;
+          e: function (e) {
+            throw e;
           },
-          f: F,
+          f: r,
         };
       }
       throw new TypeError(
         "Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
       );
     }
-    var o,
-      a = true,
-      u = false;
+    var a,
+      o = !0,
+      s = !1;
     return {
       s: function () {
-        t = t.call(r);
+        n = n.call(e);
       },
       n: function () {
-        var r = t.next();
-        return ((a = r.done), r);
+        var e = n.next();
+        return ((o = e.done), e);
       },
-      e: function (r) {
-        ((u = true), (o = r));
+      e: function (e) {
+        ((s = !0), (a = e));
       },
       f: function () {
         try {
-          a || null == t.return || t.return();
+          o || null == n.return || n.return();
         } finally {
-          if (u) throw o;
+          if (s) throw a;
         }
       },
     };
   }
-  function _defineProperty(e, r, t) {
+  function u(e, t, n) {
     return (
-      (r = _toPropertyKey(r)) in e
-        ? Object.defineProperty(e, r, {
-            value: t,
-            enumerable: true,
-            configurable: true,
-            writable: true,
+      (t = C(t)) in e
+        ? Object.defineProperty(e, t, {
+            value: n,
+            enumerable: !0,
+            configurable: !0,
+            writable: !0,
           })
-        : (e[r] = t),
+        : (e[t] = n),
       e
     );
   }
-  function _getPrototypeOf(t) {
+  function v(e) {
     return (
-      (_getPrototypeOf = Object.setPrototypeOf
+      (v = Object.setPrototypeOf
         ? Object.getPrototypeOf.bind()
-        : function (t) {
-            return t.__proto__ || Object.getPrototypeOf(t);
+        : function (e) {
+            return e.__proto__ || Object.getPrototypeOf(e);
           }),
-      _getPrototypeOf(t)
+      v(e)
     );
   }
-  function _inherits(t, e) {
-    if ("function" != typeof e && null !== e)
+  function p(e, t) {
+    if ("function" != typeof t && null !== t)
       throw new TypeError("Super expression must either be null or a function");
-    ((t.prototype = Object.create(e && e.prototype, {
-      constructor: {
-        value: t,
-        writable: true,
-        configurable: true,
-      },
+    ((e.prototype = Object.create(t && t.prototype, {
+      constructor: { value: e, writable: !0, configurable: !0 },
     })),
-      Object.defineProperty(t, "prototype", {
-        writable: false,
-      }),
-      e && _setPrototypeOf(t, e));
+      Object.defineProperty(e, "prototype", { writable: !1 }),
+      t && E(e, t));
   }
-  function _isNativeReflectConstruct() {
+  function h() {
     try {
-      var t = !Boolean.prototype.valueOf.call(
+      var e = !Boolean.prototype.valueOf.call(
         Reflect.construct(Boolean, [], function () {}),
       );
-    } catch (t) {}
-    return (_isNativeReflectConstruct = function () {
-      return !!t;
+    } catch (e) {}
+    return (h = function () {
+      return !!e;
     })();
   }
-  function _iterableToArray(r) {
+  function g(e) {
     if (
-      ("undefined" != typeof Symbol && null != r[Symbol.iterator]) ||
-      null != r["@@iterator"]
+      ("undefined" != typeof Symbol && null != e[Symbol.iterator]) ||
+      null != e["@@iterator"]
     )
-      return Array.from(r);
+      return Array.from(e);
   }
-  function _iterableToArrayLimit(r, l) {
-    var t =
-      null == r
+  function f(e, t) {
+    var n =
+      null == e
         ? null
-        : ("undefined" != typeof Symbol && r[Symbol.iterator]) ||
-          r["@@iterator"];
-    if (null != t) {
-      var e,
-        n,
-        i,
-        u,
-        a = [],
-        f = true,
-        o = false;
+        : ("undefined" != typeof Symbol && e[Symbol.iterator]) ||
+          e["@@iterator"];
+    if (null != n) {
+      var i,
+        r,
+        a,
+        o,
+        s = [],
+        l = !0,
+        c = !1;
       try {
-        if (((i = (t = t.call(r)).next), 0 === l)) {
-          if (Object(t) !== t) return;
-          f = !1;
+        if (((a = (n = n.call(e)).next), 0 === t)) {
+          if (Object(n) !== n) return;
+          l = !1;
         } else
           for (
             ;
-            !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l);
-            f = !0
+            !(l = (i = a.call(n)).done) && (s.push(i.value), s.length !== t);
+            l = !0
           );
-      } catch (r) {
-        ((o = true), (n = r));
+      } catch (e) {
+        ((c = !0), (r = e));
       } finally {
         try {
-          if (!f && null != t.return && ((u = t.return()), Object(u) !== u))
+          if (!l && null != n.return && ((o = n.return()), Object(o) !== o))
             return;
         } finally {
-          if (o) throw n;
+          if (c) throw r;
         }
       }
-      return a;
+      return s;
     }
   }
-  function _nonIterableRest() {
+  function m() {
     throw new TypeError(
       "Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
     );
   }
-  function _nonIterableSpread() {
+  function y() {
     throw new TypeError(
       "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
     );
   }
-  function ownKeys(e, r) {
-    var t = Object.keys(e);
+  function b(e, t) {
+    var n = Object.keys(e);
     if (Object.getOwnPropertySymbols) {
-      var o = Object.getOwnPropertySymbols(e);
-      (r &&
-        (o = o.filter(function (r) {
-          return Object.getOwnPropertyDescriptor(e, r).enumerable;
+      var i = Object.getOwnPropertySymbols(e);
+      (t &&
+        (i = i.filter(function (t) {
+          return Object.getOwnPropertyDescriptor(e, t).enumerable;
         })),
-        t.push.apply(t, o));
+        n.push.apply(n, i));
     }
-    return t;
+    return n;
   }
-  function _objectSpread2(e) {
-    for (var r = 1; r < arguments.length; r++) {
-      var t = null != arguments[r] ? arguments[r] : {};
-      r % 2
-        ? ownKeys(Object(t), true).forEach(function (r) {
-            _defineProperty(e, r, t[r]);
+  function w(e) {
+    for (var t = 1; t < arguments.length; t++) {
+      var n = null != arguments[t] ? arguments[t] : {};
+      t % 2
+        ? b(Object(n), !0).forEach(function (t) {
+            u(e, t, n[t]);
           })
         : Object.getOwnPropertyDescriptors
-          ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
-          : ownKeys(Object(t)).forEach(function (r) {
+          ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n))
+          : b(Object(n)).forEach(function (t) {
               Object.defineProperty(
                 e,
-                r,
-                Object.getOwnPropertyDescriptor(t, r),
+                t,
+                Object.getOwnPropertyDescriptor(n, t),
               );
             });
     }
     return e;
   }
-  function _possibleConstructorReturn(t, e) {
-    if (e && ("object" == typeof e || "function" == typeof e)) return e;
-    if (void 0 !== e)
+  function k(e, t) {
+    if (t && ("object" == typeof t || "function" == typeof t)) return t;
+    if (void 0 !== t)
       throw new TypeError(
         "Derived constructors may only return object or undefined",
       );
-    return _assertThisInitialized(t);
+    return i(e);
   }
-  function _regenerator() {
+  function x() {
     /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */
     var e,
       t,
-      r = "function" == typeof Symbol ? Symbol : {},
-      n = r.iterator || "@@iterator",
-      o = r.toStringTag || "@@toStringTag";
-    function i(r, n, o, i) {
-      var c = n && n.prototype instanceof Generator ? n : Generator,
-        u = Object.create(c.prototype);
+      n = "function" == typeof Symbol ? Symbol : {},
+      i = n.iterator || "@@iterator",
+      r = n.toStringTag || "@@toStringTag";
+    function a(n, i, r, a) {
+      var l = i && i.prototype instanceof s ? i : s,
+        c = Object.create(l.prototype);
       return (
-        _regeneratorDefine(
-          u,
+        T(
+          c,
           "_invoke",
-          (function (r, n, o) {
-            var i,
-              c,
-              u,
-              f = 0,
-              p = o || [],
-              y = false,
-              G = {
+          (function (n, i, r) {
+            var a,
+              s,
+              l,
+              c = 0,
+              d = r || [],
+              u = !1,
+              v = {
                 p: 0,
                 n: 0,
                 v: e,
-                a: d,
-                f: d.bind(e, 4),
-                d: function (t, r) {
-                  return ((i = t), (c = 0), (u = e), (G.n = r), a);
+                a: p,
+                f: p.bind(e, 4),
+                d: function (t, n) {
+                  return ((a = t), (s = 0), (l = e), (v.n = n), o);
                 },
               };
-            function d(r, n) {
-              for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {
-                var o,
-                  i = p[t],
-                  d = G.p,
-                  l = i[2];
-                r > 3
-                  ? (o = l === n) &&
-                    ((u = i[(c = i[4]) ? 5 : ((c = 3), 3)]), (i[4] = i[5] = e))
-                  : i[0] <= d &&
-                    ((o = r < 2 && d < i[1])
-                      ? ((c = 0), (G.v = n), (G.n = i[1]))
-                      : d < l &&
-                        (o = r < 3 || i[0] > n || n > l) &&
-                        ((i[4] = r), (i[5] = n), (G.n = l), (c = 0)));
+            function p(n, i) {
+              for (s = n, l = i, t = 0; !u && c && !r && t < d.length; t++) {
+                var r,
+                  a = d[t],
+                  p = v.p,
+                  h = a[2];
+                n > 3
+                  ? (r = h === i) &&
+                    ((l = a[(s = a[4]) ? 5 : ((s = 3), 3)]), (a[4] = a[5] = e))
+                  : a[0] <= p &&
+                    ((r = n < 2 && p < a[1])
+                      ? ((s = 0), (v.v = i), (v.n = a[1]))
+                      : p < h &&
+                        (r = n < 3 || a[0] > i || i > h) &&
+                        ((a[4] = n), (a[5] = i), (v.n = h), (s = 0)));
               }
-              if (o || r > 1) return a;
-              throw ((y = true), n);
+              if (r || n > 1) return o;
+              throw ((u = !0), i);
             }
-            return function (o, p, l) {
-              if (f > 1) throw TypeError("Generator is already running");
+            return function (r, d, h) {
+              if (c > 1) throw TypeError("Generator is already running");
               for (
-                y && 1 === p && d(p, l), c = p, u = l;
-                (t = c < 2 ? e : u) || !y;
+                u && 1 === d && p(d, h), s = d, l = h;
+                (t = s < 2 ? e : l) || !u;
               ) {
-                i ||
-                  (c
-                    ? c < 3
-                      ? (c > 1 && (G.n = -1), d(c, u))
-                      : (G.n = u)
-                    : (G.v = u));
+                a ||
+                  (s
+                    ? s < 3
+                      ? (s > 1 && (v.n = -1), p(s, l))
+                      : (v.n = l)
+                    : (v.v = l));
                 try {
-                  if (((f = 2), i)) {
-                    if ((c || (o = "next"), (t = i[o]))) {
-                      if (!(t = t.call(i, u)))
+                  if (((c = 2), a)) {
+                    if ((s || (r = "next"), (t = a[r]))) {
+                      if (!(t = t.call(a, l)))
                         throw TypeError("iterator result is not an object");
                       if (!t.done) return t;
-                      ((u = t.value), c < 2 && (c = 0));
+                      ((l = t.value), s < 2 && (s = 0));
                     } else
-                      (1 === c && (t = i.return) && t.call(i),
-                        c < 2 &&
-                          ((u = TypeError(
+                      (1 === s && (t = a.return) && t.call(a),
+                        s < 2 &&
+                          ((l = TypeError(
                             "The iterator does not provide a '" +
-                              o +
+                              r +
                               "' method",
                           )),
-                          (c = 1)));
-                    i = e;
-                  } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a)
+                          (s = 1)));
+                    a = e;
+                  } else if ((t = (u = v.n < 0) ? l : n.call(i, v)) !== o)
                     break;
                 } catch (t) {
-                  ((i = e), (c = 1), (u = t));
+                  ((a = e), (s = 1), (l = t));
                 } finally {
-                  f = 1;
+                  c = 1;
                 }
               }
-              return {
-                value: t,
-                done: y,
-              };
+              return { value: t, done: u };
             };
-          })(r, o, i),
-          true,
+          })(n, r, a),
+          !0,
         ),
-        u
+        c
       );
     }
-    var a = {};
-    function Generator() {}
-    function GeneratorFunction() {}
-    function GeneratorFunctionPrototype() {}
+    var o = {};
+    function s() {}
+    function l() {}
+    function c() {}
     t = Object.getPrototypeOf;
-    var c = [][n]
-        ? t(t([][n]()))
-        : (_regeneratorDefine((t = {}), n, function () {
+    var d = [][i]
+        ? t(t([][i]()))
+        : (T((t = {}), i, function () {
             return this;
           }),
           t),
-      u =
-        (GeneratorFunctionPrototype.prototype =
-        Generator.prototype =
-          Object.create(c));
-    function f(e) {
+      u = (c.prototype = s.prototype = Object.create(d));
+    function v(e) {
       return (
         Object.setPrototypeOf
-          ? Object.setPrototypeOf(e, GeneratorFunctionPrototype)
-          : ((e.__proto__ = GeneratorFunctionPrototype),
-            _regeneratorDefine(e, o, "GeneratorFunction")),
+          ? Object.setPrototypeOf(e, c)
+          : ((e.__proto__ = c), T(e, r, "GeneratorFunction")),
         (e.prototype = Object.create(u)),
         e
       );
     }
     return (
-      (GeneratorFunction.prototype = GeneratorFunctionPrototype),
-      _regeneratorDefine(u, "constructor", GeneratorFunctionPrototype),
-      _regeneratorDefine(
-        GeneratorFunctionPrototype,
-        "constructor",
-        GeneratorFunction,
-      ),
-      (GeneratorFunction.displayName = "GeneratorFunction"),
-      _regeneratorDefine(GeneratorFunctionPrototype, o, "GeneratorFunction"),
-      _regeneratorDefine(u),
-      _regeneratorDefine(u, o, "Generator"),
-      _regeneratorDefine(u, n, function () {
+      (l.prototype = c),
+      T(u, "constructor", c),
+      T(c, "constructor", l),
+      (l.displayName = "GeneratorFunction"),
+      T(c, r, "GeneratorFunction"),
+      T(u),
+      T(u, r, "Generator"),
+      T(u, i, function () {
         return this;
       }),
-      _regeneratorDefine(u, "toString", function () {
+      T(u, "toString", function () {
         return "[object Generator]";
       }),
-      (_regenerator = function () {
-        return {
-          w: i,
-          m: f,
-        };
+      (x = function () {
+        return { w: a, m: v };
       })()
     );
   }
-  function _regeneratorDefine(e, r, n, t) {
-    var i = Object.defineProperty;
+  function T(e, t, n, i) {
+    var r = Object.defineProperty;
     try {
-      i({}, "", {});
+      r({}, "", {});
     } catch (e) {
-      i = 0;
+      r = 0;
     }
-    ((_regeneratorDefine = function (e, r, n, t) {
-      function o(r, n) {
-        _regeneratorDefine(e, r, function (e) {
-          return this._invoke(r, n, e);
+    ((T = function (e, t, n, i) {
+      function a(t, n) {
+        T(e, t, function (e) {
+          return this._invoke(t, n, e);
         });
       }
-      r
-        ? i
-          ? i(e, r, {
+      t
+        ? r
+          ? r(e, t, {
               value: n,
-              enumerable: !t,
-              configurable: !t,
-              writable: !t,
+              enumerable: !i,
+              configurable: !i,
+              writable: !i,
             })
-          : (e[r] = n)
-        : (o("next", 0), o("throw", 1), o("return", 2));
+          : (e[t] = n)
+        : (a("next", 0), a("throw", 1), a("return", 2));
     }),
-      _regeneratorDefine(e, r, n, t));
+      T(e, t, n, i));
   }
-  function _setPrototypeOf(t, e) {
+  function E(e, t) {
     return (
-      (_setPrototypeOf = Object.setPrototypeOf
+      (E = Object.setPrototypeOf
         ? Object.setPrototypeOf.bind()
-        : function (t, e) {
-            return ((t.__proto__ = e), t);
+        : function (e, t) {
+            return ((e.__proto__ = t), e);
           }),
-      _setPrototypeOf(t, e)
+      E(e, t)
     );
   }
-  function _slicedToArray(r, e) {
-    return (
-      _arrayWithHoles(r) ||
-      _iterableToArrayLimit(r, e) ||
-      _unsupportedIterableToArray(r, e) ||
-      _nonIterableRest()
-    );
+  function S(e, n) {
+    return t(e) || f(e, n) || P(e, n) || m();
   }
-  function _toConsumableArray(r) {
-    return (
-      _arrayWithoutHoles(r) ||
-      _iterableToArray(r) ||
-      _unsupportedIterableToArray(r) ||
-      _nonIterableSpread()
-    );
+  function I(e) {
+    return n(e) || g(e) || P(e) || y();
   }
-  function _toPrimitive(t, r) {
-    if ("object" != typeof t || !t) return t;
-    var e = t[Symbol.toPrimitive];
-    if (void 0 !== e) {
-      var i = e.call(t, r);
+  function A(e, t) {
+    if ("object" != typeof e || !e) return e;
+    var n = e[Symbol.toPrimitive];
+    if (void 0 !== n) {
+      var i = n.call(e, t);
       if ("object" != typeof i) return i;
       throw new TypeError("@@toPrimitive must return a primitive value.");
     }
-    return String(t);
+    return String(e);
   }
-  function _toPropertyKey(t) {
-    var i = _toPrimitive(t, "string");
-    return "symbol" == typeof i ? i : i + "";
+  function C(e) {
+    var t = A(e, "string");
+    return "symbol" == typeof t ? t : t + "";
   }
-  function _typeof(o) {
-    "@babel/helpers - typeof";
-
+  function M(e) {
     return (
-      (_typeof =
+      (M =
         "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
-          ? function (o) {
-              return typeof o;
+          ? function (e) {
+              return typeof e;
             }
-          : function (o) {
-              return o &&
+          : function (e) {
+              return e &&
                 "function" == typeof Symbol &&
-                o.constructor === Symbol &&
-                o !== Symbol.prototype
+                e.constructor === Symbol &&
+                e !== Symbol.prototype
                 ? "symbol"
-                : typeof o;
+                : typeof e;
             }),
-      _typeof(o)
+      M(e)
     );
   }
-  function _unsupportedIterableToArray(r, a) {
-    if (r) {
-      if ("string" == typeof r) return _arrayLikeToArray(r, a);
-      var t = {}.toString.call(r).slice(8, -1);
+  function P(t, n) {
+    if (t) {
+      if ("string" == typeof t) return e(t, n);
+      var i = {}.toString.call(t).slice(8, -1);
       return (
-        "Object" === t && r.constructor && (t = r.constructor.name),
-        "Map" === t || "Set" === t
-          ? Array.from(r)
-          : "Arguments" === t ||
-              /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t)
-            ? _arrayLikeToArray(r, a)
+        "Object" === i && t.constructor && (i = t.constructor.name),
+        "Map" === i || "Set" === i
+          ? Array.from(t)
+          : "Arguments" === i ||
+              /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(i)
+            ? e(t, n)
             : void 0
       );
     }
   }
-
-  /**
-   * Base class for SDK components that need access to the SDK instance
-   */
-  var SDKComponent = /*#__PURE__*/ _createClass(function SDKComponent(sdk) {
-    _classCallCheck(this, SDKComponent);
-    this.sdk = sdk;
+  var O = c(function e(t) {
+    (s(this, e), (this.sdk = t));
   });
-  /**
-   * Independent Logger class for handling logging across the SDK.
-   * No longer depends on SDK instance for configuration.
-   */
-  var Logger = /*#__PURE__*/ (function () {
-    function Logger() {
-      var config =
-        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      _classCallCheck(this, Logger);
-      var _a, _b, _c;
-      this.config = {
-        enableConsoleLogging:
-          (_a = config.enableConsoleLogging) !== null && _a !== void 0
-            ? _a
-            : true,
-        enableRemoteLogging:
-          (_b = config.enableRemoteLogging) !== null && _b !== void 0
-            ? _b
-            : false,
-        logPrefix:
-          (_c = config.logPrefix) !== null && _c !== void 0
-            ? _c
-            : "[AdgeistSDK]",
-      };
+  var D = (function (e) {
+    function t(e) {
+      var n;
+      return (
+        s(this, t),
+        (n = o(this, t, [e])),
+        (n.activeUnmutedAd = null),
+        (n.sdk = e),
+        (n.activeUnmutedAd = null),
+        n.setupMuteEventListener(),
+        n
+      );
     }
-    /**
-     * Update logger configuration
-     */
-    return _createClass(Logger, [
-      {
-        key: "updateConfig",
-        value: function updateConfig(newConfig) {
-          this.config = _objectSpread2(
-            _objectSpread2({}, this.config),
-            newConfig,
-          );
+    return (
+      p(t, e),
+      c(t, [
+        {
+          key: "setupMuteEventListener",
+          value: function e() {
+            var t = this;
+            window.addEventListener("message", function (e) {
+              if (e.data && "adgeist_mute_event" === e.data.type) {
+                var n = e.data;
+                var i = n.adElementId,
+                  r = n.muted;
+                r || t.activeUnmutedAd === i
+                  ? r && t.activeUnmutedAd === i && (t.activeUnmutedAd = null)
+                  : ((t.activeUnmutedAd = i), t.muteAllOtherAds(i));
+              }
+            });
+          },
         },
-      },
-      {
-        key: "log",
-        value: function log(message) {
-          if (this.config.enableConsoleLogging) {
-            console.log("".concat(this.config.logPrefix, " ").concat(message));
-          }
-        },
-      },
-      {
-        key: "error",
-        value: function error(message, data) {
-          if (this.config.enableConsoleLogging) {
-            console.error(
-              "".concat(this.config.logPrefix, " ").concat(message),
-              data || "",
+        {
+          key: "muteAllOtherAds",
+          value: function e(t) {
+            var n = this;
+            var i = document.querySelectorAll(
+              'iframe[id^="adgeist_ads_iframe_"]',
             );
-          }
-          if (this.config.enableRemoteLogging) {
-            // send error to remote logging service in production
-            this.sendToRemoteService(message, data);
-          }
+            i.forEach(function (e) {
+              if (e.id !== t)
+                try {
+                  var i;
+                  var r = { type: "adgeist_mute", mute: !0 };
+                  null === (i = e.contentWindow) ||
+                    void 0 === i ||
+                    i.postMessage(r, "*");
+                } catch (o) {
+                  var a = o instanceof Error ? o.message : String(o);
+                  n.sdk.logger.log(
+                    "Failed to send mute message to iframe "
+                      .concat(e.id, ": ")
+                      .concat(a),
+                  );
+                }
+            });
+          },
         },
-      },
-      {
-        key: "warn",
-        value: function warn(message) {
-          if (this.config.enableConsoleLogging) {
-            console.warn("".concat(this.config.logPrefix, " ").concat(message));
-          }
-        },
-      },
-      {
-        key: "sendToRemoteService",
-        value: function sendToRemoteService(message, data) {
-          // Implementation for remote logging service
-          // This would be implemented based on your remote logging requirements
-        },
-      },
-    ]);
-  })();
-
-  var AdAudioManager = /*#__PURE__*/ (function (_SDKComponent) {
-    function AdAudioManager(sdk) {
-      var _this;
-      _classCallCheck(this, AdAudioManager);
-      _this = _callSuper(this, AdAudioManager, [sdk]);
-      _this.activeUnmutedAd = null;
-      _this.sdk = sdk;
-      _this.activeUnmutedAd = null;
-      _this.setupMuteEventListener();
-      return _this;
-    }
-    _inherits(AdAudioManager, _SDKComponent);
-    return _createClass(AdAudioManager, [
-      {
-        key: "setupMuteEventListener",
-        value: function setupMuteEventListener() {
-          var _this2 = this;
-          window.addEventListener("message", function (event) {
-            if (event.data && event.data.type === "adgeist_mute_event") {
-              var eventData = event.data;
-              var adElementId = eventData.adElementId,
-                muted = eventData.muted;
-              if (!muted && _this2.activeUnmutedAd !== adElementId) {
-                _this2.activeUnmutedAd = adElementId;
-                _this2.muteAllOtherAds(adElementId);
-              } else if (muted && _this2.activeUnmutedAd === adElementId) {
-                _this2.activeUnmutedAd = null;
-              }
-            }
-          });
-        },
-      },
-      {
-        key: "muteAllOtherAds",
-        value: function muteAllOtherAds(excludeAdElementId) {
-          var _this3 = this;
-          var iframes = document.querySelectorAll(
-            'iframe[id^="adgeist_ads_iframe_"]',
-          );
-          iframes.forEach(function (iframe) {
-            var _a;
-            if (iframe.id !== excludeAdElementId) {
-              try {
-                var muteCommand = {
-                  type: "adgeist_mute",
-                  mute: true,
-                };
-                (_a = iframe.contentWindow) === null || _a === void 0
-                  ? void 0
-                  : _a.postMessage(muteCommand, "*");
-              } catch (error) {
-                var errorMessage =
-                  error instanceof Error ? error.message : String(error);
-                _this3.sdk.logger.log(
-                  "Failed to send mute message to iframe "
-                    .concat(iframe.id, ": ")
-                    .concat(errorMessage),
-                );
-              }
-            }
-          });
-        },
-      },
-    ]);
-  })(SDKComponent);
-
-  function getUserTimezone() {
-    if (typeof Intl !== "undefined" && Intl.DateTimeFormat) {
+      ])
+    );
+  })(O);
+  function _() {
+    if ("undefined" != typeof Intl && Intl.DateTimeFormat)
       try {
         return Intl.DateTimeFormat().resolvedOptions().timeZone;
-      } catch (_) {}
-    }
-    var offset = -new Date().getTimezoneOffset() / 60;
-    var sign = offset >= 0 ? "+" : "";
-    var hours = Math.floor(Math.abs(offset));
-    var minutes = (Math.abs(offset) - hours) * 60;
-    return minutes
-      ? "UTC"
-          .concat(sign)
-          .concat(hours, ":")
-          .concat(minutes.toString().padStart(2, "0"))
-      : "UTC".concat(sign).concat(hours);
+      } catch (r) {}
+    var e = -new Date().getTimezoneOffset() / 60;
+    var t = e >= 0 ? "+" : "";
+    var n = Math.floor(Math.abs(e));
+    var i = 60 * (Math.abs(e) - n);
+    return i
+      ? "UTC".concat(t).concat(n, ":").concat(i.toString().padStart(2, "0"))
+      : "UTC".concat(t).concat(n);
   }
-  var calculateValidDimensions = function calculateValidDimensions(
-    rawWidth,
-    rawHeight,
-    adSpaceSpec,
-  ) {
-    var validWidth = Math.min(
-      adSpaceSpec.MAX_WIDTH,
-      Math.max(adSpaceSpec.MIN_WIDTH, rawWidth),
-    );
-    var validHeight = Math.min(
-      adSpaceSpec.MAX_HEIGHT,
-      Math.max(adSpaceSpec.MIN_HEIGHT, rawHeight),
-    );
-    return {
-      width: "".concat(validWidth, "px"),
-      height: "".concat(validHeight, "px"),
-    };
+  var V = function e(t, n, i) {
+    var r = Math.min(i.MAX_WIDTH, Math.max(i.MIN_WIDTH, t));
+    var a = Math.min(i.MAX_HEIGHT, Math.max(i.MIN_HEIGHT, n));
+    return { width: "".concat(r, "px"), height: "".concat(a, "px") };
   };
-
-  /**
-   * Constants for event types and configuration.
-   * @constant
-   */
-  var EVENT_TYPES;
-  (function (EVENT_TYPES) {
-    EVENT_TYPES["IMPRESSION"] = "IMPRESSION";
-    EVENT_TYPES["VIEW"] = "VIEW";
-    EVENT_TYPES["TOTAL_VIEW"] = "TOTAL_VIEW";
-    EVENT_TYPES["HOVER"] = "HOVER";
-    EVENT_TYPES["CLICK"] = "CLICK";
-    EVENT_TYPES["VIDEO_PLAYBACK"] = "VIDEO_PLAYBACK";
-    EVENT_TYPES["VIDEO_QUARTILE"] = "VIDEO_QUARTILE";
-  })(EVENT_TYPES || (EVENT_TYPES = {}));
-  var DEFAULTS = {
+  var R;
+  !(function (e) {
+    ((e["IMPRESSION"] = "IMPRESSION"),
+      (e["VIEW"] = "VIEW"),
+      (e["TOTAL_VIEW"] = "TOTAL_VIEW"),
+      (e["HOVER"] = "HOVER"),
+      (e["CLICK"] = "CLICK"),
+      (e["VIDEO_PLAYBACK"] = "VIDEO_PLAYBACK"),
+      (e["VIDEO_QUARTILE"] = "VIDEO_QUARTILE"));
+  })(R || (R = {}));
+  var N = {
     VISIBILITY_THRESHOLD: 0.5,
-    MIN_VIEW_TIME: 1000,
-    VIDEO_MIN_VIEW_TIME: 2000,
+    MIN_VIEW_TIME: 1e3,
+    VIDEO_MIN_VIEW_TIME: 2e3,
     CONSENT_COOKIE_NAME: "adgeist_consent",
     ADGEIST_VERSION: "1.0.0",
   };
-  var CONSENT_TYPE;
-  (function (CONSENT_TYPE) {
-    CONSENT_TYPE["ACCEPTED_ALL"] = "accepted_all";
-    CONSENT_TYPE["ONLY_ESSENTIAL"] = "only_essential";
-    CONSENT_TYPE["PERFORMANCE"] = "essential+performance";
-    CONSENT_TYPE["ADVERTISING"] = "essential+advertising";
-    CONSENT_TYPE["PERSONALIZATION"] = "essential+personalization";
-    CONSENT_TYPE["PERFORMANCE_ADVERTISING"] =
-      "essential+performance+advertising";
-    CONSENT_TYPE["PERFORMANCE_PERSONALIZATION"] =
-      "essential+performance+personalization";
-    CONSENT_TYPE["ADVERTISING_PERSONALIZATION"] =
-      "essential+advertising+personalization";
-  })(CONSENT_TYPE || (CONSENT_TYPE = {}));
-  var ADSPACE_DIMENSION_CONFIG = {
+  var H;
+  !(function (e) {
+    ((e["ACCEPTED_ALL"] = "accepted_all"),
+      (e["ONLY_ESSENTIAL"] = "only_essential"),
+      (e["PERFORMANCE"] = "essential+performance"),
+      (e["ADVERTISING"] = "essential+advertising"),
+      (e["PERSONALIZATION"] = "essential+personalization"),
+      (e["PERFORMANCE_ADVERTISING"] = "essential+performance+advertising"),
+      (e["PERFORMANCE_PERSONALIZATION"] =
+        "essential+performance+personalization"),
+      (e["ADVERTISING_PERSONALIZATION"] =
+        "essential+advertising+personalization"));
+  })(H || (H = {}));
+  var L = {
     banner: {
       MIN_WIDTH: 240,
       MIN_HEIGHT: 50,
@@ -774,1050 +618,795 @@
       MAX_HEIGHT: 470,
     },
   };
-
-  var AdEventSender = /*#__PURE__*/ (function () {
-    function AdEventSender(
-      sdk,
-      adElementId,
-      adSpaceId,
-      adType,
-      buyType,
-      bidResponseMetadata,
-    ) {
-      _classCallCheck(this, AdEventSender);
-      this.viewEventsSent = false;
-      this.clickEventsSent = false;
-      this.sdk = sdk;
-      this.adElementId = adElementId;
-      this.adSpaceId = adSpaceId;
-      this.responseId = bidResponseMetadata.responseId;
-      this.trackId = bidResponseMetadata.trackId;
-      this.campaignId = bidResponseMetadata.campaignId;
-      this.metaData = bidResponseMetadata.metaData;
-      this.adType = adType;
-      this.buyType = buyType;
-      this.adTrackingUrl = sdk.adTrackingUrl;
-      this.expiresAt =
-        (bidResponseMetadata === null || bidResponseMetadata === void 0
-          ? void 0
-          : bidResponseMetadata.expiresAt) || "";
+  var U = (function () {
+    function e(t, n, i, r, a, o) {
+      (s(this, e),
+        (this.viewEventsSent = !1),
+        (this.clickEventsSent = !1),
+        (this.sdk = t),
+        (this.adElementId = n),
+        (this.adSpaceId = i),
+        (this.responseId = o.responseId),
+        (this.trackId = o.trackId),
+        (this.campaignId = o.campaignId),
+        (this.metaData = o.metaData),
+        (this.adType = r),
+        (this.buyType = a),
+        (this.adTrackingUrl = t.adTrackingUrl),
+        (this.expiresAt = (null == o ? void 0 : o.expiresAt) || ""));
     }
-    /**
-     * Sends an event to the tracking API.
-     * @param eventType - Type of event (e.g., 'IMPRESSION', 'CLICK').
-     * @param data - Event-specific data.
-     */
-    return _createClass(AdEventSender, [
+    return c(e, [
       {
         key: "sendEvent",
         value: (function () {
-          var _sendEvent = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee(eventType, data) {
-              var currentTime,
-                expiresTime,
-                analyticsPayload,
-                response,
-                errorMessage,
-                _t;
-              return _regenerator().w(
-                function (_context) {
-                  while (1)
-                    switch ((_context.p = _context.n)) {
+          var e = a(
+            x().m(function e(t, n) {
+              var i, r, a, o, s, l, c, d;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
                       case 0:
-                        _context.p = 0;
-                        if (!this.expiresAt) {
-                          _context.n = 1;
+                        if (((e.p = 0), !this.expiresAt)) {
+                          e.n = 1;
                           break;
                         }
-                        currentTime = Date.now();
-                        expiresTime = new Date(this.expiresAt).getTime();
-                        if (!(currentTime > expiresTime)) {
-                          _context.n = 1;
+                        if (
+                          ((a = Date.now()),
+                          (o = new Date(this.expiresAt).getTime()),
+                          !(a > o))
+                        ) {
+                          e.n = 1;
                           break;
                         }
-                        this.sdk.logger.log(
-                          "Ad event tracking expired for track: ".concat(
-                            this.trackId,
+                        return (
+                          this.sdk.logger.log(
+                            "Ad event tracking expired for track: ".concat(
+                              this.trackId,
+                            ),
                           ),
+                          e.a(2)
                         );
-                        return _context.a(2);
                       case 1:
-                        if (!(eventType === EVENT_TYPES.VIEW)) {
-                          _context.n = 3;
+                        if (t !== R.VIEW) {
+                          e.n = 3;
                           break;
                         }
                         if (!this.viewEventsSent) {
-                          _context.n = 2;
+                          e.n = 2;
                           break;
                         }
-                        this.sdk.logger.log(
-                          "VIEW event already sent for track: ".concat(
-                            this.trackId,
+                        return (
+                          this.sdk.logger.log(
+                            "VIEW event already sent for track: ".concat(
+                              this.trackId,
+                            ),
                           ),
+                          e.a(2)
                         );
-                        return _context.a(2);
                       case 2:
-                        _context.n = 4;
+                        e.n = 4;
                         break;
                       case 3:
-                        if (!(eventType === EVENT_TYPES.CLICK)) {
-                          _context.n = 4;
+                        if (t !== R.CLICK) {
+                          e.n = 4;
                           break;
                         }
                         if (!this.clickEventsSent) {
-                          _context.n = 4;
+                          e.n = 4;
                           break;
                         }
-                        this.sdk.logger.log(
-                          "CLICK event already sent for track: ".concat(
-                            this.trackId,
-                          ),
-                        );
-                        return _context.a(2);
-                      case 4:
-                        analyticsPayload = this.buildAnalyticsPayload(
-                          eventType,
-                          data,
-                        );
-                        if (analyticsPayload) {
-                          _context.n = 5;
-                          break;
-                        }
-                        this.sdk.logger.log(
-                          "Unknown event type: ".concat(eventType),
-                        );
-                        return _context.a(2);
-                      case 5:
-                        if (
-                          !(
-                            this.buyType === "FIXED" &&
-                            !(
-                              eventType === EVENT_TYPES.CLICK ||
-                              eventType === EVENT_TYPES.VIEW
-                            )
-                          )
-                        ) {
-                          _context.n = 6;
-                          break;
-                        }
-                        return _context.a(2);
-                      case 6:
-                        if (!(this.buyType === "FIXED")) {
-                          _context.n = 8;
-                          break;
-                        }
-                        _context.n = 7;
-                        return fetch(
-                          "".concat(this.adTrackingUrl, "/v2/ssp/impression"),
-                          {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(
-                              _objectSpread2(
-                                _objectSpread2(
-                                  {
-                                    type: eventType,
-                                    metaData: this.metaData,
-                                    isTest: this.sdk.isTest,
-                                  },
-                                  this.sdk.deviceInfo,
-                                ),
-                                analyticsPayload,
-                              ),
+                        return (
+                          this.sdk.logger.log(
+                            "CLICK event already sent for track: ".concat(
+                              this.trackId,
                             ),
-                          },
+                          ),
+                          e.a(2)
+                        );
+                      case 4:
+                        if (((s = this.buildAnalyticsPayload(t, n)), s)) {
+                          e.n = 5;
+                          break;
+                        }
+                        return (
+                          this.sdk.logger.log("Unknown event type: ".concat(t)),
+                          e.a(2)
+                        );
+                      case 5:
+                        if (t === R.CLICK || t === R.VIEW) {
+                          e.n = 6;
+                          break;
+                        }
+                        return e.a(2);
+                      case 6:
+                        return (
+                          (e.n = 7),
+                          fetch(
+                            "".concat(this.adTrackingUrl, "/v2/ssp/impression"),
+                            {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify(
+                                w(
+                                  w(
+                                    {
+                                      type: t,
+                                      metaData: this.metaData,
+                                      isTest: this.sdk.isTest,
+                                      deviceFingerPrint:
+                                        (null === (i = this.sdk.fingerprint) ||
+                                        void 0 === i
+                                          ? void 0
+                                          : i.visitorId) || void 0,
+                                      fingerPrintType:
+                                        null !== (r = this.sdk.fingerprint) &&
+                                        void 0 !== r &&
+                                        r.version
+                                          ? "signalHash" +
+                                            this.sdk.fingerprint.version
+                                          : void 0,
+                                    },
+                                    this.sdk.deviceInfo,
+                                  ),
+                                  s,
+                                ),
+                              ),
+                            },
+                          )
                         );
                       case 7:
-                        response = _context.v;
-                        _context.n = 10;
-                        break;
-                      case 8:
-                        _context.n = 9;
-                        return fetch(
-                          ""
-                            .concat(
-                              this.adTrackingUrl,
-                              "/v1/api/analytics/track?",
-                            )
-                            .concat(
-                              new URLSearchParams({
-                                campaignId: this.campaignId,
-                                companyId: this.sdk.publisherId,
-                                adSpaceId: this.adSpaceId,
-                                test: this.sdk.isTest ? "1" : "0",
-                              }),
-                            ),
-                          {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                              "x-platform": "website",
-                            },
-                            body: JSON.stringify(
-                              _objectSpread2(
-                                {
-                                  eventType: eventType,
-                                  winningBidId: this.trackId,
-                                  campaignId: this.campaignId,
-                                },
-                                analyticsPayload,
-                              ),
-                            ),
-                          },
-                        );
-                      case 9:
-                        response = _context.v;
-                      case 10:
-                        if (response.ok) {
-                          _context.n = 11;
+                        if (((l = e.v), l.ok)) {
+                          e.n = 8;
                           break;
                         }
-                        throw new Error("HTTP error: ".concat(response.status));
-                      case 11:
-                        if (eventType === EVENT_TYPES.VIEW) {
-                          this.viewEventsSent = true;
-                        } else if (eventType === EVENT_TYPES.CLICK) {
-                          this.clickEventsSent = true;
-                        }
-                        this.sdk.logger.log(
-                          ""
-                            .concat(eventType, " tracked for track: ")
-                            .concat(this.trackId),
-                        );
-                        _context.n = 13;
+                        throw new Error("HTTP error: ".concat(l.status));
+                      case 8:
+                        (t === R.VIEW
+                          ? (this.viewEventsSent = !0)
+                          : t === R.CLICK && (this.clickEventsSent = !0),
+                          this.sdk.logger.log(
+                            ""
+                              .concat(t, " tracked for track: ")
+                              .concat(this.trackId),
+                          ),
+                          (e.n = 10));
                         break;
-                      case 12:
-                        _context.p = 12;
-                        _t = _context.v;
-                        errorMessage =
-                          _t instanceof Error ? _t.message : String(_t);
-                        this.sdk.logger.error(
-                          ""
-                            .concat(eventType, " tracking failed: ")
-                            .concat(errorMessage),
-                        );
-                      case 13:
-                        return _context.a(2);
+                      case 9:
+                        ((e.p = 9),
+                          (d = e.v),
+                          (c = d instanceof Error ? d.message : String(d)),
+                          this.sdk.logger.error(
+                            "".concat(t, " tracking failed: ").concat(c),
+                          ));
+                      case 10:
+                        return e.a(2);
                     }
                 },
-                _callee,
+                e,
                 this,
-                [[0, 12]],
+                [[0, 9]],
               );
             }),
           );
-          function sendEvent(_x, _x2) {
-            return _sendEvent.apply(this, arguments);
+          function t(t, n) {
+            return e.apply(this, arguments);
           }
-          return sendEvent;
+          return t;
         })(),
-        /**
-         * Builds the analytics payload based on event type.
-         * @param eventType - The event type.
-         * @param data - Event-specific data.
-         * @returns Payload or null if event type is unknown.
-         */
       },
       {
         key: "buildAnalyticsPayload",
-        value: function buildAnalyticsPayload(eventType, data) {
-          var payload = {};
-          switch (eventType) {
-            case EVENT_TYPES.IMPRESSION:
-              return _objectSpread2(
-                _objectSpread2({}, payload),
+        value: function e(t, n) {
+          var i = {};
+          switch (t) {
+            case R.IMPRESSION:
+              return w(w({}, i), {}, { renderTime: n.renderTime });
+            case R.VIEW:
+              var r = n;
+              return w(
+                w({}, i),
                 {},
                 {
-                  renderTime: data.renderTime,
+                  viewTime: r.viewTime,
+                  visibilityRatio: r.visibilityRatio,
+                  scrollDepth: r.scrollDepth,
+                  timeToVisible: r.timeToVisible,
                 },
               );
-            case EVENT_TYPES.VIEW:
-              var viewData = data;
-              return _objectSpread2(
-                _objectSpread2({}, payload),
+            case R.TOTAL_VIEW:
+              var a = n;
+              return w(
+                w({}, i),
                 {},
                 {
-                  viewTime: viewData.viewTime,
-                  visibilityRatio: viewData.visibilityRatio,
-                  scrollDepth: viewData.scrollDepth,
-                  timeToVisible: viewData.timeToVisible,
+                  totalViewTime: a.totalViewTime,
+                  visibilityRatio: a.visibilityRatio,
                 },
               );
-            case EVENT_TYPES.TOTAL_VIEW:
-              var totalViewData = data;
-              return _objectSpread2(
-                _objectSpread2({}, payload),
+            case R.HOVER:
+              return w(w({}, i), {}, { hoverTime: n.hoverTime });
+            case R.CLICK:
+              return i;
+            case R.VIDEO_PLAYBACK:
+              return w(
+                w({}, i),
                 {},
-                {
-                  totalViewTime: totalViewData.totalViewTime,
-                  visibilityRatio: totalViewData.visibilityRatio,
-                },
+                { totalPlaybackTime: n.totalPlaybackTime },
               );
-            case EVENT_TYPES.HOVER:
-              return _objectSpread2(
-                _objectSpread2({}, payload),
-                {},
-                {
-                  hoverTime: data.hoverTime,
-                },
-              );
-            case EVENT_TYPES.CLICK:
-              return payload;
-            case EVENT_TYPES.VIDEO_PLAYBACK:
-              return _objectSpread2(
-                _objectSpread2({}, payload),
-                {},
-                {
-                  totalPlaybackTime: data.totalPlaybackTime,
-                },
-              );
-            case EVENT_TYPES.VIDEO_QUARTILE:
-              return _objectSpread2(
-                _objectSpread2({}, payload),
-                {},
-                {
-                  quartile: data.quartile,
-                },
-              );
+            case R.VIDEO_QUARTILE:
+              return w(w({}, i), {}, { quartile: n.quartile });
             default:
               return null;
           }
         },
-        /**
-         * Retrieves the ad slot element from the DOM.
-         * @returns Ad slot element or null.
-         */
       },
       {
         key: "getAdSlotElement",
-        value: function getAdSlotElement() {
+        value: function e() {
           return document.getElementById(this.adElementId);
         },
       },
     ]);
   })();
-
-  /**
-   * AdTracker class to track ad interactions (impressions, views, clicks, etc.).
-   */
-  var AdTracker = /*#__PURE__*/ (function () {
-    function AdTracker(
-      sdk,
-      adElementId,
-      adSpaceId,
-      adType,
-      buyType,
-      startTime,
-      bidResponseMetadata,
-      mediaType,
-    ) {
-      var visibilityThreshold =
-        arguments.length > 8 && arguments[8] !== undefined
+  var j = (function () {
+    function e(t, n, i, r, a, o, l, c) {
+      var d =
+        arguments.length > 8 && void 0 !== arguments[8]
           ? arguments[8]
-          : DEFAULTS.VISIBILITY_THRESHOLD;
-      _classCallCheck(this, AdTracker);
-      this.isVisible = false;
-      this.viewStartTime = null;
-      this.totalViewTime = 0;
-      this.hoverStartTime = null;
-      this.totalHoverTime = 0;
-      this.playbackStartTime = null;
-      this.totalPlaybackTime = 0;
-      this.lastPausedTime = 0;
-      this.hasEnded = false;
-      this.hasSentPlaybackEvent = false;
-      this.observer = null;
-      this.hasImpression = false;
-      this.hasViewEvent = false;
-      this.visibilityCheckInterval = null;
-      this.currentVisibilityRatio = 0;
-      this.sdk = sdk;
-      this.adElementId = adElementId;
-      this.adType = adType;
-      this.visibilityThreshold = visibilityThreshold;
-      this.minViewTime =
-        mediaType === "video"
-          ? DEFAULTS.VIDEO_MIN_VIEW_TIME
-          : DEFAULTS.MIN_VIEW_TIME;
-      this.isVisible = false;
-      this.viewStartTime = null;
-      this.totalViewTime = 0;
-      this.hoverStartTime = null;
-      this.totalHoverTime = 0;
-      this.playbackStartTime = null;
-      this.totalPlaybackTime = 0;
-      this.lastPausedTime = 0;
-      this.hasEnded = false;
-      this.hasSentPlaybackEvent = false;
-      this.observer = null;
-      this.renderStartTime = startTime || performance.now();
-      this.hasImpression = false;
-      this.hasViewEvent = false;
-      this.visibilityCheckInterval = null;
-      this.currentVisibilityRatio = 0;
-      this.eventSender = new AdEventSender(
-        sdk,
-        adElementId,
-        adSpaceId,
-        adType,
-        buyType,
-        bidResponseMetadata,
-      );
-      this.mediaType = mediaType;
-      this.adElement = document.getElementById(adElementId);
-      if (!this.adElement) {
-        this.sdk.logger.log("Ad element not found: ".concat(adElementId));
-        return;
-      }
+          : N.VISIBILITY_THRESHOLD;
+      if (
+        (s(this, e),
+        (this.isVisible = !1),
+        (this.viewStartTime = null),
+        (this.totalViewTime = 0),
+        (this.hoverStartTime = null),
+        (this.totalHoverTime = 0),
+        (this.playbackStartTime = null),
+        (this.totalPlaybackTime = 0),
+        (this.lastPausedTime = 0),
+        (this.hasEnded = !1),
+        (this.hasSentPlaybackEvent = !1),
+        (this.observer = null),
+        (this.hasImpression = !1),
+        (this.hasViewEvent = !1),
+        (this.visibilityCheckInterval = null),
+        (this.currentVisibilityRatio = 0),
+        (this.sdk = t),
+        (this.adElementId = n),
+        (this.adType = r),
+        (this.visibilityThreshold = d),
+        (this.minViewTime =
+          "video" === c ? N.VIDEO_MIN_VIEW_TIME : N.MIN_VIEW_TIME),
+        (this.isVisible = !1),
+        (this.viewStartTime = null),
+        (this.totalViewTime = 0),
+        (this.hoverStartTime = null),
+        (this.totalHoverTime = 0),
+        (this.playbackStartTime = null),
+        (this.totalPlaybackTime = 0),
+        (this.lastPausedTime = 0),
+        (this.hasEnded = !1),
+        (this.hasSentPlaybackEvent = !1),
+        (this.observer = null),
+        (this.renderStartTime = o || performance.now()),
+        (this.hasImpression = !1),
+        (this.hasViewEvent = !1),
+        (this.visibilityCheckInterval = null),
+        (this.currentVisibilityRatio = 0),
+        (this.eventSender = new U(t, n, i, r, a, l)),
+        (this.mediaType = c),
+        (this.adElement = document.getElementById(n)),
+        !this.adElement)
+      )
+        return (
+          this.sdk.logger.log("Ad element not found: ".concat(n)),
+          void 0
+        );
       this.init();
     }
-    /**
-     * Initializes event listeners and observers for ad tracking.
-     */
-    return _createClass(AdTracker, [
+    return c(e, [
       {
         key: "init",
-        value: function init() {
-          this.setupImpressionTracking();
-          this.setupClickTracking();
-          if (!("IntersectionObserver" in window)) {
-            this.sdk.logger.log(
-              "IntersectionObserver not supported. Using fallback.",
-            );
-            this.fallbackTracking();
-          } else {
-            this.setupIntersectionObserver();
-          }
-          this.setupInteractionListeners();
-          this.setupVisibilityChangeListener();
+        value: function e() {
+          (this.setupImpressionTracking(),
+            this.setupClickTracking(),
+            "IntersectionObserver" in window
+              ? this.setupIntersectionObserver()
+              : (this.sdk.logger.log(
+                  "IntersectionObserver not supported. Using fallback.",
+                ),
+                this.fallbackTracking()),
+            this.setupInteractionListeners(),
+            this.setupVisibilityChangeListener());
         },
-        /**
-         * Sets up impression tracking for banner or video ads.
-         */
       },
       {
         key: "setupImpressionTracking",
-        value: function setupImpressionTracking() {
-          var _this = this;
-          var adCreative = this.getAdCreative();
-          if (this.mediaType === "image" || this.mediaType === "gif") {
-            var img =
-              adCreative === null || adCreative === void 0
-                ? void 0
-                : adCreative.querySelector("img");
-            if (img) {
-              if (img.complete) {
-                this.recordImpression();
-              } else {
-                img.addEventListener("load", function () {
-                  return _this.recordImpression();
-                });
-              }
-            }
-          } else if (this.mediaType === "video") {
-            var video =
-              adCreative === null || adCreative === void 0
-                ? void 0
-                : adCreative.querySelector("video");
-            if (video) {
-              if (video.complete) {
-                this.recordImpression();
-              } else {
-                video.addEventListener("canplay", function () {
-                  return _this.recordImpression();
-                });
-              }
-            }
+        value: function e() {
+          var t = this;
+          var n = this.getAdCreative();
+          if ("image" === this.mediaType || "gif" === this.mediaType) {
+            var i = null == n ? void 0 : n.querySelector("img");
+            i &&
+              (i.complete
+                ? this.recordImpression()
+                : i.addEventListener("load", function () {
+                    return t.recordImpression();
+                  }));
+          } else if ("video" === this.mediaType) {
+            var r = null == n ? void 0 : n.querySelector("video");
+            r &&
+              (r.complete
+                ? this.recordImpression()
+                : r.addEventListener("canplay", function () {
+                    return t.recordImpression();
+                  }));
           }
         },
-        /**
-         * Sets up click tracking for the ad, excluding mute and play controls.
-         */
       },
       {
         key: "setupClickTracking",
-        value: function setupClickTracking() {
-          var adLink = this.getAdCreative();
-          if (adLink) {
-            // Set up click tracking on the ad creative
-            this.addClickListener(adLink);
-            // If the ad element is an iframe, also add listener to the iframe itself
-            if (
+        value: function e() {
+          var t = this.getAdCreative();
+          t
+            ? (this.addClickListener(t),
               this.adElement &&
-              this.adElement.tagName.toLowerCase() === "iframe" &&
-              adLink !== this.adElement
-            ) {
-              this.addClickListener(this.adElement);
-            }
-          } else {
-            this.sdk.logger.log(
-              "Ad link element not found for ".concat(this.adElementId),
-            );
-            // Fallback: if we can't get the creative, try the main ad element
-            if (this.adElement) {
-              this.addClickListener(this.adElement);
-            }
-          }
+                "iframe" === this.adElement.tagName.toLowerCase() &&
+                t !== this.adElement &&
+                this.addClickListener(this.adElement))
+            : (this.sdk.logger.log(
+                "Ad link element not found for ".concat(this.adElementId),
+              ),
+              this.adElement && this.addClickListener(this.adElement));
         },
-        /**
-         * Adds click event listener to an element with control filtering.
-         */
       },
       {
         key: "addClickListener",
-        value: function addClickListener(element) {
-          var _this2 = this;
-          element.addEventListener("click", function (event) {
-            var _a, _b, _c;
-            var target = event.target;
-            // Check if click is on video controls or other control elements
-            var isControlElement =
-              target.closest(
+        value: function e(t) {
+          var n = this;
+          t.addEventListener("click", function (e) {
+            var t, i, r;
+            var a = e.target;
+            var o =
+              a.closest(
                 '[id*="mute"], [id*="play"], [id*="pause"], [class*="control"], [class*="button"]',
               ) ||
-              ((_a = target.id) === null || _a === void 0
+              (null === (t = a.id) || void 0 === t
                 ? void 0
-                : _a.includes("mute")) ||
-              ((_b = target.id) === null || _b === void 0
+                : t.includes("mute")) ||
+              (null === (i = a.id) || void 0 === i
                 ? void 0
-                : _b.includes("play")) ||
-              ((_c = target.id) === null || _c === void 0
+                : i.includes("play")) ||
+              (null === (r = a.id) || void 0 === r
                 ? void 0
-                : _c.includes("pause")) ||
-              target.classList.contains("video-controls");
-            if (isControlElement) {
-              return;
-            }
-            _this2.sendClickData();
+                : r.includes("pause")) ||
+              a.classList.contains("video-controls");
+            o || n.sendClickData();
           });
         },
-        /**
-         * Sets up IntersectionObserver for visibility tracking.
-         */
       },
       {
         key: "setupIntersectionObserver",
-        value: function setupIntersectionObserver() {
-          var _this3 = this;
-          if (!this.adElement) return;
-          this.observer = new IntersectionObserver(
-            function (entries) {
-              return _this3.handleIntersection(entries);
-            },
-            {
-              root: null,
-              rootMargin: "0px",
-              threshold: [
-                0,
-                this.visibilityThreshold,
-                0.1,
-                0.2,
-                0.3,
-                0.4,
-                0.5,
-                0.6,
-                0.7,
-                0.8,
-                0.9,
-                1.0,
-              ],
-            },
-          );
-          this.observer.observe(this.adElement);
+        value: function e() {
+          var t = this;
+          this.adElement &&
+            ((this.observer = new IntersectionObserver(
+              function (e) {
+                return t.handleIntersection(e);
+              },
+              {
+                root: null,
+                rootMargin: "0px",
+                threshold: [
+                  0,
+                  this.visibilityThreshold,
+                  0.1,
+                  0.2,
+                  0.3,
+                  0.4,
+                  0.5,
+                  0.6,
+                  0.7,
+                  0.8,
+                  0.9,
+                  1,
+                ],
+              },
+            )),
+            this.observer.observe(this.adElement));
         },
-        /**
-         * Sets up interaction listeners for hover and video events.
-         */
       },
       {
         key: "setupInteractionListeners",
-        value: function setupInteractionListeners() {
-          var _this4 = this;
-          var _a;
-          if (!this.adElement) return;
-          if (!("ontouchstart" in window)) {
-            this.adElement.addEventListener("mouseover", function () {
-              if (!_this4.hoverStartTime) {
-                _this4.hoverStartTime = performance.now();
-              }
-            });
-            this.adElement.addEventListener("mouseout", function () {
-              return _this4.updateHoverTime();
-            });
-          }
-          if (this.mediaType === "video") {
-            var video =
-              (_a = this.getAdCreative()) === null || _a === void 0
+        value: function e() {
+          var t = this;
+          if (
+            this.adElement &&
+            ("ontouchstart" in window ||
+              (this.adElement.addEventListener("mouseover", function () {
+                t.hoverStartTime || (t.hoverStartTime = performance.now());
+              }),
+              this.adElement.addEventListener("mouseout", function () {
+                return t.updateHoverTime();
+              })),
+            "video" === this.mediaType)
+          ) {
+            var n;
+            var i =
+              null === (n = this.getAdCreative()) || void 0 === n
                 ? void 0
-                : _a.querySelector("video");
-            if (video) {
-              video.addEventListener("play", function () {
-                if (!_this4.playbackStartTime) {
-                  _this4.playbackStartTime = performance.now();
-                }
-              });
-              video.addEventListener("pause", function () {
-                _this4.updatePlaybackTime();
-              });
-              video.addEventListener("ended", function () {
-                if (!_this4.hasEnded) {
-                  _this4.hasEnded = true;
-                  _this4.updatePlaybackTime();
-                  _this4.sendVideoPlaybackData();
-                }
-                video.play();
-              });
-            }
+                : n.querySelector("video");
+            i &&
+              (i.addEventListener("play", function () {
+                t.playbackStartTime ||
+                  (t.playbackStartTime = performance.now());
+              }),
+              i.addEventListener("pause", function () {
+                t.updatePlaybackTime();
+              }),
+              i.addEventListener("ended", function () {
+                (t.hasEnded ||
+                  ((t.hasEnded = !0),
+                  t.updatePlaybackTime(),
+                  t.sendVideoPlaybackData()),
+                  i.play());
+              }));
           }
         },
-        /**
-         * Sets up listener for visibility change events.
-         */
       },
       {
         key: "setupVisibilityChangeListener",
-        value: function setupVisibilityChangeListener() {
-          var _this5 = this;
+        value: function e() {
+          var t = this;
           document.addEventListener("visibilitychange", function () {
-            var _a, _b;
             if (document.hidden) {
-              _this5.updateViewTime();
-              _this5.updateHoverTime();
-              _this5.updatePlaybackTime();
-              if (_this5.mediaType === "video" && !_this5.hasEnded) {
-                var video =
-                  (_a = _this5.getAdCreative()) === null || _a === void 0
+              if (
+                (t.updateViewTime(),
+                t.updateHoverTime(),
+                t.updatePlaybackTime(),
+                "video" === t.mediaType && !t.hasEnded)
+              ) {
+                var e;
+                var n =
+                  null === (e = t.getAdCreative()) || void 0 === e
                     ? void 0
-                    : _a.querySelector("video");
-                if (video) {
-                  _this5.lastPausedTime = video.currentTime;
-                  // video.pause();
-                  _this5.updatePlaybackTime();
-                }
+                    : e.querySelector("video");
+                n &&
+                  ((t.lastPausedTime = n.currentTime), t.updatePlaybackTime());
               }
-              _this5.stopVisibilityCheck();
-            } else if (document.visibilityState === "visible") {
-              _this5.startVisibilityCheck();
-              if (_this5.mediaType === "video") {
-                var _video =
-                  (_b = _this5.getAdCreative()) === null || _b === void 0
-                    ? void 0
-                    : _b.querySelector("video");
-                if (_video) {
-                  _this5.lastPausedTime = _video.currentTime;
-                  _this5.updatePlaybackTime();
-                }
-              }
+              t.stopVisibilityCheck();
+            } else if (
+              "visible" === document.visibilityState &&
+              (t.startVisibilityCheck(), "video" === t.mediaType)
+            ) {
+              var i;
+              var r =
+                null === (i = t.getAdCreative()) || void 0 === i
+                  ? void 0
+                  : i.querySelector("video");
+              r && ((t.lastPausedTime = r.currentTime), t.updatePlaybackTime());
             }
           });
         },
-        /**
-         * Records an impression event if not already recorded.
-         */
       },
       {
         key: "recordImpression",
-        value: function recordImpression() {
+        value: function e() {
           if (!this.hasImpression) {
-            var renderTime = performance.now() - this.renderStartTime;
-            this.eventSender.sendEvent(EVENT_TYPES.IMPRESSION, {
-              renderTime: renderTime,
-            });
-            this.hasImpression = true;
+            var t = performance.now() - this.renderStartTime;
+            (this.eventSender.sendEvent(R.IMPRESSION, { renderTime: t }),
+              (this.hasImpression = !0));
           }
         },
-        /**
-         * Starts a timer to check if minViewTime is reached while the ad is visible.
-         */
       },
       {
         key: "startVisibilityCheck",
-        value: function startVisibilityCheck() {
-          var _this6 = this;
-          if (this.visibilityCheckInterval) return;
-          this.visibilityCheckInterval = setInterval(function () {
-            if (
-              _this6.isVisible &&
-              _this6.viewStartTime &&
-              !_this6.hasViewEvent
-            ) {
-              var timeInView = performance.now() - _this6.viewStartTime;
-              if (timeInView >= _this6.minViewTime) {
-                _this6.hasViewEvent = true;
-                var scrollDepth = window.scrollY / document.body.scrollHeight;
-                var timeToVisible = performance.now() - _this6.renderStartTime;
-                var visibilityRatio = _this6.getCurrentVisibilityRatio();
-                _this6.eventSender.sendEvent(EVENT_TYPES.VIEW, {
-                  viewTime: timeInView,
-                  visibilityRatio: visibilityRatio,
-                  scrollDepth: scrollDepth,
-                  timeToVisible: timeToVisible,
-                });
-                _this6.stopVisibilityCheck();
+        value: function e() {
+          var t = this;
+          this.visibilityCheckInterval ||
+            (this.visibilityCheckInterval = setInterval(function () {
+              if (t.isVisible && t.viewStartTime && !t.hasViewEvent) {
+                var e = performance.now() - t.viewStartTime;
+                if (e >= t.minViewTime) {
+                  t.hasViewEvent = !0;
+                  var n = window.scrollY / document.body.scrollHeight;
+                  var i = performance.now() - t.renderStartTime;
+                  var r = t.getCurrentVisibilityRatio();
+                  (t.eventSender.sendEvent(R.VIEW, {
+                    viewTime: e,
+                    visibilityRatio: r,
+                    scrollDepth: n,
+                    timeToVisible: i,
+                  }),
+                    t.stopVisibilityCheck());
+                }
               }
-            }
-          }, 100);
+            }, 100));
         },
-        /**
-         * Stops the visibility check timer.
-         */
       },
       {
         key: "stopVisibilityCheck",
-        value: function stopVisibilityCheck() {
-          if (this.visibilityCheckInterval) {
-            clearInterval(this.visibilityCheckInterval);
-            this.visibilityCheckInterval = null;
-          }
+        value: function e() {
+          this.visibilityCheckInterval &&
+            (clearInterval(this.visibilityCheckInterval),
+            (this.visibilityCheckInterval = null));
         },
-        /**
-         * Gets the current visibility ratio of the ad element.
-         * @returns Visibility ratio.
-         */
       },
       {
         key: "getCurrentVisibilityRatio",
-        value: function getCurrentVisibilityRatio() {
+        value: function e() {
           if (!("IntersectionObserver" in window) && this.adElement) {
-            var rect = this.adElement.getBoundingClientRect();
-            var windowHeight =
-              window.innerHeight || document.documentElement.clientHeight;
-            return Math.min(
-              rect.bottom / windowHeight,
-              (windowHeight - rect.top) / windowHeight,
-              1,
-            );
+            var t = this.adElement.getBoundingClientRect();
+            var n = window.innerHeight || document.documentElement.clientHeight;
+            return Math.min(t.bottom / n, (n - t.top) / n, 1);
           }
           return this.currentVisibilityRatio;
         },
-        /**
-         * Handles IntersectionObserver entries for visibility tracking.
-         * @param entries - Observer entries.
-         */
       },
       {
         key: "handleIntersection",
-        value: function handleIntersection(entries) {
-          var _this7 = this;
-          entries.forEach(function (entry) {
-            var _a;
-            var visibilityRatio = entry.intersectionRatio;
-            var wasVisible = _this7.isVisible;
-            _this7.currentVisibilityRatio = visibilityRatio;
-            _this7.isVisible = visibilityRatio >= _this7.visibilityThreshold;
-            var video =
-              _this7.mediaType === "video"
-                ? (_a = _this7.getAdCreative()) === null || _a === void 0
+        value: function e(t) {
+          var n = this;
+          t.forEach(function (e) {
+            var t;
+            var i = e.intersectionRatio;
+            var r = n.isVisible;
+            ((n.currentVisibilityRatio = i),
+              (n.isVisible = i >= n.visibilityThreshold));
+            var a =
+              "video" === n.mediaType
+                ? null === (t = n.getAdCreative()) || void 0 === t
                   ? void 0
-                  : _a.querySelector("video")
+                  : t.querySelector("video")
                 : null;
-            if (_this7.isVisible && !wasVisible) {
-              if (!_this7.viewStartTime) {
-                _this7.viewStartTime = performance.now();
-                _this7.startVisibilityCheck();
-              }
-              if (video && !_this7.hasEnded) {
-                video.currentTime = _this7.lastPausedTime;
-                video.play().catch(function (e) {
-                  return _this7.sdk.logger.error(
-                    "Video play failed for "
-                      .concat(_this7.adElementId, ": ")
-                      .concat(e.message),
-                  );
-                });
-                if (!_this7.playbackStartTime) {
-                  _this7.playbackStartTime = performance.now();
-                }
-              }
-            } else if (!_this7.isVisible && wasVisible) {
-              _this7.updateViewTime();
-              _this7.stopVisibilityCheck();
-              if (video && !_this7.hasEnded) {
-                _this7.lastPausedTime = video.currentTime;
-                video.pause();
-                _this7.updatePlaybackTime();
-              }
-            }
+            n.isVisible && !r
+              ? (n.viewStartTime ||
+                  ((n.viewStartTime = performance.now()),
+                  n.startVisibilityCheck()),
+                a &&
+                  !n.hasEnded &&
+                  ((a.currentTime = n.lastPausedTime),
+                  a.play().catch(function (e) {
+                    return n.sdk.logger.error(
+                      "Video play failed for "
+                        .concat(n.adElementId, ": ")
+                        .concat(e.message),
+                    );
+                  }),
+                  n.playbackStartTime ||
+                    (n.playbackStartTime = performance.now())))
+              : !n.isVisible &&
+                r &&
+                (n.updateViewTime(),
+                n.stopVisibilityCheck(),
+                a &&
+                  !n.hasEnded &&
+                  ((n.lastPausedTime = a.currentTime),
+                  a.pause(),
+                  n.updatePlaybackTime()));
           });
         },
-        /**
-         * Updates total view time when visibility changes.
-         */
       },
       {
         key: "updateViewTime",
-        value: function updateViewTime() {
-          if (this.viewStartTime) {
-            this.totalViewTime += performance.now() - this.viewStartTime;
-            this.viewStartTime = null;
-            this.stopVisibilityCheck();
-          }
+        value: function e() {
+          this.viewStartTime &&
+            ((this.totalViewTime += performance.now() - this.viewStartTime),
+            (this.viewStartTime = null),
+            this.stopVisibilityCheck());
         },
-        /**
-         * Updates total hover time when hover ends.
-         */
       },
       {
         key: "updateHoverTime",
-        value: function updateHoverTime() {
-          if (this.hoverStartTime) {
-            this.totalHoverTime += performance.now() - this.hoverStartTime;
-            this.hoverStartTime = null;
-          }
+        value: function e() {
+          this.hoverStartTime &&
+            ((this.totalHoverTime += performance.now() - this.hoverStartTime),
+            (this.hoverStartTime = null));
         },
-        /**
-         * Updates total playback time for video ads.
-         */
       },
       {
         key: "updatePlaybackTime",
-        value: function updatePlaybackTime() {
-          if (this.playbackStartTime && this.mediaType === "video") {
-            this.totalPlaybackTime +=
-              performance.now() - this.playbackStartTime;
-            this.playbackStartTime = null;
-          }
+        value: function e() {
+          this.playbackStartTime &&
+            "video" === this.mediaType &&
+            ((this.totalPlaybackTime +=
+              performance.now() - this.playbackStartTime),
+            (this.playbackStartTime = null));
         },
-        /**
-         * Sends hover event data if applicable.
-         */
       },
       {
         key: "sendHoverData",
-        value: function sendHoverData() {
-          if (this.totalHoverTime > 0) {
-            this.eventSender.sendEvent(EVENT_TYPES.HOVER, {
+        value: function e() {
+          this.totalHoverTime > 0 &&
+            this.eventSender.sendEvent(R.HOVER, {
               hoverTime: this.totalHoverTime,
             });
-          }
         },
-        /**
-         * Sends click event data.
-         */
       },
       {
         key: "sendClickData",
-        value: function sendClickData() {
-          this.eventSender.sendEvent(EVENT_TYPES.CLICK, {});
+        value: function e() {
+          this.eventSender.sendEvent(R.CLICK, {});
         },
-        /**
-         * Sends video playback data if applicable.
-         */
       },
       {
         key: "sendVideoPlaybackData",
-        value: function sendVideoPlaybackData() {
-          if (this.totalPlaybackTime > 0 && !this.hasSentPlaybackEvent) {
-            this.eventSender.sendEvent(EVENT_TYPES.VIDEO_PLAYBACK, {
+        value: function e() {
+          this.totalPlaybackTime > 0 &&
+            !this.hasSentPlaybackEvent &&
+            (this.eventSender.sendEvent(R.VIDEO_PLAYBACK, {
               totalPlaybackTime: this.totalPlaybackTime,
-            });
-            this.hasSentPlaybackEvent = true;
-          }
+            }),
+            (this.hasSentPlaybackEvent = !0));
         },
-        /**
-         * Sends total view time data if applicable.
-         */
       },
       {
         key: "sendTotalTimeInView",
-        value: function sendTotalTimeInView() {
-          this.updateViewTime();
-          if (this.totalViewTime > 0) {
-            this.eventSender.sendEvent(EVENT_TYPES.TOTAL_VIEW, {
-              totalViewTime: this.totalViewTime,
-              visibilityRatio: this.hasViewEvent
-                ? this.visibilityThreshold
-                : DEFAULTS.VISIBILITY_THRESHOLD,
-            });
-          }
+        value: function e() {
+          (this.updateViewTime(),
+            this.totalViewTime > 0 &&
+              this.eventSender.sendEvent(R.TOTAL_VIEW, {
+                totalViewTime: this.totalViewTime,
+                visibilityRatio: this.hasViewEvent
+                  ? this.visibilityThreshold
+                  : N.VISIBILITY_THRESHOLD,
+              }));
         },
-        /**
-         * Fallback tracking for browsers without IntersectionObserver.
-         */
       },
       {
         key: "fallbackTracking",
-        value: function fallbackTracking() {
-          var _this8 = this;
-          var checkVisibility = function checkVisibility() {
-            var _a;
-            if (!_this8.adElement) return;
-            var rect = _this8.adElement.getBoundingClientRect();
-            var windowHeight =
-              window.innerHeight || document.documentElement.clientHeight;
-            var visibilityRatio = Math.min(
-              rect.bottom / windowHeight,
-              (windowHeight - rect.top) / windowHeight,
-              1,
-            );
-            var wasVisible = _this8.isVisible;
-            _this8.currentVisibilityRatio = visibilityRatio;
-            _this8.isVisible = visibilityRatio >= _this8.visibilityThreshold;
-            var video =
-              _this8.mediaType === "video"
-                ? (_a = _this8.getAdCreative()) === null || _a === void 0
-                  ? void 0
-                  : _a.querySelector("video")
-                : null;
-            if (_this8.isVisible && !wasVisible) {
-              if (!_this8.viewStartTime) {
-                _this8.viewStartTime = performance.now();
-                _this8.startVisibilityCheck();
-              }
-              if (video && !_this8.hasEnded) {
-                video.currentTime = _this8.lastPausedTime;
-                video.play().catch(function (e) {
-                  return _this8.sdk.logger.error(
-                    "Video play failed for "
-                      .concat(_this8.adElementId, ": ")
-                      .concat(e.message),
-                  );
-                });
-                if (!_this8.playbackStartTime) {
-                  _this8.playbackStartTime = performance.now();
-                }
-              }
-            } else if (!_this8.isVisible && wasVisible) {
-              _this8.updateViewTime();
-              _this8.stopVisibilityCheck();
-              if (video && !_this8.hasEnded) {
-                _this8.lastPausedTime = video.currentTime;
-                video.pause();
-                _this8.updatePlaybackTime();
-              }
+        value: function e() {
+          var t = this;
+          var n = function e() {
+            var n;
+            if (t.adElement) {
+              var i = t.adElement.getBoundingClientRect();
+              var r =
+                window.innerHeight || document.documentElement.clientHeight;
+              var a = Math.min(i.bottom / r, (r - i.top) / r, 1);
+              var o = t.isVisible;
+              ((t.currentVisibilityRatio = a),
+                (t.isVisible = a >= t.visibilityThreshold));
+              var s =
+                "video" === t.mediaType
+                  ? null === (n = t.getAdCreative()) || void 0 === n
+                    ? void 0
+                    : n.querySelector("video")
+                  : null;
+              t.isVisible && !o
+                ? (t.viewStartTime ||
+                    ((t.viewStartTime = performance.now()),
+                    t.startVisibilityCheck()),
+                  s &&
+                    !t.hasEnded &&
+                    ((s.currentTime = t.lastPausedTime),
+                    s.play().catch(function (e) {
+                      return t.sdk.logger.error(
+                        "Video play failed for "
+                          .concat(t.adElementId, ": ")
+                          .concat(e.message),
+                      );
+                    }),
+                    t.playbackStartTime ||
+                      (t.playbackStartTime = performance.now())))
+                : !t.isVisible &&
+                  o &&
+                  (t.updateViewTime(),
+                  t.stopVisibilityCheck(),
+                  s &&
+                    !t.hasEnded &&
+                    ((t.lastPausedTime = s.currentTime),
+                    s.pause(),
+                    t.updatePlaybackTime()));
             }
           };
-          window.addEventListener("scroll", checkVisibility);
-          window.addEventListener("resize", checkVisibility);
+          (window.addEventListener("scroll", n),
+            window.addEventListener("resize", n));
         },
-        /**
-         * Retrieves the ad creative element.
-         * @returns Ad creative element.
-         */
       },
       {
         key: "getAdCreative",
-        value: function getAdCreative() {
+        value: function e() {
           if (!this.adElement) return null;
-          // If it's an iframe, try to access its content
-          if (this.adElement.tagName.toLowerCase() === "iframe") {
-            var iframe = this.adElement;
+          if ("iframe" === this.adElement.tagName.toLowerCase()) {
+            var t = this.adElement;
             try {
-              // Check if we can access the iframe content (same-origin)
-              if (iframe.contentDocument) {
-                var _adCreative =
-                  iframe.contentDocument.querySelector(".adgeist-ad");
-                if (_adCreative) {
-                  return _adCreative;
-                }
-                // Fallback to iframe body if .adgeist-ad not found
-                return iframe.contentDocument.body || null;
+              if (t.contentDocument) {
+                var n = t.contentDocument.querySelector(".adgeist-ad");
+                return n || t.contentDocument.body || null;
               }
-            } catch (error) {
-              // Cross-origin iframe - can't access content
+            } catch (r) {
               this.sdk.logger.log(
                 "Cannot access iframe content (cross-origin): ".concat(
                   this.adElementId,
                 ),
               );
             }
-            // Return the iframe itself if we can't access its content
-            return iframe;
+            return t;
           }
-          // For non-iframe elements, return the element itself or look for .adgeist-ad within it
-          var adCreative = this.adElement.querySelector(".adgeist-ad");
-          return adCreative || this.adElement;
+          var i = this.adElement.querySelector(".adgeist-ad");
+          return i || this.adElement;
         },
-        /**
-         * Cleans up observers and sends final events.
-         */
       },
       {
         key: "destroy",
-        value: function destroy() {
-          if (this.observer && this.adElement) {
-            this.observer.unobserve(this.adElement);
-            this.observer = null;
-          }
-          if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
-            this.resizeObserver = null;
-          }
-          this.stopVisibilityCheck();
-          this.updateViewTime();
-          this.updateHoverTime();
-          this.sendTotalTimeInView();
-          this.sendHoverData();
-          if (this.mediaType === "video" && !this.hasEnded) {
-            this.sendVideoPlaybackData();
-          }
+        value: function e() {
+          (this.observer &&
+            this.adElement &&
+            (this.observer.unobserve(this.adElement), (this.observer = null)),
+            this.resizeObserver &&
+              (this.resizeObserver.disconnect(), (this.resizeObserver = null)),
+            this.stopVisibilityCheck(),
+            this.updateViewTime(),
+            this.updateHoverTime(),
+            this.sendTotalTimeInView(),
+            this.sendHoverData(),
+            "video" !== this.mediaType ||
+              this.hasEnded ||
+              this.sendVideoPlaybackData());
         },
       },
     ]);
   })();
-
-  // Constants
-  var DISPLAY_STYLE_ID = "adcard-v2-styles";
-  var BANNER_STYLES_ID = "banner-card-styles";
-  var COMPANION_STYLES_ID = "companion-card-styles";
-  var GLOBAL_STYLES =
+  var F = "adcard-v2-styles";
+  var B = "banner-card-styles";
+  var z = "companion-card-styles";
+  var W =
     "\n    html, body { margin: 0; padding: 0; width: 100%; height: 100%; font-family: system-ui, -apple-system, sans-serif; }\n";
-  var DISPLAY_CSS =
+  var q =
     "\n    .card-container {\n      position: relative;\n      container-type: size;\n      container-name: adgeist-card;\n      max-height: 900px;\n      max-width: 1200px;\n      overflow: hidden;\n      outline: 1px solid #E0E0E0;\n      background-color: #FFFFFF;\n      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);\n      box-sizing: border-box;\n    }\n    .adgeist-title-text {\n      margin: 0;\n      color: #000;\n      word-break: break-word;\n    }\n    .adgeist-description-text {\n      margin: 0;\n      color: #4B5563;\n      word-break: break-word;\n    }\n    .adgeist-name-text {\n      margin: 0;\n      color: #9CA3AF;\n    }\n    .cta-button {\n      background: #85C896;\n      color: rgba(29, 29, 29, 1);\n      border-radius: 9999px;\n      padding: 6px 16px;\n      font-weight: 500;\n      text-decoration: none;\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      cursor: pointer;\n      white-space: nowrap;\n      box-shadow:\n        inset 0 0 2px -2px #ACFFB1,\n        inset 8px 3px 15px 0 #6FC974,\n        inset -4px -4px 13px -5px rgba(51,51,51,0.74),\n        inset 4px 0 4px 0 rgba(38,100,42,0.68);\n      transition: transform .2s;\n    }\n    .cta-button:hover { transform: scale(1.01); }\n";
-  var BANNER_CSS =
+  var G =
     "\n      .banner-adgeist-card {\n        container-type: size;\n        container-name: banner-ad;\n        max-width: 1200px;\n        min-width: 240px;\n        min-height: 50px;\n        max-height: 900px;\n        overflow: hidden;\n        outline: 1px solid #e0e0e0;\n        background-color: #d5d4d4ff;\n        box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n        position: relative;\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n        justify-content: center;\n      }\n\n      .adgeist-media {\n        position: relative;\n        width: 100%;\n        height: 100%;\n      }\n\n      .adgeist-media img,\n      .adgeist-media video {\n        width: 100%;\n        height: 100%;\n        object-fit: contain;\n        display: block;\n      }\n\n      .mute-button { cursor: pointer; transition: opacity 0.2s; }\n      .mute-button:hover { opacity: 0.8; }\n  ";
-  var COMPANION_CSS =
+  var K =
     "\n  .companion-ad-container {\n      display:flex;\n      position: relative;\n      flex-direction: column;\n      outline: 1px solid #E0E0E0;\n      background-color: #FFFFFF;\n      width:100%;\n      height:max-content;\n      max-width: 560px;\n      min-width: 320px;\n      min-height: 180px;\n      max-height: 470px;\n      overflow: hidden;\n      text-decoration: none;\n      color: inherit;\n  }\n  .cta-button {\n      background: #85C896;\n      color: rgba(29, 29, 29, 1);\n      border-radius: 9999px;\n      padding: 6px 16px;\n      font-weight: 500;\n      text-decoration: none;\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      cursor: pointer;\n      white-space: nowrap;\n      box-shadow:\n          inset 0 0 2px -2px #ACFFB1,\n          inset 8px 3px 15px 0 #6FC974,\n          inset -4px -4px 13px -5px rgba(51,51,51,0.74),\n          inset 4px 0 4px 0 rgba(38,100,42,0.68);\n      transition: transform .2s;\n  }\n  .cta-button:hover { transform: scale(1.01); }\n  .adgeist-title-text {\n    margin: 0;\n    color: #000;\n    word-break: break-word;\n  }\n  .adgeist-description-text {\n    margin: 0;\n    color: #4B5563;\n    word-break: break-word;\n  }\n";
-  // Utility functions
-  function ensureHttpProtocol(url) {
-    if (!url) return "";
-    if (!/^https?:\/\//i.test(url)) return "https://" + url;
-    return url;
+  function Y(e) {
+    return e ? (/^https?:\/\//i.test(e) ? e : "https://" + e) : "";
   }
-  function getAdLayout(width, height) {
-    var ratio = width / height;
-    if (height > 450 && width > 450) return null;
-    if (height > width) return "layout-4rows ";
-    if (ratio <= 1.4) return "layout-3rows";
-    if (ratio <= 2) return "layout-2rows";
-    if (ratio <= 3.3) return "layout-2row-2col";
-    return "layout-1row";
+  function J(e, t) {
+    var n = e / t;
+    return t > 450 && e > 450
+      ? null
+      : t > e
+        ? "layout-4rows "
+        : n <= 1.4
+          ? "layout-3rows"
+          : n <= 2
+            ? "layout-2rows"
+            : n <= 3.3
+              ? "layout-2row-2col"
+              : "layout-1row";
   }
-  // AdCard base class
-  var AdCard = /*#__PURE__*/ (function () {
-    function AdCard() {
-      var options =
-        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      _classCallCheck(this, AdCard);
-      var _a;
-      this.logger = {
-        log: console.log,
-      };
-      this.adElementId = options.adElementId || "";
-      this.title = options.title || "Headline 25 characters";
-      this.description =
-        options.description ||
-        "Body text with 50 characters of describing the advertisement.";
-      this.name = options.name || "-";
-      this.ctaUrl = options.ctaUrl || "https://www.example.com";
-      this.type = options.type || "image";
-      this.isResponsive =
-        (_a = options.isResponsive) !== null && _a !== void 0 ? _a : false;
-      this.responsiveType = options.responsiveType || "Square";
-      this.width = parseInt(String(options.width || 300));
-      this.height = parseInt(String(options.height || 300));
-      this.appliedClass = getAdLayout(this.width, this.height);
-      this.adspaceType = options.adspaceType || "banner";
-      this.media = options.media || [];
-      this.altText = options.altText || "";
+  var Q = (function () {
+    function e() {
+      var t;
+      var n =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      (s(this, e),
+        (this.logger = { log: console.log }),
+        (this.adElementId = n.adElementId || ""),
+        (this.title = n.title || "Headline 25 characters"),
+        (this.description =
+          n.description ||
+          "Body text with 50 characters of describing the advertisement."),
+        (this.name = n.name || "-"),
+        (this.ctaUrl = n.ctaUrl || "https://www.example.com"),
+        (this.type = n.type || "image"),
+        (this.isResponsive =
+          null !== (t = n.isResponsive) && void 0 !== t && t),
+        (this.responsiveType = n.responsiveType || "Square"),
+        (this.width = parseInt(String(n.width || 300))),
+        (this.height = parseInt(String(n.height || 300))),
+        (this.appliedClass = J(this.width, this.height)),
+        (this.adspaceType = n.adspaceType || "banner"),
+        (this.media = n.media || []),
+        (this.altText = n.altText || ""));
     }
-    return _createClass(AdCard, [
+    return c(e, [
       {
         key: "renderHtml",
-        value: function renderHtml() {
-          var props = {
+        value: function e() {
+          var t = {
             adElementId: this.adElementId,
             title: this.title,
             description: this.description,
@@ -1832,2533 +1421,2599 @@
             media: this.media,
             altText: this.altText,
           };
-          if (this.adspaceType === "banner") {
-            var bannerAdCard = new BannerAdCard(props);
-            return bannerAdCard.renderBannerHtml();
-          } else if (this.adspaceType === "display") {
-            var displayAdCard = new DisplayAdCard(props);
-            return displayAdCard.renderDisplayHtml();
-          } else if (this.adspaceType === "companion") {
-            var companionAdCard = new CompanionAdCard(props);
-            return companionAdCard.renderCompanionHtml();
+          if ("banner" === this.adspaceType) {
+            var n = new X(t);
+            return n.renderBannerHtml();
+          }
+          if ("display" === this.adspaceType) {
+            var i = new Z(t);
+            return i.renderDisplayHtml();
+          }
+          if ("companion" === this.adspaceType) {
+            var r = new $(t);
+            return r.renderCompanionHtml();
           }
           return "";
         },
       },
       {
         key: "mount",
-        value: function mount(targetEl) {
-          if (!targetEl) {
-            throw new Error("AdCard: mount target element not found");
-          }
-          targetEl.innerHTML = this.renderHtml();
+        value: function e(t) {
+          if (!t) throw new Error("AdCard: mount target element not found");
+          t.innerHTML = this.renderHtml();
         },
       },
       {
         key: "getAudioScript",
-        value: function getAudioScript() {
+        value: function e() {
           return "<script>\n      (function() {\n        var v = document.getElementById('adgeist-video');\n        if(!v) return;\n        window.addEventListener('message', function(e) {\n          if(e.data.type === 'adgeist_mute' && e.data.mute) v.muted = true;\n        });\n        function notify() {\n          if(!v.muted) {\n            window.parent.postMessage({\n              type: 'adgeist_mute_event',\n              adElementId: '".concat(
             this.adElementId,
-            "',\n              muted: false\n            }, '*');\n          }\n        }\n        v.addEventListener('volumechange', notify);\n        v.addEventListener('play', notify);\n      })();\n    </script>",
+            "',\n              muted: false\n            }, '*');\n          }\n        }\n        v.addEventListener('volumechange', notify);\n        v.addEventListener('play', notify);\n      })();\n    <\/script>",
           );
         },
       },
     ]);
   })();
-  // BannerAdCard class
-  var BannerAdCard = /*#__PURE__*/ (function (_AdCard) {
-    function BannerAdCard() {
-      var _this;
-      var options =
-        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      _classCallCheck(this, BannerAdCard);
-      var _a;
-      _this = _callSuper(this, BannerAdCard, [options]);
-      _this.isResponsive =
-        (_a = options.isResponsive) !== null && _a !== void 0 ? _a : true;
-      _this.media = options.media || [];
-      _this.ctaUrl = options.ctaUrl || "#";
-      _this.adElementId = options.adElementId || "";
-      _this.altText = options.altText || "Banner Image";
-      return _this;
+  var X = (function (e) {
+    function t() {
+      var e;
+      var n;
+      var i =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      return (
+        s(this, t),
+        (n = o(this, t, [i])),
+        (n.isResponsive = null === (e = i.isResponsive) || void 0 === e || e),
+        (n.media = i.media || []),
+        (n.ctaUrl = i.ctaUrl || "#"),
+        (n.adElementId = i.adElementId || ""),
+        (n.altText = i.altText || "Banner Image"),
+        n
+      );
     }
-    _inherits(BannerAdCard, _AdCard);
-    return _createClass(BannerAdCard, [
-      {
-        key: "renderBannerHtml",
-        value: function renderBannerHtml() {
-          var rawWidth = this.isResponsive ? "100%" : this.width + "px";
-          var rawHeight = this.isResponsive ? "100%" : this.height + "px";
-          // const getEffectiveMedia = (): MediaItem | null => {
-          //   if (!Array.isArray(this.media) || this.media.length === 0) {
-          //     return null;
-          //   }
-          //   if (this.media.length === 1) return this.media[0];
-          //   const width = parseFloat(String(this.width));
-          //   const height = parseFloat(String(this.height));
-          //   if (!width || !height || height === 0) {
-          //     return this.media[0];
-          //   }
-          //   const containerRatio = width / height;
-          //   return this.media.reduce((closest, media) => {
-          //     const mediaRatio = parseFloat(media.ratio || "1");
-          //     if (!isFinite(mediaRatio)) return closest; // skip invalid ratios
-          //     const diff = Math.abs(containerRatio - mediaRatio);
-          //     const closestDiff = Math.abs(
-          //       containerRatio - parseFloat(closest.ratio || "1")
-          //     );
-          //     return diff < closestDiff ? media : closest;
-          //   });
-          // };
-          var effectiveMedia = this.media[0];
-          return '\n        <style id="'
-            .concat(BANNER_STYLES_ID, '">')
-            .concat(GLOBAL_STYLES)
-            .concat(BANNER_CSS, '</style>\n        <a href="')
-            .concat(
-              ensureHttpProtocol(this.ctaUrl),
-              '" target="_blank" id="adgeist-card" class="banner-adgeist-card" style="width:',
-            )
-            .concat(rawWidth, ";height:")
-            .concat(
-              rawHeight,
-              ';">\n          <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;" role="img" aria-label="Advertisement">AD</span>\n\n          <div class="adgeist-media adgeist-ad">\n             ',
-            )
-            .concat(
-              (effectiveMedia === null || effectiveMedia === void 0
-                ? void 0
-                : effectiveMedia.type) === "video"
-                ? '\n                  <video\n                    id="adgeist-video"\n                    class="media"\n                    poster="'
-                    .concat(
-                      (effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.thumbnailUrl) || "",
-                      '" \n                    autoplay muted loop\n                    playsinline\n                    webkit-playsinline\n                    width="',
-                    )
-                    .concat(
-                      (effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.width) || "100%",
-                      '"\n                    height="',
-                    )
-                    .concat(
-                      (effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.height) || "100%",
-                      "\"\n                    style=\"object-fit: contain;\" \n                    onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                                  if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n                    preload=\"auto\"\n                    aria-label=\"",
-                    )
-                    .concat(
-                      this.altText,
-                      '"\n                  >\n                      <source src="',
-                    )
-                    .concat(
-                      (effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.src) || "",
-                      '" type="video/mp4">\n                  </video>\n                  ',
-                    )
-                : '\n                <img\n                  class="media"\n                  src="'
-                    .concat(
-                      (effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.src) || "",
-                      '"\n                  fallback="',
-                    )
-                    .concat(
-                      (effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.thumbnailUrl) || "",
-                      '"\n                  alt="',
-                    )
-                    .concat(this.altText, '"\n                  aria-label="')
-                    .concat(
-                      this.altText,
-                      '"\n                  loading="eager"\n                  width="',
-                    )
-                    .concat(
-                      effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.width,
-                      '"\n                  height="',
-                    )
-                    .concat(
-                      effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.height,
-                      '"\n                  type="',
-                    )
-                    .concat(
-                      (effectiveMedia === null || effectiveMedia === void 0
-                        ? void 0
-                        : effectiveMedia.mimeType) || "image/*",
-                      "\"\n                  onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                          if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n                />\n              ",
-                    ),
-              "\n          </div>\n        </a>      ",
-            );
-        },
-      },
-    ]);
-  })(AdCard);
-  // DisplayAdCard class
-  var DisplayAdCard = /*#__PURE__*/ (function (_AdCard2) {
-    function DisplayAdCard() {
-      var options =
-        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      _classCallCheck(this, DisplayAdCard);
-      return _callSuper(this, DisplayAdCard, [options]);
-    }
-    _inherits(DisplayAdCard, _AdCard2);
-    return _createClass(DisplayAdCard, [
-      {
-        key: "estimateTextHeight",
-        value: function estimateTextHeight(
-          chars,
-          baseSize,
-          isBold,
-          availableWidth,
-        ) {
-          var effectiveSize = baseSize;
-          // Increased multiplier from 0.5 to 0.6 to be more conservative and prevent clipping
-          var avgCharWidth = effectiveSize * 0.6 * (isBold ? 1.1 : 1.0);
-          var totalTextWidth = chars * avgCharWidth;
-          var lines = Math.max(1, Math.ceil(totalTextWidth / availableWidth));
-          // Increased line height multiplier for safety
-          var lineHeight = effectiveSize * 1.4;
-          return lines * lineHeight;
-        },
-      },
-      {
-        key: "getLayoutConfig",
-        value: function getLayoutConfig() {
-          var width = this.width;
-          var height = this.height;
-          var MEDIA_ASPECT_RATIO = 1.91;
-          // Calculate theoretical height if full width
-          var stackedImageHeight = width / MEDIA_ASPECT_RATIO;
-          var remainingHeight = height - stackedImageHeight;
-          // Stacked Preferred
-          var MIN_TEXT_HEIGHT = 40;
-          var isStacked = remainingHeight >= MIN_TEXT_HEIGHT;
-          if (isStacked) {
-            // Enforce Min Content Height (e.g. 35% of total height)
-            var minContentH = height * 0.35;
-            if (remainingHeight < minContentH) {
-              stackedImageHeight = height - minContentH;
-            }
-            return {
-              type: "stacked",
-              imageHeight: stackedImageHeight,
-              imageWidth: width,
-              contentHeight: remainingHeight,
-              flexDirection: "column",
-            };
-          } else {
-            // Side-by-Side Fallback
-            var imgH = height;
-            var imgW = imgH * MEDIA_ASPECT_RATIO;
-            // Micro Banner Optimization (Height < 70px)
-            // User Request: "scale the image down and make space for title"
-            if (height < 70) {
-              // Force image to be smaller to give text room
-              // Max 20% width or aspect ratio width, whichever is smaller
-              var maxMicroImgWidth = width * 0.2;
-              imgW = Math.min(imgW, maxMicroImgWidth);
-            }
-            var MIN_TEXT_WIDTH = 110;
-            var maxImgW = width - MIN_TEXT_WIDTH;
-            // Enforce Min Content Width (e.g. 45% of total width)
-            var minContentW = width * 0.45;
-            if (width - imgW < minContentW) {
-              maxImgW = width - minContentW;
-            }
-            if (imgW > maxImgW) {
-              imgW = Math.max(0, maxImgW);
-              // Force full height to allow pillarboxing/letterboxing within the container
-              imgH = height;
-            }
-            return {
-              type: "side",
-              imageHeight: imgH,
-              imageWidth: imgW,
-              contentHeight: height,
-              flexDirection: "row",
-            };
-          }
-        },
-      },
-      {
-        key: "calculateLayoutDetails",
-        value: function calculateLayoutDetails(layoutConfig) {
-          var _this2 = this;
-          var width = this.width;
-          var height = this.height;
-          var isStacked = layoutConfig.type === "stacked";
-          var contentAreaHeight = isStacked
-            ? height - layoutConfig.imageHeight
-            : height;
-          var contentAreaWidth = isStacked
-            ? width
-            : width - layoutConfig.imageWidth;
-          // Dynamic Padding
-          var PADDING_Y = height < 150 ? 16 : height < 350 ? 20 : 32;
-          var GAP = 4;
-          var PADDING_X = width < 200 ? 16 : 32;
-          if (height < 60) {
-            PADDING_Y = 8;
-            GAP = 2;
-          }
-          var isSplitContent = !isStacked && contentAreaWidth > 480;
-          var isHorizontalContent = !isSplitContent && height < 90;
-          var availableTextWidth = Math.max(10, contentAreaWidth - PADDING_X);
-          var hCTA = 40;
-          var wCTA = 100;
-          if (isHorizontalContent) {
-            availableTextWidth -= wCTA;
-          } else if (isSplitContent) {
-            availableTextWidth = (contentAreaWidth - PADDING_X - 16) / 2;
-          } else if (height < 90 && !isStacked) {
-            availableTextWidth = (contentAreaWidth - PADDING_X - 32) / 2;
-          }
-          var baseTitleSize = 16;
-          var baseBodySize = 14;
-          var availableH = contentAreaHeight - PADDING_Y;
-          // --- Helper to try a specific configuration ---
-          var tryLayout = function tryLayout(showTitle, showBody, showCTA) {
-            // 1. Determine Content Height at Base Scale (Scale = 1.0)
-            var contentHeightBase = 0;
-            var hTitleBase = 0;
-            var hBodyBase = 0;
-            if (showTitle) {
-              hTitleBase = _this2.estimateTextHeight(
-                _this2.title.length,
-                baseTitleSize,
-                true,
-                availableTextWidth,
-              );
-            }
-            if (showBody) {
-              hBodyBase = _this2.estimateTextHeight(
-                _this2.description.length,
-                baseBodySize,
-                false,
-                availableTextWidth,
-              );
-            }
-            if (isSplitContent) {
-              // Split: Max of Col1 (Title) or Col2 (Desc)
-              var hCol1 = showTitle ? hTitleBase + GAP : 0;
-              var hCol2 = showBody ? hBodyBase : 0;
-              contentHeightBase = Math.max(hCol1, hCol2);
-            } else {
-              // Stacked/Standard: Sum of heights
-              if (showTitle) contentHeightBase += hTitleBase;
-              if (showBody) contentHeightBase += hBodyBase;
-              if (showTitle && showBody) contentHeightBase += GAP;
-              if (showCTA && !isHorizontalContent) {
-                // CTA Height + Margin
-                contentHeightBase += 16 + hCTA; // 16px margin
-              }
-            }
-            // 2. Calculate Ideal Scale to fill Available Height
-            // availableH = scale * contentHeightBase  => scale = availableH / contentHeightBase
-            // BUT text height doesn't scale linearly with font size (wrapping changes).
-            // We use a heuristic: Scale ~ sqrt(HeightRatio) or similar, but let's try a direct ratio first
-            // and then clamp.
-            var targetScale = 1.0;
-            if (contentHeightBase > 0) {
-              // If we have content, we want it to fill the space comfortably.
-              // Let's aim for filling 90% of space to leave some breathing room?
-              // Or 100%? Let's try to calculate the scale that makes it FIT.
-              // We can't easily inverse `estimateTextHeight`.
-              // So we use the iterative approach from before, but we start with a guess.
-              var heightRatio = availableH / contentHeightBase;
-              targetScale = Math.sqrt(heightRatio); // Heuristic
-            }
-            // Clamp Scale
-            var maxScaleByWidth = availableTextWidth / 7 / baseTitleSize; // Prevent super wide chars
-            var maxScale = Math.min(2.5, maxScaleByWidth); // Allow up to 2.5x if space permits
-            targetScale = Math.max(0.1, Math.min(maxScale, targetScale));
-            // 3. Verify Fit with Iterative Downscaling
-            var finalScale = targetScale;
-            var fits = false;
-            var retries = 10;
-            while (retries >= 0) {
-              var titleSizePx = Math.max(14, baseTitleSize * finalScale);
-              var bodySizePx = Math.max(12, baseBodySize * finalScale);
-              var currentHTitle = 0;
-              var currentHBody = 0;
-              if (showTitle) {
-                currentHTitle = _this2.estimateTextHeight(
-                  _this2.title.length,
-                  titleSizePx,
-                  true,
-                  availableTextWidth,
-                );
-              }
-              if (showBody) {
-                currentHBody = _this2.estimateTextHeight(
-                  _this2.description.length,
-                  bodySizePx,
-                  false,
-                  availableTextWidth,
-                );
-              }
-              var neededH = 0;
-              if (isSplitContent) {
-                var _hCol = showTitle ? currentHTitle + GAP : 0;
-                var _hCol2 = showBody ? currentHBody : 0;
-                if (_hCol <= availableH && _hCol2 <= availableH) {
-                  fits = true;
-                }
-              } else {
-                if (showTitle) neededH += currentHTitle;
-                if (showBody) neededH += currentHBody;
-                if (showTitle && showBody) neededH += GAP;
-                if (showCTA && !isHorizontalContent) {
-                  var ctaFontSize = Math.max(12, 14 * finalScale);
-                  var currentHCta = ctaFontSize * 1.2 + 12;
-                  neededH += 16 + currentHCta;
-                }
-                if (neededH <= availableH) {
-                  fits = true;
-                }
-              }
-              if (fits) break;
-              finalScale *= 0.9; // Reduce by 10%
-              retries--;
-            }
-            return {
-              fits: fits,
-              scale: finalScale,
-              showTitle: showTitle,
-              showBody: showBody,
-              showCTA: showCTA,
-            };
-          };
-          // --- Priority Configurations ---
-          // 1. Full Content: Title + Desc + CTA
-          // 2. No Desc: Title + CTA (Preferred for performance)
-          // 3. No CTA: Title + Desc (Fallback)
-          // 4. Minimal: Title Only
-          var configs = [
-            {
-              t: true,
-              d: true,
-              c: true,
-            },
-            // Full
-            {
-              t: true,
-              d: true,
-              c: false,
-            },
-            // No CTA
-            {
-              t: true,
-              d: false,
-              c: false,
-            },
-            // Title Only (Preferred over Title+CTA if space is tight)
-            {
-              t: true,
-              d: false,
-              c: true,
-            }, // No Desc (Title + CTA)
-          ];
-          var bestLayout = null;
-          for (var _i = 0, _configs = configs; _i < _configs.length; _i++) {
-            var config = _configs[_i];
-            // Skip CTA if horizontal content mode and height is too small for CTA
-            if (config.c && isHorizontalContent && contentAreaHeight < hCTA)
-              continue;
-            // In Split Content, we rarely want to hide things unless necessary,
-            // but the logic still holds: if full doesn't fit, try hiding.
-            var result = tryLayout(config.t, config.d, config.c);
-            if (result.fits) {
-              // If it fits, is it "good enough"?
-              // If we are dropping content (e.g. Desc), we should only do it if
-              // the Full content scale was terrible (e.g. < 0.6).
-              // But here we are iterating in priority order.
-              // If Full fits (even at 0.8 scale), we take it.
-              // If Full DOESN'T fit (scale dropped below threshold in loop? No, loop just finds MAX scale that fits),
-              // Wait, the loop finds *a* scale that fits. It might be 0.1.
-              // We need a minimum acceptable scale.
-              // For "No CTA" (Title + Desc), we are more lenient because showing description is high priority.
-              var isNoCTA = config.d && !config.c;
-              var threshold = isNoCTA ? 0.35 : 0.75;
-              if (result.scale >= threshold) {
-                bestLayout = result;
-                break; // Found a good fit!
-              }
-              // If it fits but scale is tiny, we treat it as "doesn't fit well" and try next config (which has less content, so scale should improve).
-              // However, we should keep track of the "best so far" just in case nothing meets the threshold.
-              if (!bestLayout || result.scale > bestLayout.scale) {
-                bestLayout = result;
-              }
-            }
-          }
-          // Fallback if absolutely nothing "fits" (shouldn't happen with Title Only and tiny scale)
-          if (!bestLayout) {
-            bestLayout = tryLayout(true, false, false); // Force Title Only
-          }
-          return _objectSpread2(
-            _objectSpread2({}, layoutConfig),
-            {},
-            {
-              fontSizeScale: bestLayout.scale,
-              isHorizontalContent: isHorizontalContent,
-              isSplitContent: isSplitContent,
-              paddingY: PADDING_Y / 2,
-              fontSizes: {
-                title: Math.max(14, baseTitleSize * bestLayout.scale),
-                body: Math.max(12, baseBodySize * bestLayout.scale),
-              },
-              visible: {
-                title: bestLayout.showTitle,
-                description: bestLayout.showBody,
-                cta: bestLayout.showCTA,
-              },
-            },
-          );
-        },
-      },
-      {
-        key: "renderContentHtml",
-        value: function renderContentHtml(details) {
-          var fontSizes = details.fontSizes,
-            visible = details.visible,
-            type = details.type,
-            isHorizontalContent = details.isHorizontalContent,
-            isSplitContent = details.isSplitContent,
-            paddingY = details.paddingY;
-          var isStacked = type === "stacked";
-          // Styles
-          var titleStyle = visible.title
-            ? "font-size:".concat(
-                fontSizes.title,
-                "px;line-height:1.2;margin-bottom:4px;font-weight:700;",
-              )
-            : "display:none;";
-          var descStyle = visible.description
-            ? "font-size:".concat(
-                fontSizes.body,
-                "px;line-height:1.35;margin-bottom:4px;opacity:0.8;",
-              )
-            : "display:none;";
-          // const nameStyle = visible.name
-          //   ? `font-size:${fontSizes.brand}px;line-height:1.2;opacity:0.6;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;`
-          //   : 'display:none;'; // Removed
-          var ctaStyle = visible.cta
-            ? "font-size:".concat(
-                Math.max(12, 14 * details.fontSizeScale),
-                "px;",
-              )
-            : "display:none;";
-          if (isSplitContent) {
-            // Split Layout: Col 1 (Title/Name) | Col 2 (Desc) - No CTA, No Separator
-            return '\n            <div class="adgeist-content-container" style="flex:1;display:flex;flex-direction:row;align-items:center;padding:'
+    return (
+      p(t, e),
+      c(t, [
+        {
+          key: "renderBannerHtml",
+          value: function e() {
+            var t = this.isResponsive ? "100%" : this.width + "px";
+            var n = this.isResponsive ? "100%" : this.height + "px";
+            var i = this.media[0];
+            return '\n        <style id="'
+              .concat(B, '">')
+              .concat(W)
+              .concat(G, '</style>\n        <a href="')
               .concat(
-                paddingY,
-                'px 16px;overflow:visible;justify-content:center;">\n                <div style="display:flex;flex-direction:column;justify-content:center;flex:1;padding-right:16px;text-align:left;height:100%;overflow:visible;">\n                    <div class="adgeist-title-text" style="',
+                Y(this.ctaUrl),
+                '" target="_blank" id="adgeist-card" class="banner-adgeist-card" style="width:',
               )
-              .concat(titleStyle, '">')
+              .concat(t, ";height:")
+              .concat(
+                n,
+                ';">\n          <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;" role="img" aria-label="Advertisement">AD</span>\n\n          <div class="adgeist-media adgeist-ad">\n             ',
+              )
+              .concat(
+                "video" === (null == i ? void 0 : i.type)
+                  ? '\n                  <video\n                    id="adgeist-video"\n                    class="media"\n                    poster="'
+                      .concat(
+                        (null == i ? void 0 : i.thumbnailUrl) || "",
+                        '" \n                    autoplay muted loop\n                    playsinline\n                    webkit-playsinline\n                    width="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.width) || "100%",
+                        '"\n                    height="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.height) || "100%",
+                        "\"\n                    style=\"object-fit: contain;\" \n                    onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                                  if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n                    preload=\"auto\"\n                    aria-label=\"",
+                      )
+                      .concat(
+                        this.altText,
+                        '"\n                  >\n                      <source src="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.src) || "",
+                        '" type="video/mp4">\n                  </video>\n                  ',
+                      )
+                  : '\n                <img\n                  class="media"\n                  src="'
+                      .concat(
+                        (null == i ? void 0 : i.src) || "",
+                        '"\n                  fallback="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.thumbnailUrl) || "",
+                        '"\n                  alt="',
+                      )
+                      .concat(this.altText, '"\n                  aria-label="')
+                      .concat(
+                        this.altText,
+                        '"\n                  loading="eager"\n                  width="',
+                      )
+                      .concat(
+                        null == i ? void 0 : i.width,
+                        '"\n                  height="',
+                      )
+                      .concat(
+                        null == i ? void 0 : i.height,
+                        '"\n                  type="',
+                      )
+                      .concat(
+                        (null == i ? void 0 : i.mimeType) || "image/*",
+                        "\"\n                  onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                          if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n                />\n              ",
+                      ),
+                "\n          </div>\n        </a>      ",
+              );
+          },
+        },
+      ])
+    );
+  })(Q);
+  var Z = (function (e) {
+    function t() {
+      var e =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      return (s(this, t), o(this, t, [e]));
+    }
+    return (
+      p(t, e),
+      c(t, [
+        {
+          key: "estimateTextHeight",
+          value: function e(t, n, i, r) {
+            var a = n;
+            var o = 0.6 * a * (i ? 1.1 : 1);
+            var s = t * o;
+            var l = Math.max(1, Math.ceil(s / r));
+            var c = 1.4 * a;
+            return l * c;
+          },
+        },
+        {
+          key: "getLayoutConfig",
+          value: function e() {
+            var t = this.width;
+            var n = this.height;
+            var i = 1.91;
+            var r = t / i;
+            var a = n - r;
+            var o = 40;
+            var s = a >= o;
+            if (s) {
+              var l = 0.35 * n;
+              return (
+                a < l && (r = n - l),
+                {
+                  type: "stacked",
+                  imageHeight: r,
+                  imageWidth: t,
+                  contentHeight: a,
+                  flexDirection: "column",
+                }
+              );
+            }
+            var c = n;
+            var d = c * i;
+            if (n < 70) {
+              var u = 0.2 * t;
+              d = Math.min(d, u);
+            }
+            var v = 110;
+            var p = t - v;
+            var h = 0.45 * t;
+            return (
+              t - d < h && (p = t - h),
+              d > p && ((d = Math.max(0, p)), (c = n)),
+              {
+                type: "side",
+                imageHeight: c,
+                imageWidth: d,
+                contentHeight: n,
+                flexDirection: "row",
+              }
+            );
+          },
+        },
+        {
+          key: "calculateLayoutDetails",
+          value: function e(t) {
+            var n = this;
+            var i = this.width;
+            var r = this.height;
+            var a = "stacked" === t.type;
+            var o = a ? r - t.imageHeight : r;
+            var s = a ? i : i - t.imageWidth;
+            var l = r < 150 ? 16 : r < 350 ? 20 : 32;
+            var c = 4;
+            var d = i < 200 ? 16 : 32;
+            r < 60 && ((l = 8), (c = 2));
+            var u = !a && s > 480;
+            var v = !u && r < 90;
+            var p = Math.max(10, s - d);
+            var h = 40;
+            var g = 100;
+            v
+              ? (p -= g)
+              : u
+                ? (p = (s - d - 16) / 2)
+                : r < 90 && !a && (p = (s - d - 32) / 2);
+            var f = 16;
+            var m = 14;
+            var y = o - l;
+            var b = function e(t, i, r) {
+              var a = 0;
+              var o = 0;
+              var s = 0;
+              if (
+                (t && (o = n.estimateTextHeight(n.title.length, f, !0, p)),
+                i && (s = n.estimateTextHeight(n.description.length, m, !1, p)),
+                u)
+              ) {
+                var l = t ? o + c : 0;
+                var d = i ? s : 0;
+                a = Math.max(l, d);
+              } else
+                (t && (a += o),
+                  i && (a += s),
+                  t && i && (a += c),
+                  r && !v && (a += 16 + h));
+              var g = 1;
+              if (a > 0) {
+                var b = y / a;
+                g = Math.sqrt(b);
+              }
+              var w = p / 7 / f;
+              var k = Math.min(2.5, w);
+              g = Math.max(0.1, Math.min(k, g));
+              var x = g;
+              var T = !1;
+              var E = 10;
+              for (; E >= 0; ) {
+                var S = Math.max(14, f * x);
+                var I = Math.max(12, m * x);
+                var A = 0;
+                var C = 0;
+                (t && (A = n.estimateTextHeight(n.title.length, S, !0, p)),
+                  i &&
+                    (C = n.estimateTextHeight(n.description.length, I, !1, p)));
+                var M = 0;
+                if (u) {
+                  var P = t ? A + c : 0;
+                  var O = i ? C : 0;
+                  P <= y && O <= y && (T = !0);
+                } else {
+                  if (
+                    (t && (M += A), i && (M += C), t && i && (M += c), r && !v)
+                  ) {
+                    var D = Math.max(12, 14 * x);
+                    var _ = 1.2 * D + 12;
+                    M += 16 + _;
+                  }
+                  M <= y && (T = !0);
+                }
+                if (T) break;
+                ((x *= 0.9), E--);
+              }
+              return {
+                fits: T,
+                scale: x,
+                showTitle: t,
+                showBody: i,
+                showCTA: r,
+              };
+            };
+            var k = [
+              { t: !0, d: !0, c: !0 },
+              { t: !0, d: !0, c: !1 },
+              { t: !0, d: !1, c: !1 },
+              { t: !0, d: !1, c: !0 },
+            ];
+            var x = null;
+            for (var T = 0, E = k; T < E.length; T++) {
+              var S = E[T];
+              if (!(S.c && v && o < h)) {
+                var I = b(S.t, S.d, S.c);
+                if (I.fits) {
+                  var A = S.d && !S.c;
+                  var C = A ? 0.35 : 0.75;
+                  if (I.scale >= C) {
+                    x = I;
+                    break;
+                  }
+                  (!x || I.scale > x.scale) && (x = I);
+                }
+              }
+            }
+            return (
+              x || (x = b(!0, !1, !1)),
+              w(
+                w({}, t),
+                {},
+                {
+                  fontSizeScale: x.scale,
+                  isHorizontalContent: v,
+                  isSplitContent: u,
+                  paddingY: l / 2,
+                  fontSizes: {
+                    title: Math.max(14, f * x.scale),
+                    body: Math.max(12, m * x.scale),
+                  },
+                  visible: {
+                    title: x.showTitle,
+                    description: x.showBody,
+                    cta: x.showCTA,
+                  },
+                },
+              )
+            );
+          },
+        },
+        {
+          key: "renderContentHtml",
+          value: function e(t) {
+            var n = t.fontSizes,
+              i = t.visible,
+              r = t.type,
+              a = t.isHorizontalContent,
+              o = t.isSplitContent,
+              s = t.paddingY;
+            var l = "stacked" === r;
+            var c = i.title
+              ? "font-size:".concat(
+                  n.title,
+                  "px;line-height:1.2;margin-bottom:4px;font-weight:700;",
+                )
+              : "display:none;";
+            var d = i.description
+              ? "font-size:".concat(
+                  n.body,
+                  "px;line-height:1.35;margin-bottom:4px;opacity:0.8;",
+                )
+              : "display:none;";
+            var u = i.cta
+              ? "font-size:".concat(Math.max(12, 14 * t.fontSizeScale), "px;")
+              : "display:none;";
+            if (o)
+              return '\n            <div class="adgeist-content-container" style="flex:1;display:flex;flex-direction:row;align-items:center;padding:'
+                .concat(
+                  s,
+                  'px 16px;overflow:visible;justify-content:center;">\n                <div style="display:flex;flex-direction:column;justify-content:center;flex:1;padding-right:16px;text-align:left;height:100%;overflow:visible;">\n                    <div class="adgeist-title-text" style="',
+                )
+                .concat(c, '">')
+                .concat(
+                  this.title,
+                  '</div>\n                </div>\n                <div style="display:flex;flex-direction:column;justify-content:center;flex:2;text-align:left;height:100%;overflow:visible;">\n                    <div class="adgeist-description-text" style="',
+                )
+                .concat(d, '">')
+                .concat(
+                  this.description,
+                  "</div>\n                </div>\n            </div>\n        ",
+                );
+            var v = a ? "row" : "column";
+            var p = l
+              ? "align-items:center;text-align:center;"
+              : "align-items:flex-start;text-align:left;";
+            var h = a
+              ? "align-items:center;justify-content:space-between;text-align:left;"
+              : l
+                ? "align-items:center;justify-content:space-around;"
+                : "align-items:center;justify-content:center;";
+            var g = a ? "margin-left:16px;" : "margin-top:16px;";
+            var f = a
+              ? "width:100%;justify-content:center;"
+              : l
+                ? "justify-content:center;width:100%;"
+                : "width:100%;";
+            return '\n        <div class="adgeist-content-container" style="flex:1;display:flex;flex-direction:'
+              .concat(v, ";")
+              .concat(h, "padding:")
+              .concat(
+                s,
+                'px 16px;overflow:visible;">\n            <div style="display:flex;flex-direction:column;',
+              )
+              .concat(f)
+              .concat(
+                p,
+                'overflow:visible;">\n                <div class="adgeist-title-text" style="',
+              )
+              .concat(c, '">')
               .concat(
                 this.title,
-                '</div>\n                </div>\n                <div style="display:flex;flex-direction:column;justify-content:center;flex:2;text-align:left;height:100%;overflow:visible;">\n                    <div class="adgeist-description-text" style="',
+                '</div>\n                <div class="adgeist-description-text" style="',
               )
-              .concat(descStyle, '">')
+              .concat(d, '">')
               .concat(
                 this.description,
-                "</div>\n                </div>\n            </div>\n        ",
-              );
-          }
-          // Alignment
-          var contentDir = isHorizontalContent ? "row" : "column";
-          var alignStyle = isStacked
-            ? "align-items:center;text-align:center;"
-            : "align-items:flex-start;text-align:left;";
-          // Horizontal: Space between Text and CTA. Stacked: Center.
-          var containerAlign = isHorizontalContent
-            ? "align-items:center;justify-content:space-between;text-align:left;"
-            : isStacked
-              ? "align-items:center;justify-content:space-around;"
-              : "align-items:center;justify-content:center;";
-          // CTA Margin: Horizontal -> Left margin. Stacked -> Top margin (gap).
-          // Note: In Stacked, TextContainer will be flex:1, so it pushes CTA down.
-          var ctaMargin = isHorizontalContent
-            ? "margin-left:16px;"
-            : "margin-top:16px;";
-          // Text Container:
-          // Horizontal: Width 100%, Center Vertically.
-          // Stacked: Flex 1 (to fill space), Center Vertically (justify-content: center).
-          var textContainerStyle = isHorizontalContent
-            ? "width:100%;justify-content:center;"
-            : isStacked
-              ? "justify-content:center;width:100%;"
-              : "width:100%;";
-          return '\n        <div class="adgeist-content-container" style="flex:1;display:flex;flex-direction:'
-            .concat(contentDir, ";")
-            .concat(containerAlign, "padding:")
-            .concat(
-              paddingY,
-              'px 16px;overflow:visible;">\n            <div style="display:flex;flex-direction:column;',
-            )
-            .concat(textContainerStyle)
-            .concat(
-              alignStyle,
-              'overflow:visible;">\n                <div class="adgeist-title-text" style="',
-            )
-            .concat(titleStyle, '">')
-            .concat(
-              this.title,
-              '</div>\n                <div class="adgeist-description-text" style="',
-            )
-            .concat(descStyle, '">')
-            .concat(
-              this.description,
-              '</div>\n            </div>\n            <div class="cta-button" style="',
-            )
-            .concat(ctaStyle)
-            .concat(
-              ctaMargin,
-              'flex-shrink:0;">Open</div>\n        </div>\n      ',
-            );
+                '</div>\n            </div>\n            <div class="cta-button" style="',
+              )
+              .concat(u)
+              .concat(g, 'flex-shrink:0;">Open</div>\n        </div>\n      ');
+          },
         },
-      },
-      {
-        key: "renderDisplayHtml",
-        value: function renderDisplayHtml() {
-          var _a, _b, _c;
-          var baseConfig = this.getLayoutConfig();
-          var details = this.calculateLayoutDetails(baseConfig);
-          // Use object-fit: contain to allow letterbox/pillarbox
-          var media =
-            ((_a = this.media[0]) === null || _a === void 0
-              ? void 0
-              : _a.type) === "video"
-              ? '<video\n              id="adgeist-video"\n              poster="'
+        {
+          key: "renderDisplayHtml",
+          value: function e() {
+            var t, n, i;
+            var r = this.getLayoutConfig();
+            var a = this.calculateLayoutDetails(r);
+            var o =
+              "video" ===
+              (null === (t = this.media[0]) || void 0 === t ? void 0 : t.type)
+                ? '<video\n              id="adgeist-video"\n              poster="'
+                    .concat(
+                      (null === (n = this.media[0]) || void 0 === n
+                        ? void 0
+                        : n.thumbnailUrl) || "",
+                      "\" \n              autoplay muted loop\n              playsinline\n              webkit-playsinline\n              style=\"width: 100%; height: 100%; object-fit: contain;\" \n              onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                            if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n              preload=\"auto\"\n              aria-label=\"",
+                    )
+                    .concat(
+                      this.altText,
+                      '"\n            >\n              <source src="',
+                    )
+                    .concat(
+                      this.media[0].src || "",
+                      '" type="video/mp4">\n            </video>',
+                    )
+                : '<img \n              src="'
+                    .concat(this.media[0].src, '"  \n              fallback="')
+                    .concat(
+                      (null === (i = this.media[0]) || void 0 === i
+                        ? void 0
+                        : i.thumbnailUrl) || "",
+                      '"\n              alt="',
+                    )
+                    .concat(this.altText, '" \n              aria-label="')
+                    .concat(
+                      this.altText,
+                      "\"\n              style=\"width:100%;height:100%;object-fit:contain;\"\n              onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                      if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n            />",
+                    );
+            return '\n        <style id="'
+              .concat(F, '">')
+              .concat(W)
+              .concat(q, '</style>\n        <a href="')
+              .concat(
+                Y(this.ctaUrl),
+                '" \n        id="adgeist-card"\n        target="_blank" \n        style="text-decoration:none;color:inherit;"\n        >\n          <div class="card-container adgeist-ad"\n          style="width:',
+              )
+              .concat(this.width, "px;height:")
+              .concat(this.height, "px;display:flex;flex-direction:")
+              .concat(
+                a.flexDirection,
+                ';"\n          >\n            <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;" role="img" aria-label="Advertisement">AD</span>\n\n            <div class="image-container" style="width:',
+              )
+              .concat(a.imageWidth, "px;height:")
+              .concat(
+                a.imageHeight,
+                'px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#d5d4d4ff;">\n              ',
+              )
+              .concat(o, "\n            </div>\n            \n            ")
+              .concat(
+                this.renderContentHtml(a),
+                "\n          </div>\n        </a>\n      ",
+              );
+          },
+        },
+      ])
+    );
+  })(Q);
+  var $ = (function (e) {
+    function t() {
+      var e =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      return (s(this, t), o(this, t, [e]));
+    }
+    return (
+      p(t, e),
+      c(
+        t,
+        [
+          {
+            key: "getAudioScript",
+            value: function e() {
+              return "<script>\n      (function() {\n        var v = document.getElementById('adgeist-video');\n        var muteBtn = document.getElementById('adgeist-mute-btn');\n        var iconMuted = document.getElementById('icon-muted');\n        var iconUnmuted = document.getElementById('icon-unmuted');\n\n        // Audio coordination: mute this ad when another ad plays\n        if (v) {\n          window.addEventListener('message', function(e) {\n            if(e.data.type === 'adgeist_mute' && e.data.mute) v.muted = true;\n          });\n          function notify() {\n            if(!v.muted) {\n              window.parent.postMessage({\n                type: 'adgeist_mute_event',\n                adElementId: '".concat(
+                this.adElementId,
+                "',\n                muted: false\n              }, '*');\n            }\n          }\n          v.addEventListener('volumechange', notify);\n          v.addEventListener('play', notify);\n        }\n\n        // Mute button init \u2014 works in both iframe (srcdoc) and direct DOM context\n        function initMute() {\n          if (!v || !muteBtn || !iconMuted || !iconUnmuted) {\n            setTimeout(initMute, 100);\n            return;\n          }\n          function updateIcon() {\n            if (v.muted) {\n              iconMuted.style.display = 'block';\n              iconUnmuted.style.display = 'none';\n            } else {\n              iconMuted.style.display = 'none';\n              iconUnmuted.style.display = 'block';\n            }\n          }\n          updateIcon();\n          muteBtn.addEventListener('click', function(e) {\n            e.preventDefault();\n            e.stopPropagation();\n            e.stopImmediatePropagation();\n            v.muted = !v.muted;\n            updateIcon();\n            if (!v.muted) {\n              v.play().catch(function() {});\n            }\n          });\n          v.addEventListener('volumechange', updateIcon);\n        }\n        if (document.readyState === 'loading') {\n          document.addEventListener('DOMContentLoaded', initMute);\n        } else {\n          initMute();\n        }\n      })();\n    <\/script>",
+              );
+            },
+          },
+          {
+            key: "renderCompanionHtml",
+            value: function e() {
+              var t =
+                this.media.find(function (e) {
+                  var t;
+                  return null === (t = e.mimeType) || void 0 === t
+                    ? void 0
+                    : t.startsWith("video");
+                }) || this.media[0];
+              var n =
+                this.media.find(function (e) {
+                  var t;
+                  return null === (t = e.mimeType) || void 0 === t
+                    ? void 0
+                    : t.startsWith("image");
+                }) || this.media[1];
+              var i = (null == t ? void 0 : t.src) || "";
+              var r = (null == t ? void 0 : t.thumbnailUrl) || "";
+              var a = (null == n ? void 0 : n.src) || "";
+              var o =
+                '<img src="https://adserv-scripts.s3.ap-south-1.amazonaws.com/ad-icons/Muted.png" aria-label="Muted" alt="Muted" style="width:100%;height:100%;object-fit:contain;display:block;">';
+              var s =
+                '<img src="https://adserv-scripts.s3.ap-south-1.amazonaws.com/ad-icons/Unmuted.png" aria-label="Unmuted" alt="Unmuted" style="width:100%;height:100%;object-fit:contain;display:block;">';
+              return '\n     <style id="'
+                .concat(z, '">')
+                .concat(W)
+                .concat(K, '</style>\n    <a href="')
+                .concat(
+                  Y(this.ctaUrl),
+                  '" target="_blank" id="adgeist-card" style="text-decoration:none;color:inherit;">\n       <div class="companion-ad-container adgeist-ad">\n          <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:99;place-content:center;display:grid;" role="img" aria-label="Advertisement">AD</span>\n          \n        <div style="position:relative; width:100%; aspect-ratio:16/9;">\n           <div \n           role="button"\n           id="adgeist-mute-btn" \n           style="position:absolute; top:0; left:0; z-index:20; width:30px; height:30px; display:flex; justify-content:center; align-items:center; cursor:pointer; scale:1.2;"\n                onclick="event.preventDefault(); event.stopPropagation();">\n              <div id="icon-muted" style="display:block; width:100%; height:100%;">',
+                )
+                .concat(
+                  o,
+                  '</div>\n              <div id="icon-unmuted" style="display:none; width:100%; height:100%;">',
+                )
+                .concat(
+                  s,
+                  '</div>\n           </div>\n\n          <video\n            id="adgeist-video"\n            poster="',
+                )
+                .concat(
+                  r,
+                  "\" \n            autoplay loop\n            muted\n            playsinline\n            webkit-playsinline\n            style=\"width: 100%; height: 100%; display: block; object-fit: cover;\" \n            onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                          if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                          if(window.CompanionAdCard) { window.CompanionAdCard.initMuteButton(this.closest('.companion-ad-container')); }\"\n            controlsList=\"nodownload\"\n            disablePictureInPicture\n            preload=\"auto\"\n            aria-label=\"",
+                )
+                .concat(
+                  this.altText,
+                  '"\n          >\n            <source src="',
+                )
+                .concat(
+                  i,
+                  '" type="video/mp4">\n          </video>\n        </div>\n        \n        <img \n          src="',
+                )
+                .concat(a, '"  \n          aria-label="')
+                .concat(this.altText, '"\n          alt="')
+                .concat(
+                  this.altText,
+                  "\" \n          style=\"width: 100%; aspect-ratio: 16/3; display: block; background-color: #d5d4d4ff;\"\n          onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                  if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n        />\n        \n        <div class='companion-meta' style='display:flex; flex-direction: row; height: max-content; padding:8px 12px; font-size:12px; color:#666; text-align:center; align-items:center; gap: 8px;'>\n            <div class='adgeist-name-text' style='display:flex;flex-direction:column;flex:1; text-align:start; justify-content:center;'> \n                <span class=\"adgeist-title-text\" style=\"font-size: 14px; margin-bottom: 2px; line-height: 1.2;\">",
+                )
+                .concat(
+                  this.title,
+                  '</span>\n                <span class="adgeist-description-text" style="font-size: 12px; line-height: 1.3;">',
+                )
+                .concat(
+                  this.description,
+                  '</span>\n            </div>\n            <div class="cta-button" style="flex-shrink:0;">Open</div>\n        </div>\n      </div>\n    </a>\n    ',
+                )
+                .concat(this.getAudioScript());
+            },
+          },
+        ],
+        [
+          {
+            key: "initMuteButton",
+            value: function e(n) {
+              var i = n || document;
+              var r = i.querySelector("#adgeist-video");
+              var a = i.querySelector("#adgeist-mute-btn");
+              var o = i.querySelector("#icon-muted");
+              var s = i.querySelector("#icon-unmuted");
+              if (!(r && a && o && s))
+                return (
+                  void 0,
+                  setTimeout(function () {
+                    return t.initMuteButton(n);
+                  }, 100),
+                  void 0
+                );
+              function l() {
+                r &&
+                  o &&
+                  s &&
+                  (r.muted
+                    ? ((o.style.display = "block"), (s.style.display = "none"))
+                    : ((o.style.display = "none"),
+                      (s.style.display = "block")));
+              }
+              (l(),
+                a.addEventListener("click", function (e) {
+                  (void 0,
+                    r &&
+                      (e.preventDefault(),
+                      e.stopPropagation(),
+                      e.stopImmediatePropagation(),
+                      (r.muted = !r.muted),
+                      l(),
+                      r.muted ||
+                        r
+                          .play()
+                          .then(function () {})
+                          .catch(function (e) {
+                            void 0;
+                          })));
+                }),
+                r.addEventListener("volumechange", function () {
+                  (void 0, r && l());
+                }));
+            },
+          },
+        ],
+      )
+    );
+  })(Q);
+  var ee = (function (e) {
+    function t(e) {
+      var n;
+      return (
+        s(this, t),
+        (n = o(this, t, [e])),
+        (n.adServeUrl = e.adServeUrl),
+        (n.adTrackingUrl = e.adTrackingUrl),
+        n
+      );
+    }
+    return (
+      p(t, e),
+      c(t, [
+        {
+          key: "loadAds",
+          value: (function () {
+            var e = a(
+              x().m(function e() {
+                var t,
+                  n,
+                  i,
+                  r,
+                  a,
+                  o,
+                  s,
+                  l,
+                  c,
+                  u,
+                  v,
+                  p,
+                  h,
+                  g,
+                  f,
+                  m,
+                  y,
+                  b,
+                  k,
+                  T,
+                  E = arguments,
+                  S,
+                  I;
+                return x().w(
+                  function (e) {
+                    for (; 1; )
+                      switch ((e.p = e.n)) {
+                        case 0:
+                          ((t = E.length > 0 && void 0 !== E[0] ? E[0] : null),
+                            (n =
+                              t || document.querySelectorAll(".adsbyadgeist")),
+                            (i = []),
+                            (r = d(n)),
+                            (e.p = 1),
+                            r.s());
+                        case 2:
+                          if ((a = r.n()).done) {
+                            e.n = 7;
+                            break;
+                          }
+                          if (
+                            ((o = a.value),
+                            (s = this.getAdSlotAttributes(o)),
+                            s)
+                          ) {
+                            e.n = 3;
+                            break;
+                          }
+                          return e.a(3, 6);
+                        case 3:
+                          if (((l = s.adSpaceId), l)) {
+                            e.n = 4;
+                            break;
+                          }
+                          return e.a(3, 6);
+                        case 4:
+                          if (!this.sdk.seenAdSpaces.has(l)) {
+                            e.n = 5;
+                            break;
+                          }
+                          return (
+                            this.sdk.logger.error(
+                              "Duplicate ad space detected (already seen), skipping: ".concat(
+                                l,
+                              ),
+                            ),
+                            e.a(3, 6)
+                          );
+                        case 5:
+                          (i.push(o), this.sdk.seenAdSpaces.add(l));
+                        case 6:
+                          e.n = 2;
+                          break;
+                        case 7:
+                          e.n = 9;
+                          break;
+                        case 8:
+                          ((e.p = 8), (S = e.v), r.e(S));
+                        case 9:
+                          return ((e.p = 9), r.f(), e.f(9));
+                        case 10:
+                          if (0 !== i.length) {
+                            e.n = 11;
+                            break;
+                          }
+                          return (
+                            this.sdk.logger.log(
+                              "No valid unique ad slots to load",
+                            ),
+                            e.a(2)
+                          );
+                        case 11:
+                          ((c = 0), (u = i));
+                        case 12:
+                          if (!(c < u.length)) {
+                            e.n = 21;
+                            break;
+                          }
+                          if (
+                            ((v = u[c]),
+                            (e.p = 13),
+                            (g = this.sdk.publisherId),
+                            (f = this.getAdSlotAttributes(v)),
+                            f)
+                          ) {
+                            e.n = 14;
+                            break;
+                          }
+                          return e.a(3, 20);
+                        case 14:
+                          if (
+                            ((m = f.adSpaceId), (y = f.buyType), m && g && y)
+                          ) {
+                            e.n = 15;
+                            break;
+                          }
+                          return (
+                            this.sdk.logger.error(
+                              "Ad loading error for slot: ".concat(
+                                m,
+                                " - Missing required attributes for ad slot",
+                              ),
+                            ),
+                            e.a(3, 20)
+                          );
+                        case 15:
+                          return (
+                            (e.n = 16),
+                            fetch("".concat(this.adServeUrl, "/v2/dsp/ad"), {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({
+                                platform: "WEB",
+                                isTest: this.sdk.isTest,
+                                companyId: g,
+                                adSpaceId: m,
+                                userAgent: navigator.userAgent,
+                                timeZone: _(),
+                                requestedAt: new Date().toISOString(),
+                                deviceFingerPrint:
+                                  (null === (p = this.sdk.fingerprint) ||
+                                  void 0 === p
+                                    ? void 0
+                                    : p.visitorId) || void 0,
+                                fingerPrintType:
+                                  null !== (h = this.sdk.fingerprint) &&
+                                  void 0 !== h &&
+                                  h.version
+                                    ? "signalHash" +
+                                      this.sdk.fingerprint.version
+                                    : void 0,
+                                device: w({}, this.sdk.deviceInfo),
+                              }),
+                            })
+                          );
+                        case 16:
+                          if (((b = e.v), b.ok)) {
+                            e.n = 17;
+                            break;
+                          }
+                          throw new Error("HTTP error: ".concat(b.status));
+                        case 17:
+                          return ((e.n = 18), b.json());
+                        case 18:
+                          ((k = e.v), k && this.renderAd(v, k), (e.n = 20));
+                          break;
+                        case 19:
+                          ((e.p = 19),
+                            (I = e.v),
+                            (T = I instanceof Error ? I.message : String(I)),
+                            this.sdk.logger.error(
+                              "Ad loading error for slot: ".concat(T),
+                            ));
+                        case 20:
+                          (c++, (e.n = 12));
+                          break;
+                        case 21:
+                          return e.a(2);
+                      }
+                  },
+                  e,
+                  this,
+                  [
+                    [13, 19],
+                    [1, 8, 9, 10],
+                  ],
+                );
+              }),
+            );
+            function t() {
+              return e.apply(this, arguments);
+            }
+            return t;
+          })(),
+        },
+        {
+          key: "renderAd",
+          value: function e(t, n) {
+            var i,
+              r,
+              a,
+              o,
+              s,
+              l,
+              c,
+              u,
+              v,
+              p,
+              h,
+              g,
+              f,
+              m = this;
+            var y = this.getAdSlotAttributes(t);
+            if (!y)
+              return (
+                this.sdk.logger.log("Could not get ad slot attributes"),
+                void 0
+              );
+            var b = y.adSpaceId,
+              w = y.buyType,
+              k = y.isAdspaceResponsive,
+              x = y.adType;
+            var T = Number(
+              (null == n ||
+              null === (i = n.displayOptions) ||
+              void 0 === i ||
+              null === (i = i.dimensions) ||
+              void 0 === i
+                ? void 0
+                : i.width) || 0,
+            );
+            var E = Number(
+              (null == n ||
+              null === (r = n.displayOptions) ||
+              void 0 === r ||
+              null === (r = r.dimensions) ||
+              void 0 === r
+                ? void 0
+                : r.height) || 0,
+            );
+            var S = n;
+            if (
+              null == n ||
+              null === (a = n.creativesV1) ||
+              void 0 === a ||
+              !a[0]
+            )
+              return (this.sdk.logger.log("Invalid ad data"), void 0);
+            var A = S;
+            var C = function e(t) {
+              if (!t) return t;
+              var n = t;
+              return (
+                t.startsWith("www.")
+                  ? (n = "https://".concat(t))
+                  : t.match(/^[a-zA-Z]+:\/\//) || (n = "https://".concat(t)),
+                n
+              );
+            };
+            var M = {
+              clickUrl: C(
+                null == A || null === (o = A.creativesV1) || void 0 === o
+                  ? void 0
+                  : o[0].ctaUrl,
+              ),
+              title:
+                null == A ||
+                null === (s = A.creativesV1) ||
+                void 0 === s ||
+                null === (s = s[0]) ||
+                void 0 === s
+                  ? void 0
+                  : s.title,
+              description:
+                null == A ||
+                null === (l = A.creativesV1) ||
+                void 0 === l ||
+                null === (l = l[0]) ||
+                void 0 === l
+                  ? void 0
+                  : l.description,
+              altText:
+                (null == A ||
+                null === (c = A.creativesV1) ||
+                void 0 === c ||
+                null === (c = c[0]) ||
+                void 0 === c
+                  ? void 0
+                  : c.altText) || "",
+              scriptUrl: null == A ? void 0 : A.scriptUrl,
+              brandName:
+                (null == A || null === (u = A.advertiser) || void 0 === u
+                  ? void 0
+                  : u.name) || "",
+              creativeType:
+                (null == A ||
+                null === (v = A.creativesV1) ||
+                void 0 === v ||
+                null === (v = v[0].primary) ||
+                void 0 === v
+                  ? void 0
+                  : v.type) || "image",
+              primaryCreative: {
+                src:
+                  null == A ||
+                  null === (p = A.creativesV1) ||
+                  void 0 === p ||
+                  null === (p = p[0].primary) ||
+                  void 0 === p
+                    ? void 0
+                    : p.fileUrl,
+                thumbnailUrl:
+                  null == A ||
+                  null === (h = A.creativesV1) ||
+                  void 0 === h ||
+                  null === (h = h[0].primary) ||
+                  void 0 === h
+                    ? void 0
+                    : h.thumbnailUrl,
+                type:
+                  null == A ||
+                  null === (g = A.creativesV1) ||
+                  void 0 === g ||
+                  null === (g = g[0].primary) ||
+                  void 0 === g
+                    ? void 0
+                    : g.type,
+              },
+              companionCreative:
+                (null == A ||
+                null === (f = A.creativesV1) ||
+                void 0 === f ||
+                null === (f = f[0]) ||
+                void 0 === f ||
+                null === (f = f.companions) ||
+                void 0 === f
+                  ? void 0
+                  : f.map(function (e) {
+                      return {
+                        src: e.fileUrl,
+                        thumbnailUrl: e.thumbnailUrl,
+                        type: e.type,
+                      };
+                    })) || [],
+            };
+            var P = {
+              responseId: A.id || "",
+              trackId: A.signature || "",
+              campaignId: A.campaignId || "",
+              responseGeneratedAt: A.generatedAt || "",
+              expiresAt: (null == A ? void 0 : A.expiresAt) || "",
+              metaData: A.metaData || "",
+            };
+            if (!M.clickUrl)
+              return (this.sdk.logger.log("Missing or invalid ctaUrl"), void 0);
+            var O = L[x];
+            var D = "adgeist_ads_iframe_".concat(b);
+            var _ = performance.now();
+            var R = function e(t, n) {
+              if ("banner" === x || "display" === x || "companion" === x) {
+                var i = new Q({
+                  adElementId: D,
+                  title: M.title,
+                  description: M.description,
+                  altText: M.altText,
+                  name: "Brand Name",
+                  ctaUrl: M.clickUrl,
+                  type: x,
+                  isResponsive: k,
+                  height: n,
+                  width: t,
+                  adspaceType: x,
+                  media: [M.primaryCreative].concat(I(M.companionCreative)),
+                });
+                return i.renderHtml();
+              }
+              return "";
+            };
+            var N = function e(t, n) {
+              var i =
+                (T && E && (t < T || n < E)) ||
+                t < O.MIN_WIDTH ||
+                n < O.MIN_HEIGHT;
+              return i;
+            };
+            if ("richmedia" === x && M.scriptUrl)
+              return (
+                this.injectScript(M.scriptUrl, function () {
+                  return m.sdk.logger.log("Rich media ad loaded");
+                }),
+                void 0
+              );
+            if ("banner" !== x && "display" !== x && "companion" !== x)
+              return (
+                this.sdk.logger.log(
+                  "Unsupported slot type or missing scriptUrl: ".concat(x),
+                ),
+                void 0
+              );
+            var H = document.createElement("iframe");
+            (H.setAttribute("id", D),
+              H.setAttribute("frameborder", "0"),
+              H.setAttribute("scrolling", "no"),
+              (H.style.border = "none"),
+              (H.style.minWidth = "".concat(O.MIN_WIDTH, "px")),
+              (H.style.minHeight = "".concat(O.MIN_HEIGHT, "px")),
+              (t.innerHTML = ""));
+            var U = t;
+            ((U.style.display = "block"), t.appendChild(H));
+            var F = function e(t, n) {
+              if (N(t, n))
+                return (
+                  (H.style.display = "none"),
+                  m.sdk.logger.log(
+                    "Ad slot too small for "
+                      .concat(b, ": ")
+                      .concat(Math.round(t), "x")
+                      .concat(Math.round(n), " (min: ")
+                      .concat(O.MIN_WIDTH, "x")
+                      .concat(O.MIN_HEIGHT, "), collapsing ad"),
+                  ),
+                  void 0
+                );
+              "none" === H.style.display &&
+                ((H.style.display = "block"),
+                m.sdk.logger.log(
+                  "Ad slot size valid again for "
+                    .concat(b, ": ")
+                    .concat(Math.round(t), "x")
+                    .concat(Math.round(n), ", showing ad"),
+                ));
+              var i = V(t, n, O),
+                r = i.width,
+                a = i.height;
+              (H.setAttribute("width", r),
+                H.setAttribute("height", a),
+                (H.style.width = r),
+                (H.style.height = a));
+              var o = R(r, a);
+              o && (H.srcdoc = o);
+            };
+            var B = t.getBoundingClientRect(),
+              z = B.width,
+              W = B.height;
+            F(z, W);
+            var q = 0;
+            var G = 100;
+            var K = new ResizeObserver(function (e) {
+              var n = performance.now();
+              if (!(n - q < G)) {
+                q = n;
+                var i = d(e),
+                  r;
+                try {
+                  for (i.s(); !(r = i.n()).done; ) {
+                    var a = r.value;
+                    var o = a.contentRect,
+                      s = o.width,
+                      l = o.height;
+                    var c = t.getBoundingClientRect();
+                    var u = c.width || s;
+                    var v = c.height || l;
+                    F(u, v);
+                  }
+                } catch (p) {
+                  i.e(p);
+                } finally {
+                  i.f();
+                }
+              }
+            });
+            (K.observe(t),
+              H.addEventListener("load", function () {
+                if ("companion" === x)
+                  try {
+                    var e;
+                    var t =
+                      null === (e = H.contentWindow) || void 0 === e
+                        ? void 0
+                        : e.document;
+                    var n =
+                      null == t ? void 0 : t.getElementById("adgeist-card");
+                    if (n) {
+                      var i = H.clientHeight;
+                      var r = n.scrollHeight;
+                      if (i && r > i)
+                        return (
+                          (H.style.display = "none"),
+                          m.sdk.logger.log(
+                            "Companion ad overflowed (Content: "
+                              .concat(r, " > Iframe: ")
+                              .concat(i, "), collapsing."),
+                          ),
+                          void 0
+                        );
+                    }
+                  } catch (s) {}
+                var a = document.querySelector("#".concat(D));
+                if (a) {
+                  var o = new j(m.sdk, D, b, x, w, _, P, M.creativeType);
+                  ((o.resizeObserver = K), m.sdk.adTrackers.set(D, o));
+                } else
+                  (m.sdk.logger.log("No ad element found for tracking"),
+                    K.disconnect());
+              }));
+          },
+        },
+        {
+          key: "injectScript",
+          value: function e(t, n) {
+            var i = this;
+            var r = ["trusted-domain.com", "another-trusted-domain.com"];
+            if (!t.match(new RegExp("^https://(".concat(r.join("|"), ")"))))
+              return (
+                this.sdk.logger.log("Invalid script URL: ".concat(t)),
+                void 0
+              );
+            var a = document.createElement("script");
+            ((a.src = t),
+              (a.async = !0),
+              (a.onload = n),
+              (a.onerror = function () {
+                return i.sdk.logger.log("Script load failed: ".concat(t));
+              }),
+              document.head.appendChild(a));
+          },
+        },
+        {
+          key: "getAdSlotAttributes",
+          value: function e(t) {
+            try {
+              return {
+                adSpaceId:
+                  (null == t ? void 0 : t.getAttribute("data-ad-slot")) || "",
+                buyType:
+                  (null == t ? void 0 : t.getAttribute("data-buy-type")) || "",
+                isAdspaceResponsive:
+                  "false" !==
+                  (null == t ? void 0 : t.getAttribute("data-responsive")),
+                adType:
+                  (null == t ? void 0 : t.getAttribute("data-slot-type")) ||
+                  "banner",
+              };
+            } catch (n) {
+              return null;
+            }
+          },
+        },
+      ])
+    );
+  })(O);
+  var te = (function (e) {
+    function t(e) {
+      var n;
+      return (
+        s(this, t),
+        (n = o(this, t, [e])),
+        (n.observer = null),
+        (n.observer = null),
+        n
+      );
+    }
+    return (
+      p(t, e),
+      c(t, [
+        {
+          key: "observeAdSlots",
+          value: function e() {
+            var t = this;
+            var n = document.querySelector(".ad-container") || document.body;
+            ((this.observer = new MutationObserver(function (e) {
+              e.forEach(function (e) {
+                e.addedNodes.forEach(function (e) {
+                  if (e.nodeType === Node.ELEMENT_NODE) {
+                    var n = e;
+                    (n.classList.contains("adsbyadgeist") &&
+                      window.sspAdsQueue.push(n),
+                      n.querySelectorAll(".adsbyadgeist").forEach(function (e) {
+                        return window.sspAdsQueue.push(e);
+                      }),
+                      t.processAdQueue());
+                  }
+                });
+              });
+            })),
+              this.observer.observe(n, { childList: !0, subtree: !0 }),
+              n.querySelectorAll(".adsbyadgeist").forEach(function (e) {
+                (window.sspAdsQueue.push(e), t.processAdQueue());
+              }));
+          },
+        },
+        {
+          key: "processAdQueue",
+          value: function e() {
+            for (; window.sspAdsQueue.length > 0; ) {
+              var t = window.sspAdsQueue.shift();
+              t && this.sdk.adLoader.loadAds([t]);
+            }
+          },
+        },
+      ])
+    );
+  })(O);
+  var ne = (function (e) {
+    function t(e) {
+      var n;
+      return (
+        s(this, t),
+        (n = o(this, t, [e])),
+        (n.stylesInjected = !1),
+        (n.consentCookieName = N.CONSENT_COOKIE_NAME),
+        n.injectStyles(),
+        n
+      );
+    }
+    return (
+      p(t, e),
+      c(t, [
+        {
+          key: "injectStyles",
+          value: function e() {
+            if (
+              !this.stylesInjected &&
+              !document.getElementById("adgeist-consent-styles")
+            ) {
+              var t = document.createElement("style");
+              ((t.id = "adgeist-consent-styles"),
+                (t.textContent =
+                  "\n      .adgeist-consent-modal {\n        position: fixed;\n        bottom: 20px;\n        left: 20px;\n        background: #fff;\n        border-radius: 16px;\n        box-shadow: 0 4px 20px rgba(0,0,0,0.15);\n        z-index: 9999;\n        max-width: 680px;\n        width: 90vw;\n        font-family: system-ui, -apple-system, sans-serif;\n      }\n\n      .consent-inner {\n        position: relative;\n        padding: 24px 60px 32px;\n      }\n      \n      .preferences-inner {\n        padding: 24px 20px 28px;\n      }\n\n      .close-btn {\n        position: absolute;\n        top: 2px;\n        right: 5px;\n        background: transparent;\n        border: none;\n        font-size: 32px;\n        font-weight: normal;\n        color: #666;\n        cursor: pointer;\n        padding: 0;\n        width: 36px;\n        height: 36px;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n      }\n\n      .adgeist-consent-modal h2 {\n        font-size: 16px;\n        font-weight: 600;\n        color: #333;\n        margin: 12px 0;\n        text-align: center;\n      }\n\n      .adgeist-consent-modal p {\n        font-size: 13px;\n        color: #666;\n        line-height: 1.5;\n        margin: 0 0 28px;\n        text-align: center;\n      }\n\n      .adgeist-consent-modal p a {\n        color: #0960AD;\n        font-weight: bold;\n        text-decoration: underline;\n      }\n\n      .button-group, .save-row {\n        display: flex;\n        gap: 12px;\n        justify-content: center;\n        flex-wrap: wrap;\n      }\n\n      .btn {\n        padding: 10px 20px;\n        border: none;\n        border-radius: 4px;\n        font-size: 14px;\n        font-weight: 500;\n        cursor: pointer;\n        min-width: 120px;\n        max-width: 200px;\n        flex: 1 1 auto;\n        white-space: nowrap;\n      }\n\n      .btn-customise {\n        background: #C5C6C8;\n        color: #000;\n        box-shadow:\n          inset 4px  0px  4px    rgba( 77,  77,  77, 0.355),\n          inset -4px -4px 13px   rgba( 51,  51,  51, 0.341), \n          inset 8px   3px 15px   rgba(164, 164, 164, 0.600),\n          inset 0px   0px  2px   rgba(236, 236, 236, 0.600);\n      }\n\n      .btn-essential, .btn-accept-all, .btn-save {\n        background: #63AA75;\n        color: #000;\n        box-shadow:\n          inset 4.26px  0px   4.26px  rgba( 38, 100,  42, 0.267),\n          inset -4.26px -4.26px 13.84px rgba( 51,  51,  51, 0.341),\n          inset 8.51px  3.19px 15.97px rgba(111, 201, 116, 0.400),\n          inset 0px     0px    2.13px  rgba(172, 255, 177, 0.400);\n      }\n\n      .toggles-container {\n        margin-top: 25px;\n      } \n\n      .toggle-row {\n        display: flex;\n        justify-content: space-between;\n        align-items: flex-start;\n        gap: 20px;\n        margin-bottom: 15px;\n      }\n\n      .toggle-row.last {\n        margin-bottom: 28px;\n      }\n\n      .toggle-info {\n        flex: 1;\n        max-width: 80%;\n      }\n\n      .toggle-info label {\n        font-size: 16px;\n        font-weight: 800;\n        color: #111;\n        display: block;\n        margin-bottom: 6px;\n      }\n\n      .toggle-info p {\n        font-size: 12px;\n        color: #222;\n        margin: 0;\n        line-height: 1.45;\n        text-align: left;\n      }\n\n      .toggle-switch {\n        position: relative;\n        width: 59px;\n        height: 30px;\n        border-radius: 15px;\n        overflow: hidden;\n        border: none;\n        padding: 0;\n        cursor: pointer;\n        background: #e5e7eb;\n        transition: background-color 0.3s ease;\n      }\n\n      .toggle-switch.on {\n        background: #63aa75;\n      }\n\n      .toggle-switch.disabled {\n        opacity: 0.5;\n        cursor: not-allowed;\n      }\n\n      .toggle-bg {\n        position: absolute;\n        inset: 0;\n        border-radius: 15px;\n        background: inherit;\n        box-shadow: inset 2px 2px 2px rgba(0,0,0,0.25);\n        transition: background-color 300ms ease-in-out;\n      }\n\n      .toggle-knob {\n        position: absolute;\n        top: 3px;\n        left: 3px;\n        width: 24px;\n        height: 24px;\n        border-radius: 50%;\n        transform: translateX(0);\n        transition: transform 300ms cubic-bezier(0.2,0.8,0.2,1);\n        background: linear-gradient(180deg, #f2f2f2 0%, #e8e8e8 100%);\n        box-shadow: \n          0 0.82px 1.15px -0.63px rgba(0,0,0,0.26),\n          0 2.11px 2.95px -1.25px rgba(0,0,0,0.25),\n          0 4.23px 5.92px -1.88px rgba(0,0,0,0.24),\n          0 8.01px 11.21px -2.5px rgba(0,0,0,0.22),\n          0 15.92px 22.29px -3.13px rgba(0,0,0,0.18),\n          0 35px 49px -3.75px rgba(0,0,0,0.09);\n      }\n\n      .toggle-switch.on .toggle-knob {\n        transform: translateX(29px);\n      }\n    "),
+                document.head.appendChild(t),
+                (this.stylesInjected = !0));
+            }
+          },
+        },
+        {
+          key: "getUserConsent",
+          value: function e() {
+            var t = document.cookie.match(
+              new RegExp(
+                "(^|;\\s*)".concat(this.consentCookieName, "=([^;]*)"),
+              ),
+            );
+            if (!t) return [];
+            var n = decodeURIComponent(t[2]);
+            var i = n.split(/[+]/);
+            return i.map(function (e) {
+              return e.charAt(0).toUpperCase() + e.slice(1).toLowerCase();
+            });
+          },
+        },
+        {
+          key: "setConsent",
+          value: function e(t) {
+            var n = encodeURIComponent(t);
+            var i = 100 * 365 * 24 * 60 * 60;
+            var r = "https:" === location.protocol ? "; Secure" : "";
+            document.cookie = ""
+              .concat(this.consentCookieName, "=")
+              .concat(n, "; Max-Age=")
+              .concat(i, "; path=/; SameSite=Lax")
+              .concat(r);
+          },
+        },
+        {
+          key: "removeElement",
+          value: function e(t) {
+            var n;
+            null === (n = document.getElementById(t)) ||
+              void 0 === n ||
+              n.remove();
+          },
+        },
+        {
+          key: "createModal",
+          value: function e(t, n, i) {
+            this.removeElement(t);
+            var r = document.createElement("div");
+            return (
+              (r.id = t),
+              (r.className = n),
+              (r.role = "dialog"),
+              (r.ariaModal = "true"),
+              (r.innerHTML = i),
+              document.body.appendChild(r),
+              r
+            );
+          },
+        },
+        {
+          key: "showConsentBanner",
+          value: function e() {
+            var t,
+              n = this,
+              i,
+              r,
+              a;
+            if (!(this.getUserConsent().length > 0)) {
+              var o =
+                '\n      <div class="consent-inner">\n        <button class="close-btn" aria-label="Close consent banner">\xd7</button>\n        <h2>We Value Your Privacy</h2>\n        <p>\n          adgeist.ai uses cookies and similar technologies to enhance your experience, analyze site traffic, and deliver personalized ads.\n          You can choose to accept all cookies, reject non-essential ones, or manage your preferences.\n          <a href="https://www.adgeist.ai/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>\n        </p>\n        <div class="button-group">\n          <button id="adgeist-consent-customise" class="btn btn-customise">Customise</button>\n          <button id="adgeist-consent-essential" class="btn btn-essential">Only essential</button>\n          <button id="adgeist-consent-accept-all" class="btn btn-accept-all">Accept all</button>\n        </div>\n      </div>\n    ';
+              var s = this.createModal(
+                "adgeist-consent-banner",
+                "adgeist-consent-modal",
+                o,
+              );
+              (null === (t = s.querySelector("#adgeist-consent-accept-all")) ||
+                void 0 === t ||
+                t.addEventListener("click", function () {
+                  (n.setConsent(H.ACCEPTED_ALL),
+                    n.removeElement("adgeist-consent-banner"));
+                }),
+                null === (i = s.querySelector("#adgeist-consent-essential")) ||
+                  void 0 === i ||
+                  i.addEventListener("click", function () {
+                    (n.setConsent(H.ONLY_ESSENTIAL),
+                      n.removeElement("adgeist-consent-banner"));
+                  }),
+                null === (r = s.querySelector("#adgeist-consent-customise")) ||
+                  void 0 === r ||
+                  r.addEventListener("click", function () {
+                    (n.removeElement("adgeist-consent-banner"),
+                      n.showManagePreferences());
+                  }),
+                null === (a = s.querySelector(".close-btn")) ||
+                  void 0 === a ||
+                  a.addEventListener("click", function () {
+                    n.removeElement("adgeist-consent-banner");
+                  }));
+            }
+          },
+        },
+        {
+          key: "showManagePreferences",
+          value: function e() {
+            var t,
+              n = this,
+              i;
+            var r = [
+              {
+                id: "essential",
+                label: "Essential",
+                desc: "These cookies are necessary for Adgeist to operate securely, enable core features like login, and remember your privacy choices.",
+                disabled: !0,
+                default: !0,
+              },
+              {
+                id: "performance",
+                label: "Performance",
+                desc: "Used to understand how Adgeist is performing \u2014 helping us improve load times, stability, and overall experience.",
+                disabled: !1,
+                default: !1,
+              },
+              {
+                id: "advertising",
+                label: "Advertising",
+                desc: "Allows us to deliver more relevant ads, limit repetition, and measure campaign effectiveness across platforms.",
+                disabled: !1,
+                default: !1,
+              },
+              {
+                id: "personalization",
+                label: "Personalization",
+                desc: "Helps tailor your dashboard, suggestions, and content based on your preferences and usage patterns.",
+                disabled: !1,
+                default: !1,
+              },
+            ];
+            var a = r
+              .map(function (e, t) {
+                return '\n        <div class="toggle-row'
                   .concat(
-                    ((_b = this.media[0]) === null || _b === void 0
-                      ? void 0
-                      : _b.thumbnailUrl) || "",
-                    "\" \n              autoplay muted loop\n              playsinline\n              webkit-playsinline\n              style=\"width: 100%; height: 100%; object-fit: contain;\" \n              onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                            if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n              preload=\"auto\"\n              aria-label=\"",
+                    t === r.length - 1 ? " last" : "",
+                    '">\n          <div class="toggle-info">\n            <label>',
+                  )
+                  .concat(e.label, "</label>\n            <p>")
+                  .concat(
+                    e.desc,
+                    '</p>\n          </div>\n          <button\n            type="button"\n            id="toggle-',
+                  )
+                  .concat(e.id, '"\n            class="toggle-switch ')
+                  .concat(e.default ? "on" : "", " ")
+                  .concat(
+                    e.disabled ? "disabled" : "",
+                    '"\n            role="switch"\n            aria-checked="',
+                  )
+                  .concat(e.default, '"\n            ')
+                  .concat(
+                    e.disabled ? "disabled" : "",
+                    '\n            aria-label="Toggle ',
                   )
                   .concat(
-                    this.altText,
-                    '"\n            >\n              <source src="',
-                  )
-                  .concat(
-                    this.media[0].src || "",
-                    '" type="video/mp4">\n            </video>',
-                  )
-              : '<img \n              src="'
-                  .concat(this.media[0].src, '"  \n              fallback="')
-                  .concat(
-                    ((_c = this.media[0]) === null || _c === void 0
-                      ? void 0
-                      : _c.thumbnailUrl) || "",
-                    '"\n              alt="',
-                  )
-                  .concat(this.altText, '" \n              aria-label="')
-                  .concat(
-                    this.altText,
-                    "\"\n              style=\"width:100%;height:100%;object-fit:contain;\"\n              onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                      if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n            />",
+                    e.label.toLowerCase(),
+                    ' cookies"\n          >\n            <span class="toggle-bg"></span>\n            <span class="toggle-knob"></span>\n          </button>\n        </div>\n      ',
                   );
-          return '\n        <style id="'
-            .concat(DISPLAY_STYLE_ID, '">')
-            .concat(GLOBAL_STYLES)
-            .concat(DISPLAY_CSS, '</style>\n        <a href="')
-            .concat(
-              ensureHttpProtocol(this.ctaUrl),
-              '" \n        id="adgeist-card"\n        target="_blank" \n        style="text-decoration:none;color:inherit;"\n        >\n          <div class="card-container adgeist-ad"\n          style="width:',
-            )
-            .concat(this.width, "px;height:")
-            .concat(this.height, "px;display:flex;flex-direction:")
-            .concat(
-              details.flexDirection,
-              ';"\n          >\n            <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:10;place-content:center;display:grid;" role="img" aria-label="Advertisement">AD</span>\n\n            <div class="image-container" style="width:',
-            )
-            .concat(details.imageWidth, "px;height:")
-            .concat(
-              details.imageHeight,
-              'px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#d5d4d4ff;">\n              ',
-            )
-            .concat(media, "\n            </div>\n            \n            ")
-            .concat(
-              this.renderContentHtml(details),
-              "\n          </div>\n        </a>\n      ",
-            );
-        },
-      },
-    ]);
-  })(AdCard);
-  var CompanionAdCard = /*#__PURE__*/ (function (_AdCard3) {
-    function CompanionAdCard() {
-      var options =
-        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      _classCallCheck(this, CompanionAdCard);
-      return _callSuper(this, CompanionAdCard, [options]);
-    }
-    _inherits(CompanionAdCard, _AdCard3);
-    return _createClass(
-      CompanionAdCard,
-      [
-        {
-          key: "getAudioScript",
-          value: function getAudioScript() {
-            return "<script>\n      (function() {\n        var v = document.getElementById('adgeist-video');\n        var muteBtn = document.getElementById('adgeist-mute-btn');\n        var iconMuted = document.getElementById('icon-muted');\n        var iconUnmuted = document.getElementById('icon-unmuted');\n\n        // Audio coordination: mute this ad when another ad plays\n        if (v) {\n          window.addEventListener('message', function(e) {\n            if(e.data.type === 'adgeist_mute' && e.data.mute) v.muted = true;\n          });\n          function notify() {\n            if(!v.muted) {\n              window.parent.postMessage({\n                type: 'adgeist_mute_event',\n                adElementId: '".concat(
-              this.adElementId,
-              "',\n                muted: false\n              }, '*');\n            }\n          }\n          v.addEventListener('volumechange', notify);\n          v.addEventListener('play', notify);\n        }\n\n        // Mute button init \u2014 works in both iframe (srcdoc) and direct DOM context\n        function initMute() {\n          if (!v || !muteBtn || !iconMuted || !iconUnmuted) {\n            setTimeout(initMute, 100);\n            return;\n          }\n          function updateIcon() {\n            if (v.muted) {\n              iconMuted.style.display = 'block';\n              iconUnmuted.style.display = 'none';\n            } else {\n              iconMuted.style.display = 'none';\n              iconUnmuted.style.display = 'block';\n            }\n          }\n          updateIcon();\n          muteBtn.addEventListener('click', function(e) {\n            e.preventDefault();\n            e.stopPropagation();\n            e.stopImmediatePropagation();\n            v.muted = !v.muted;\n            updateIcon();\n            if (!v.muted) {\n              v.play().catch(function() {});\n            }\n          });\n          v.addEventListener('volumechange', updateIcon);\n        }\n        if (document.readyState === 'loading') {\n          document.addEventListener('DOMContentLoaded', initMute);\n        } else {\n          initMute();\n        }\n      })();\n    </script>",
-            );
-          },
-        },
-        {
-          key: "renderCompanionHtml",
-          value: function renderCompanionHtml() {
-            var videoMedia =
-              this.media.find(function (m) {
-                var _a;
-                return (_a = m.mimeType) === null || _a === void 0
-                  ? void 0
-                  : _a.startsWith("video");
-              }) || this.media[0];
-            var imageMedia =
-              this.media.find(function (m) {
-                var _a;
-                return (_a = m.mimeType) === null || _a === void 0
-                  ? void 0
-                  : _a.startsWith("image");
-              }) || this.media[1];
-            // Fallback if no specific video found, but we strictly need video slot?
-            // User requirement: "16:9 video, 8.09:1 image and meta".
-            // We will render the slots even if media is missing/duplicate to preserve layout.
-            var videoSrc =
-              (videoMedia === null || videoMedia === void 0
-                ? void 0
-                : videoMedia.src) || "";
-            var posterSrc =
-              (videoMedia === null || videoMedia === void 0
-                ? void 0
-                : videoMedia.thumbnailUrl) || "";
-            var bannerSrc =
-              (imageMedia === null || imageMedia === void 0
-                ? void 0
-                : imageMedia.src) || "";
-            var muteIcon =
-              '<img src="https://adserv-scripts.s3.ap-south-1.amazonaws.com/ad-icons/Muted.png" aria-label="Muted" alt="Muted" style="width:100%;height:100%;object-fit:contain;display:block;">';
-            var unmuteIcon =
-              '<img src="https://adserv-scripts.s3.ap-south-1.amazonaws.com/ad-icons/Unmuted.png" aria-label="Unmuted" alt="Unmuted" style="width:100%;height:100%;object-fit:contain;display:block;">';
-            return '\n     <style id="'
-              .concat(COMPANION_STYLES_ID, '">')
-              .concat(GLOBAL_STYLES)
-              .concat(COMPANION_CSS, '</style>\n    <a href="')
-              .concat(
-                ensureHttpProtocol(this.ctaUrl),
-                '" target="_blank" id="adgeist-card" style="text-decoration:none;color:inherit;">\n       <div class="companion-ad-container adgeist-ad">\n          <span style="height:20px;width:20px;position:absolute;top:1px;right:1px;background:#000;color:#fff;font-size:12px;border-radius:2px;z-index:99;place-content:center;display:grid;" role="img" aria-label="Advertisement">AD</span>\n          \n        <div style="position:relative; width:100%; aspect-ratio:16/9;">\n           <div \n           role="button"\n           id="adgeist-mute-btn" \n           style="position:absolute; top:0; left:0; z-index:20; width:30px; height:30px; display:flex; justify-content:center; align-items:center; cursor:pointer; scale:1.2;"\n                onclick="event.preventDefault(); event.stopPropagation();">\n              <div id="icon-muted" style="display:block; width:100%; height:100%;">',
-              )
-              .concat(
-                muteIcon,
-                '</div>\n              <div id="icon-unmuted" style="display:none; width:100%; height:100%;">',
-              )
-              .concat(
-                unmuteIcon,
-                '</div>\n           </div>\n\n          <video\n            id="adgeist-video"\n            poster="',
-              )
-              .concat(
-                posterSrc,
-                "\" \n            autoplay loop\n            muted\n            playsinline\n            webkit-playsinline\n            style=\"width: 100%; height: 100%; display: block; object-fit: cover;\" \n            onloadeddata=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                          if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                          if(window.CompanionAdCard) { window.CompanionAdCard.initMuteButton(this.closest('.companion-ad-container')); }\"\n            controlsList=\"nodownload\"\n            disablePictureInPicture\n            preload=\"auto\"\n            aria-label=\"",
-              )
-              .concat(this.altText, '"\n          >\n            <source src="')
-              .concat(
-                videoSrc,
-                '" type="video/mp4">\n          </video>\n        </div>\n        \n        <img \n          src="',
-              )
-              .concat(bannerSrc, '"  \n          aria-label="')
-              .concat(this.altText, '"\n          alt="')
-              .concat(
-                this.altText,
-                "\" \n          style=\"width: 100%; aspect-ratio: 16/3; display: block; background-color: #d5d4d4ff;\"\n          onload=\"if(window.Android) { window.Android.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\n                  if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.postMessage) { window.webkit.messageHandlers.postMessage.postMessage(JSON.stringify({type:'RENDER_STATUS',message:'Success'})) }\"\n        />\n        \n        <div class='companion-meta' style='display:flex; flex-direction: row; height: max-content; padding:8px 12px; font-size:12px; color:#666; text-align:center; align-items:center; gap: 8px;'>\n            <div class='adgeist-name-text' style='display:flex;flex-direction:column;flex:1; text-align:start; justify-content:center;'> \n                <span class=\"adgeist-title-text\" style=\"font-size: 14px; margin-bottom: 2px; line-height: 1.2;\">",
-              )
-              .concat(
-                this.title,
-                '</span>\n                <span class="adgeist-description-text" style="font-size: 12px; line-height: 1.3;">',
-              )
-              .concat(
-                this.description,
-                '</span>\n            </div>\n            <div class="cta-button" style="flex-shrink:0;">Open</div>\n        </div>\n      </div>\n    </a>\n    ',
-              )
-              .concat(this.getAudioScript());
-          },
-        },
-      ],
-      [
-        {
-          key: "initMuteButton",
-          value: function initMuteButton(container) {
-            var root = container || document;
-            var video = root.querySelector("#adgeist-video");
-            var muteBtn = root.querySelector("#adgeist-mute-btn");
-            var iconMuted = root.querySelector("#icon-muted");
-            var iconUnmuted = root.querySelector("#icon-unmuted");
-            // Retry if elements not found (DOM might not be ready)
-            if (!video || !muteBtn || !iconMuted || !iconUnmuted) {
-              console.log("⏳ Mute button elements not ready, retrying...");
-              setTimeout(function () {
-                return CompanionAdCard.initMuteButton(container);
-              }, 100);
-              return;
-            }
-            // Update icon based on mute state
-            function updateIcon() {
-              if (!video || !iconMuted || !iconUnmuted) return;
-              if (video.muted) {
-                iconMuted.style.display = "block";
-                iconUnmuted.style.display = "none";
-              } else {
-                iconMuted.style.display = "none";
-                iconUnmuted.style.display = "block";
-              }
-            }
-            // Initial icon state
-            updateIcon();
-            // Mute button click handler
-            muteBtn.addEventListener("click", function (e) {
-              if (!video) return;
-              console.log(
-                "🔊 Mute button clicked! Current muted state:",
-                video.muted,
+              })
+              .join("");
+            var o =
+              '\n      <div class="preferences-inner">\n        <button class="close-btn" aria-label="Close preferences">\xd7</button>\n        <h2>Manage Preferences</h2>\n        <div class="toggles-container">\n          '.concat(
+                a,
+                '\n        </div>\n        <div class="save-row">\n          <button id="adgeist-save-preferences" class="btn btn-save">Save preferences</button>\n        </div>\n      </div>\n    ',
               );
-              e.preventDefault();
-              e.stopPropagation();
-              e.stopImmediatePropagation();
-              // Toggle mute
-              video.muted = !video.muted;
-              updateIcon();
-              // If unmuting, play the video (required on mobile)
-              if (!video.muted) {
-                video
-                  .play()
-                  .then(function () {})
-                  .catch(function (err) {
-                    console.log("⚠️ Error playing video:", err);
+            var s = this.createModal(
+              "adgeist-manage-preferences",
+              "adgeist-consent-modal",
+              o,
+            );
+            (r.forEach(function (e) {
+              if (!e.disabled) {
+                var t = s.querySelector("#toggle-".concat(e.id));
+                null == t ||
+                  t.addEventListener("click", function () {
+                    var e = t.classList.toggle("on");
+                    t.setAttribute("aria-checked", e ? "true" : "false");
                   });
               }
-            });
-            // Listen for volume changes
-            video.addEventListener("volumechange", function () {
-              if (!video) return;
-              console.log("🔊 Volume changed, muted:", video.muted);
-              updateIcon();
-            });
-            console.log("✅ Mute button initialized successfully");
+            }),
+              null === (t = s.querySelector("#adgeist-save-preferences")) ||
+                void 0 === t ||
+                t.addEventListener("click", function () {
+                  var e;
+                  var t = 0;
+                  (s.querySelector("#toggle-performance.on") && (t |= 4),
+                    s.querySelector("#toggle-advertising.on") && (t |= 2),
+                    s.querySelector("#toggle-personalization.on") && (t |= 1));
+                  var i = {
+                    0: H.ONLY_ESSENTIAL,
+                    1: H.PERSONALIZATION,
+                    2: H.ADVERTISING,
+                    3: H.ADVERTISING_PERSONALIZATION,
+                    4: H.PERFORMANCE,
+                    5: H.PERFORMANCE_PERSONALIZATION,
+                    6: H.PERFORMANCE_ADVERTISING,
+                    7: H.ACCEPTED_ALL,
+                  };
+                  var r =
+                    null !== (e = i[t]) && void 0 !== e ? e : H.ONLY_ESSENTIAL;
+                  (n.setConsent(r),
+                    n.removeElement("adgeist-manage-preferences"));
+                }),
+              null === (i = s.querySelector(".close-btn")) ||
+                void 0 === i ||
+                i.addEventListener("click", function () {
+                  n.removeElement("adgeist-manage-preferences");
+                }));
           },
         },
-      ],
+        {
+          key: "updateAdgeistUserConsent",
+          value: function e(t) {
+            this.setConsent(t);
+          },
+        },
+      ])
     );
-  })(AdCard);
-
-  /**
-   * AdLoader class for fetching and rendering ads.
-   */
-  var AdLoader = /*#__PURE__*/ (function (_SDKComponent) {
-    function AdLoader(sdk) {
-      var _this;
-      _classCallCheck(this, AdLoader);
-      _this = _callSuper(this, AdLoader, [sdk]);
-      _this.adServeUrl = sdk.adServeUrl;
-      _this.adTrackingUrl = sdk.adTrackingUrl;
-      return _this;
+  })(O);
+  var ie = (function () {
+    function e() {
+      var t =
+        arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      var n, i, r;
+      (s(this, e),
+        (this.config = {
+          enableConsoleLogging:
+            null === (n = t.enableConsoleLogging) || void 0 === n || n,
+          enableRemoteLogging:
+            null !== (i = t.enableRemoteLogging) && void 0 !== i && i,
+          logPrefix:
+            null !== (r = t.logPrefix) && void 0 !== r ? r : "[Adgeist]",
+        }));
     }
-    _inherits(AdLoader, _SDKComponent);
-    return _createClass(AdLoader, [
+    return c(e, [
       {
-        key: "loadAds",
+        key: "updateConfig",
+        value: function e(t) {
+          this.config = w(w({}, this.config), t);
+        },
+      },
+      {
+        key: "log",
+        value: function e(t) {
+          this.config.enableConsoleLogging && void 0;
+        },
+      },
+      {
+        key: "error",
+        value: function e(t, n) {
+          (this.config.enableConsoleLogging && void 0,
+            this.config.enableRemoteLogging && this.sendToRemoteService(t, n));
+        },
+      },
+      {
+        key: "warn",
+        value: function e(t) {
+          this.config.enableConsoleLogging && void 0;
+        },
+      },
+      { key: "sendToRemoteService", value: function e(t, n) {} },
+    ]);
+  })();
+  var re = [
+    { rx: /Electron\/([\d.]+)/i, name: "Electron" },
+    { rx: /HeadlessChrome\/([\d.]+)/i, name: "Chrome Headless" },
+    { rx: /GSA\/([\d.]+)/i, name: "GSA" },
+    { rx: /FxiOS\/([\d.]+)/i, name: "Firefox" },
+    { rx: /Firefox\/([\d.]+)/i, name: "Firefox" },
+    { rx: /\bfocus\/([\d.]+)/i, name: "Firefox Focus" },
+    { rx: /Mobile VR.*Firefox\/([\d.]+)/i, name: "Firefox Reality" },
+    { rx: /EdgiOS\/([\d.]+)/i, name: "Edge" },
+    { rx: /EdgA\/([\d.]+)/i, name: "Edge" },
+    { rx: /Edg\/([\d.]+)/i, name: "Edge" },
+    { rx: /Edge\/([\d.]+)/i, name: "Edge" },
+    { rx: /Vivaldi\/([\d.]+)/i, name: "Vivaldi" },
+    { rx: /Whale\/([\d.]+)/i, name: "Whale" },
+    { rx: /SamsungBrowser\/([\d.]+)/i, name: "Samsung Browser" },
+    { rx: /MiuiBrowser\/([\d.]+)/i, name: "MIUI Browser" },
+    { rx: /Silk\/([\d.]+)/i, name: "Silk" },
+    { rx: /Puffin\/([\d.]+)/i, name: "Puffin" },
+    { rx: /DuckDuckGo\/([\d.]+)/i, name: "DuckDuckGo" },
+    { rx: /OPR\/([\d.]+)/i, name: "Opera" },
+    { rx: /\bopt\/([\d.]+)/i, name: "Opera Touch" },
+    { rx: /Opera Mini\/([\d.]+)/i, name: "Opera Mini" },
+    { rx: /Opera\/([\d.]+)/i, name: "Opera" },
+    { rx: /(?:UC?Browser|UCWEB)\/([\d.]+)/i, name: "UC Browser" },
+    { rx: /MicroMessenger\/([\d.]+)/i, name: "WeChat" },
+    { rx: /YaBrowser\/([\d.]+)/i, name: "Yandex" },
+    { rx: /Konqueror\/([\d.]+)/i, name: "Konqueror" },
+    { rx: /Trident\/.+rv[: ]([\d.]+)/i, name: "IE" },
+    { rx: /MSIE ([\d.]+)/i, name: "IE" },
+    { rx: /OculusBrowser\/([\d.]+)/i, name: "Oculus Browser" },
+    { rx: /; wv\).*Chrome\/([\d.]+)/i, name: "Chrome WebView" },
+    { rx: /Chromium\/([\d.]+)/i, name: "Chromium" },
+    { rx: /CriOS\/([\d.]+)/i, name: "Chrome" },
+    {
+      rx: /Android.+Version\/([\d.]+).*(?:Mobile\s+)?Safari/i,
+      name: "Android Browser",
+    },
+    { rx: /Chrome\/([\d.]+)/i, name: "Chrome" },
+    { rx: /Version\/([\d.]+).*Safari\//i, name: "Safari" },
+  ];
+  function ae(e) {
+    var t;
+    var n = d(re),
+      i;
+    try {
+      for (n.s(); !(i = n.n()).done; ) {
+        var r = i.value;
+        var a = r.rx.exec(e);
+        if (a)
+          return {
+            name: r.name,
+            version: null !== (t = a[1]) && void 0 !== t ? t : null,
+          };
+      }
+    } catch (o) {
+      n.e(o);
+    } finally {
+      n.f();
+    }
+    return { name: null, version: null };
+  }
+  function oe(e) {
+    var t =
+      /(?:iPhone|iPad|iPod)[^;]*;\s*CPU\s+(?:iPhone\s+)?OS\s+([\d_]+)/i.exec(e);
+    if (t) return { name: "iOS", version: t[1].replace(/_/g, ".") };
+    var n = /Android\s+([\d.]+)/i.exec(e);
+    if (n) return { name: "Android", version: n[1] };
+    var i = /Windows (?:Phone(?:\s*OS)?|Mobile)\s*([\d.]*)/i.exec(e);
+    if (i) return { name: "Windows Phone", version: i[1] || null };
+    var r = /Windows NT\s*([\d.]+)/i.exec(e);
+    if (r) return { name: "Windows", version: r[1] };
+    var a = /Mac OS X\s*([\d_.]+)/i.exec(e);
+    if (a) return { name: "macOS", version: a[1].replace(/_/g, ".") };
+    var o = /CrOS\s+\w+\s+([\d.]+)/i.exec(e);
+    if (o) return { name: "Chrome OS", version: o[1] };
+    var s = /BlackBerry\w*\/([\d.]+)/i.exec(e);
+    if (s) return { name: "BlackBerry", version: s[1] };
+    var l = /Tizen\/([\d.]+)/i.exec(e);
+    if (l) return { name: "Tizen", version: l[1] };
+    var c = /KAIOS\/([\d.]+)/i.exec(e);
+    if (c) return { name: "KaiOS", version: c[1] };
+    var d = /(?:web|hpw)OS\/([\d.]+)/i.exec(e);
+    return d
+      ? { name: "webOS", version: d[1] }
+      : /Linux/i.test(e)
+        ? { name: "Linux", version: null }
+        : { name: null, version: null };
+  }
+  function se(e) {
+    return /Smart[\s-]?TV/i.test(e) ||
+      /\bHbbTV\b/i.test(e) ||
+      /Android TV/i.test(e) ||
+      /Apple TV/i.test(e) ||
+      /\bCrKey\b/i.test(e) ||
+      /Roku\b/i.test(e) ||
+      /AFT[A-Z]/i.test(e) ||
+      /\bNetcast\b/i.test(e) ||
+      /\b(?:SMART-TV|SmartTV)\b/i.test(e) ||
+      /TV; rv:/i.test(e)
+      ? "smarttv"
+      : /\bWear\s*OS\b/i.test(e) || /\bwatch\b/i.test(e) || /Glass \d/i.test(e)
+        ? "wearable"
+        : /PlayStation/i.test(e) ||
+            /\bXbox\b/i.test(e) ||
+            /\bNintendo\b/i.test(e)
+          ? "console"
+          : /iPad/i.test(e) ||
+              /Android(?!.*Mobile)/i.test(e) ||
+              /\b(?:tablet|tab)[;\/]/i.test(e)
+            ? "tablet"
+            : /(?:iPhone|iPod)/i.test(e) ||
+                /Android.*Mobile/i.test(e) ||
+                /Mobile.*Firefox/i.test(e) ||
+                /CriOS/i.test(e) ||
+                /\bMobile\b/i.test(e)
+              ? "mobile"
+              : null;
+  }
+  function le(e) {
+    return { browser: ae(e), os: oe(e), device: { type: se(e) } };
+  }
+  function ce(e) {
+    var t, n;
+    if (!(null == e ? void 0 : e.length)) return { name: null, version: null };
+    var i = e.filter(function (e) {
+      return !e.brand.includes("Not.A/Brand") && "Chromium" !== e.brand;
+    });
+    var r =
+      null !==
+        (n =
+          null !== (t = i[0]) && void 0 !== t
+            ? t
+            : e.find(function (e) {
+                return "Chromium" === e.brand;
+              })) && void 0 !== n
+        ? n
+        : null;
+    return r
+      ? { name: r.brand, version: r.version }
+      : { name: null, version: null };
+  }
+  var de = (function () {
+    function e(t) {
+      (s(this, e), (this.cachedDeviceInfo = null));
+    }
+    return c(e, [
+      {
+        key: "getReportedPPI",
+        value: function e() {
+          var t = document.createElement("div");
+          ((t.style.width = "1in"), document.body.appendChild(t));
+          var n = t.offsetWidth;
+          document.body.removeChild(t);
+          var i = Math.round(n * window.devicePixelRatio);
+          return i || 96;
+        },
+      },
+      {
+        key: "checkNFC",
         value: (function () {
-          var _loadAds = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee() {
-              var adSlots,
-                slots,
-                uniqueSlots,
-                _iterator,
-                _step,
-                _slot,
-                slotAttributes,
-                _adSpaceId,
-                _i,
-                _uniqueSlots,
-                slot,
-                publisherId,
-                slotAttrs,
-                adSpaceId,
-                buyType,
-                response,
-                adData,
-                errorMessage,
-                _args = arguments,
-                _t2,
-                _t3;
-              return _regenerator().w(
-                function (_context) {
-                  while (1)
-                    switch ((_context.p = _context.n)) {
+          var e = a(
+            x().m(function e() {
+              var t, n;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
                       case 0:
-                        adSlots =
-                          _args.length > 0 && _args[0] !== undefined
-                            ? _args[0]
-                            : null;
-                        slots =
-                          adSlots || document.querySelectorAll(".adsbyadgeist"); // Filter out duplicated ad spaces and already loaded ones
-                        uniqueSlots = [];
-                        _iterator = _createForOfIteratorHelper(slots);
-                        _context.p = 1;
-                        _iterator.s();
+                        if (((t = "NDEFReader" in window), t)) {
+                          e.n = 1;
+                          break;
+                        }
+                        return e.a(2, { NFCsupported: !1, NFCenabled: !1 });
+                      case 1:
+                        return (
+                          (e.p = 1),
+                          (e.n = 2),
+                          navigator.permissions.query({ name: "nfc" })
+                        );
                       case 2:
-                        if ((_step = _iterator.n()).done) {
-                          _context.n = 7;
-                          break;
-                        }
-                        _slot = _step.value;
-                        slotAttributes = this.getAdSlotAttributes(_slot);
-                        if (slotAttributes) {
-                          _context.n = 3;
-                          break;
-                        }
-                        return _context.a(3, 6);
+                        return (
+                          (n = e.v),
+                          e.a(2, {
+                            NFCsupported: !0,
+                            NFCenabled: "granted" === n.state,
+                          })
+                        );
                       case 3:
-                        _adSpaceId = slotAttributes.adSpaceId; // Skip if no adSpaceId
-                        if (_adSpaceId) {
-                          _context.n = 4;
-                          break;
-                        }
-                        return _context.a(3, 6);
-                      case 4:
-                        if (!this.sdk.seenAdSpaces.has(_adSpaceId)) {
-                          _context.n = 5;
-                          break;
-                        }
-                        this.sdk.logger.error(
-                          "Duplicate ad space detected (already seen), skipping: ".concat(
-                            _adSpaceId,
-                          ),
+                        return (
+                          (e.p = 3),
+                          e.v,
+                          e.a(2, { NFCsupported: !0, NFCenabled: !1 })
                         );
-                        return _context.a(3, 6);
-                      case 5:
-                        uniqueSlots.push(_slot);
-                        this.sdk.seenAdSpaces.add(_adSpaceId); // Mark as seen
-                      case 6:
-                        _context.n = 2;
-                        break;
-                      case 7:
-                        _context.n = 9;
-                        break;
-                      case 8:
-                        _context.p = 8;
-                        _t2 = _context.v;
-                        _iterator.e(_t2);
-                      case 9:
-                        _context.p = 9;
-                        _iterator.f();
-                        return _context.f(9);
-                      case 10:
-                        if (!(uniqueSlots.length === 0)) {
-                          _context.n = 11;
-                          break;
-                        }
-                        this.sdk.logger.log("No valid unique ad slots to load");
-                        return _context.a(2);
-                      case 11:
-                        ((_i = 0), (_uniqueSlots = uniqueSlots));
-                      case 12:
-                        if (!(_i < _uniqueSlots.length)) {
-                          _context.n = 24;
-                          break;
-                        }
-                        slot = _uniqueSlots[_i];
-                        _context.p = 13;
-                        publisherId = this.sdk.publisherId;
-                        slotAttrs = this.getAdSlotAttributes(slot);
-                        if (slotAttrs) {
-                          _context.n = 14;
-                          break;
-                        }
-                        return _context.a(3, 23);
-                      case 14:
-                        ((adSpaceId = slotAttrs.adSpaceId),
-                          (buyType = slotAttrs.buyType));
-                        if (!(!adSpaceId || !publisherId || !buyType)) {
-                          _context.n = 15;
-                          break;
-                        }
-                        this.sdk.logger.error(
-                          "Ad loading error for slot: ".concat(
-                            adSpaceId,
-                            " - Missing required attributes for ad slot",
-                          ),
-                        );
-                        return _context.a(3, 23);
-                      case 15:
-                        response = void 0;
-                        if (!(buyType === "FIXED")) {
-                          _context.n = 17;
-                          break;
-                        }
-                        _context.n = 16;
-                        return fetch(
-                          "".concat(this.adServeUrl, "/v2/dsp/ad/fixed"),
-                          {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              platform: "WEB",
-                              isTest: this.sdk.isTest,
-                              companyId: publisherId,
-                              adSpaceId: adSpaceId,
-                              userAgent: navigator.userAgent,
-                              timeZone: getUserTimezone(),
-                              requestedAt: new Date().toISOString(),
-                              device: _objectSpread2({}, this.sdk.deviceInfo),
-                            }),
-                          },
-                        );
-                      case 16:
-                        response = _context.v;
-                        _context.n = 19;
-                        break;
-                      case 17:
-                        _context.n = 18;
-                        return fetch(
-                          "".concat(this.adServeUrl, "/v1/app/ssp/bid?").concat(
-                            new URLSearchParams({
-                              adSpaceId: adSpaceId,
-                              companyId: publisherId,
-                              test: this.sdk.isTest ? "1" : "0",
-                            }),
-                          ),
-                          {
-                            method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                              "x-platform": "website",
-                            },
-                            body: JSON.stringify({
-                              siteDto: {
-                                page: window.location.href,
-                              },
-                            }),
-                          },
-                        );
-                      case 18:
-                        response = _context.v;
-                      case 19:
-                        if (response.ok) {
-                          _context.n = 20;
-                          break;
-                        }
-                        throw new Error("HTTP error: ".concat(response.status));
-                      case 20:
-                        _context.n = 21;
-                        return response.json();
-                      case 21:
-                        adData = _context.v;
-                        if (adData) this.renderAd(slot, adData);
-                        _context.n = 23;
-                        break;
-                      case 22:
-                        _context.p = 22;
-                        _t3 = _context.v;
-                        errorMessage =
-                          _t3 instanceof Error ? _t3.message : String(_t3);
-                        this.sdk.logger.error(
-                          "Ad loading error for slot: ".concat(errorMessage),
-                        );
-                      case 23:
-                        _i++;
-                        _context.n = 12;
-                        break;
-                      case 24:
-                        return _context.a(2);
                     }
                 },
-                _callee,
-                this,
-                [
-                  [13, 22],
-                  [1, 8, 9, 10],
-                ],
+                e,
+                null,
+                [[1, 3]],
               );
             }),
           );
-          function loadAds() {
-            return _loadAds.apply(this, arguments);
+          function t() {
+            return e.apply(this, arguments);
           }
-          return loadAds;
+          return t;
         })(),
-        /**
-         * Renders ad content into a slot.
-         * @param slot - Ad slot element.
-         * @param adData - Ad data from server.
-         */
       },
       {
-        key: "renderAd",
-        value: function renderAd(slot, adData) {
-          var _this2 = this;
-          var _a,
-            _b,
-            _c,
-            _d,
-            _e,
-            _f,
-            _g,
-            _h,
-            _j,
-            _k,
-            _l,
-            _m,
-            _o,
-            _p,
-            _q,
-            _r,
-            _s,
-            _t,
-            _u,
-            _v,
-            _w,
-            _x,
-            _y,
-            _z,
-            _0,
-            _1,
-            _2,
-            _3,
-            _4,
-            _5,
-            _6,
-            _7,
-            _8,
-            _9,
-            _10,
-            _11,
-            _12,
-            _13,
-            _14;
-          var slotAttrs = this.getAdSlotAttributes(slot);
-          if (!slotAttrs) {
-            this.sdk.logger.log("Could not get ad slot attributes");
-            return;
-          }
-          var adSpaceId = slotAttrs.adSpaceId,
-            buyType = slotAttrs.buyType,
-            isAdspaceResponsive = slotAttrs.isAdspaceResponsive,
-            adType = slotAttrs.adType;
-          var adspaceWidth = Number(
-            ((_b =
-              (_a =
-                adData === null || adData === void 0
-                  ? void 0
-                  : adData.displayOptions) === null || _a === void 0
-                ? void 0
-                : _a.dimensions) === null || _b === void 0
-              ? void 0
-              : _b.width) || 0,
-          );
-          var adspaceHeight = Number(
-            ((_d =
-              (_c =
-                adData === null || adData === void 0
-                  ? void 0
-                  : adData.displayOptions) === null || _c === void 0
-                ? void 0
-                : _c.dimensions) === null || _d === void 0
-              ? void 0
-              : _d.height) || 0,
-          );
-          var adDetail =
-            buyType === "FIXED"
-              ? adData
-              : adData === null || adData === void 0
-                ? void 0
-                : adData.data;
-          if (
-            (buyType === "FIXED" &&
-              !((_e =
-                adData === null || adData === void 0
-                  ? void 0
-                  : adData.creativesV1) === null || _e === void 0
-                ? void 0
-                : _e[0])) ||
-            (buyType !== "FIXED" &&
-              !((_h =
-                (_g =
-                  (_f =
-                    adDetail === null || adDetail === void 0
-                      ? void 0
-                      : adDetail.seatBid) === null || _f === void 0
-                    ? void 0
-                    : _f[0]) === null || _g === void 0
-                  ? void 0
-                  : _g.bid) === null || _h === void 0
-                ? void 0
-                : _h[0]))
-          ) {
-            this.sdk.logger.log("Invalid ad data");
-            return;
-          }
-          var creativeData;
-          if (buyType === "FIXED") {
-            creativeData = adDetail;
-          } else {
-            creativeData =
-              (_j = adDetail.seatBid[0].bid[0]) === null || _j === void 0
-                ? void 0
-                : _j.ext;
-          }
-          // Normalize ctaUrl
-          var normalizeUrl = function normalizeUrl(url) {
-            if (!url) return url;
-            var normalizedUrl = url;
-            if (url.startsWith("www.")) normalizedUrl = "https://".concat(url);
-            else if (!url.match(/^[a-zA-Z]+:\/\//))
-              normalizedUrl = "https://".concat(url);
-            return normalizedUrl;
-          };
-          var ad;
-          var bidResponseMetadata;
-          if (buyType === "FIXED") {
-            ad = {
-              clickUrl: normalizeUrl(
-                (_k =
-                  creativeData === null || creativeData === void 0
-                    ? void 0
-                    : creativeData.creativesV1) === null || _k === void 0
-                  ? void 0
-                  : _k[0].ctaUrl,
-              ),
-              type: adType,
-              title:
-                (_m =
-                  (_l =
-                    creativeData === null || creativeData === void 0
-                      ? void 0
-                      : creativeData.creativesV1) === null || _l === void 0
-                    ? void 0
-                    : _l[0]) === null || _m === void 0
-                  ? void 0
-                  : _m.title,
-              description:
-                (_p =
-                  (_o =
-                    creativeData === null || creativeData === void 0
-                      ? void 0
-                      : creativeData.creativesV1) === null || _o === void 0
-                    ? void 0
-                    : _o[0]) === null || _p === void 0
-                  ? void 0
-                  : _p.description,
-              altText:
-                ((_r =
-                  (_q =
-                    creativeData === null || creativeData === void 0
-                      ? void 0
-                      : creativeData.creativesV1) === null || _q === void 0
-                    ? void 0
-                    : _q[0]) === null || _r === void 0
-                  ? void 0
-                  : _r.altText) || "",
-              scriptUrl:
-                creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.scriptUrl,
-              brandName:
-                ((_s =
-                  creativeData === null || creativeData === void 0
-                    ? void 0
-                    : creativeData.advertiser) === null || _s === void 0
-                  ? void 0
-                  : _s.name) || "",
-              creativeType:
-                ((_u =
-                  (_t =
-                    creativeData === null || creativeData === void 0
-                      ? void 0
-                      : creativeData.creativesV1) === null || _t === void 0
-                    ? void 0
-                    : _t[0].primary) === null || _u === void 0
-                  ? void 0
-                  : _u.type) || "image",
-              primaryCreative: {
-                src:
-                  (_w =
-                    (_v =
-                      creativeData === null || creativeData === void 0
-                        ? void 0
-                        : creativeData.creativesV1) === null || _v === void 0
-                      ? void 0
-                      : _v[0].primary) === null || _w === void 0
-                    ? void 0
-                    : _w.fileUrl,
-                thumbnailUrl:
-                  (_y =
-                    (_x =
-                      creativeData === null || creativeData === void 0
-                        ? void 0
-                        : creativeData.creativesV1) === null || _x === void 0
-                      ? void 0
-                      : _x[0].primary) === null || _y === void 0
-                    ? void 0
-                    : _y.thumbnailUrl,
-                type:
-                  (_0 =
-                    (_z =
-                      creativeData === null || creativeData === void 0
-                        ? void 0
-                        : creativeData.creativesV1) === null || _z === void 0
-                      ? void 0
-                      : _z[0].primary) === null || _0 === void 0
-                    ? void 0
-                    : _0.type,
-              },
-              companionCreative:
-                ((_3 =
-                  (_2 =
-                    (_1 =
-                      creativeData === null || creativeData === void 0
-                        ? void 0
-                        : creativeData.creativesV1) === null || _1 === void 0
-                      ? void 0
-                      : _1[0]) === null || _2 === void 0
-                    ? void 0
-                    : _2.companions) === null || _3 === void 0
-                  ? void 0
-                  : _3.map(function (companion) {
-                      return {
-                        src: companion.fileUrl,
-                        thumbnailUrl: companion.thumbnailUrl,
-                        type: companion.type,
-                      };
-                    })) || [],
-            };
-            bidResponseMetadata = {
-              responseId: creativeData.id || "",
-              trackId: creativeData.signature || "",
-              campaignId: creativeData.campaignId || "",
-              responseGeneratedAt: creativeData.generatedAt || "",
-              expiresAt:
-                (creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.expiresAt) || "",
-              metaData: creativeData.metaData || "",
-            };
-          } else {
-            ad = {
-              creativeUrl:
-                creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.creativeUrl,
-              clickUrl: normalizeUrl(
-                creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.ctaUrl,
-              ),
-              type: adType,
-              title:
-                (creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.creativeTitle) || "Ad Title",
-              description:
-                (creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.creativeDescription) || "Ad Description",
-              altText:
-                ((_5 =
-                  (_4 =
-                    creativeData === null || creativeData === void 0
-                      ? void 0
-                      : creativeData.creativesV1) === null || _4 === void 0
-                    ? void 0
-                    : _4[0]) === null || _5 === void 0
-                  ? void 0
-                  : _5.altText) || "",
-              scriptUrl:
-                creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.scriptUrl,
-              brandName:
-                (creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.brandName) || "",
-              creativeType:
-                (creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.type) || "image",
-              primaryCreative: {
-                src:
-                  (_7 =
-                    (_6 =
-                      creativeData === null || creativeData === void 0
-                        ? void 0
-                        : creativeData.creativesV1) === null || _6 === void 0
-                      ? void 0
-                      : _6[0].primary) === null || _7 === void 0
-                    ? void 0
-                    : _7.fileUrl,
-                thumbnailUrl:
-                  (_9 =
-                    (_8 =
-                      creativeData === null || creativeData === void 0
-                        ? void 0
-                        : creativeData.creativesV1) === null || _8 === void 0
-                      ? void 0
-                      : _8[0].primary) === null || _9 === void 0
-                    ? void 0
-                    : _9.thumbnailUrl,
-                type:
-                  (_11 =
-                    (_10 =
-                      creativeData === null || creativeData === void 0
-                        ? void 0
-                        : creativeData.creativesV1) === null || _10 === void 0
-                      ? void 0
-                      : _10[0].primary) === null || _11 === void 0
-                    ? void 0
-                    : _11.type,
-              },
-              companionCreative:
-                ((_14 =
-                  (_13 =
-                    (_12 =
-                      creativeData === null || creativeData === void 0
-                        ? void 0
-                        : creativeData.creativesV1) === null || _12 === void 0
-                      ? void 0
-                      : _12[0]) === null || _13 === void 0
-                    ? void 0
-                    : _13.companions) === null || _14 === void 0
-                  ? void 0
-                  : _14.map(function (companion) {
-                      return {
-                        src: companion.fileUrl,
-                        thumbnailUrl: companion.thumbnailUrl,
-                        type: companion.type,
-                      };
-                    })) || [],
-            };
-            bidResponseMetadata = {
-              responseId: adDetail.id || "",
-              trackId: adDetail.id || "",
-              campaignId: adDetail.seatBid[0].bid[0].id,
-              responseGeneratedAt: new Date().toISOString(),
-              expiresAt:
-                (creativeData === null || creativeData === void 0
-                  ? void 0
-                  : creativeData.expiresAt) || "",
-            };
-          }
-          if (!ad.clickUrl) {
-            this.sdk.logger.log("Missing or invalid ctaUrl");
-            return;
-          }
-          var adSpaceSpec = ADSPACE_DIMENSION_CONFIG[adType];
-          var adElementId = "adgeist_ads_iframe_".concat(adSpaceId);
-          var startTime = performance.now();
-          var generateAdCardHtml = function generateAdCardHtml(width, height) {
-            if (
-              adType === "banner" ||
-              adType === "display" ||
-              adType === "companion"
-            ) {
-              var adCardRenderer = new AdCard({
-                adElementId: adElementId,
-                title: ad.title,
-                description: ad.description,
-                altText: ad.altText,
-                name: "Brand Name",
-                ctaUrl: ad.clickUrl,
-                type: adType,
-                isResponsive: isAdspaceResponsive,
-                height: height,
-                width: width,
-                adspaceType: adType,
-                media: [ad.primaryCreative].concat(
-                  _toConsumableArray(ad.companionCreative),
-                ),
-              });
-              return adCardRenderer.renderHtml();
-            }
-            return "";
-          };
-          var shouldCollapseAd = function shouldCollapseAd(width, height) {
-            var basicCollapse =
-              (adspaceWidth &&
-                adspaceHeight &&
-                (width < adspaceWidth || height < adspaceHeight)) ||
-              width < adSpaceSpec.MIN_WIDTH ||
-              height < adSpaceSpec.MIN_HEIGHT;
-            return basicCollapse;
-          };
-          if (adType === "richmedia" && ad.scriptUrl) {
-            this.injectScript(ad.scriptUrl, function () {
-              return _this2.sdk.logger.log("Rich media ad loaded");
-            });
-            return;
-          } else if (
-            adType !== "banner" &&
-            adType !== "display" &&
-            adType !== "companion"
-          ) {
-            this.sdk.logger.log(
-              "Unsupported slot type or missing scriptUrl: ".concat(adType),
-            );
-            return;
-          }
-          var iframe = document.createElement("iframe");
-          iframe.setAttribute("id", adElementId);
-          iframe.setAttribute("frameborder", "0");
-          iframe.setAttribute("scrolling", "no");
-          iframe.style.border = "none";
-          iframe.style.minWidth = "".concat(adSpaceSpec.MIN_WIDTH, "px");
-          iframe.style.minHeight = "".concat(adSpaceSpec.MIN_HEIGHT, "px");
-          slot.innerHTML = "";
-          var slotElement = slot;
-          slotElement.style.display = "block";
-          slot.appendChild(iframe);
-          var renderOrUpdateAd = function renderOrUpdateAd(width, height) {
-            if (shouldCollapseAd(width, height)) {
-              iframe.style.display = "none";
-              _this2.sdk.logger.log(
-                "Ad slot too small for "
-                  .concat(adSpaceId, ": ")
-                  .concat(Math.round(width), "x")
-                  .concat(Math.round(height), " (min: ")
-                  .concat(adSpaceSpec.MIN_WIDTH, "x")
-                  .concat(adSpaceSpec.MIN_HEIGHT, "), collapsing ad"),
-              );
-              return;
-            }
-            if (iframe.style.display === "none") {
-              iframe.style.display = "block";
-              _this2.sdk.logger.log(
-                "Ad slot size valid again for "
-                  .concat(adSpaceId, ": ")
-                  .concat(Math.round(width), "x")
-                  .concat(Math.round(height), ", showing ad"),
-              );
-            }
-            var _calculateValidDimens = calculateValidDimensions(
-                width,
-                height,
-                adSpaceSpec,
-              ),
-              validWidth = _calculateValidDimens.width,
-              validHeight = _calculateValidDimens.height;
-            iframe.setAttribute("width", validWidth);
-            iframe.setAttribute("height", validHeight);
-            iframe.style.width = validWidth;
-            iframe.style.height = validHeight;
-            var adCardHtml = generateAdCardHtml(validWidth, validHeight);
-            if (adCardHtml) {
-              iframe.srcdoc = adCardHtml;
-            }
-          };
-          var _slot$getBoundingClie = slot.getBoundingClientRect(),
-            initialWidth = _slot$getBoundingClie.width,
-            initialHeight = _slot$getBoundingClie.height;
-          renderOrUpdateAd(initialWidth, initialHeight);
-          var lastResizeTime = 0;
-          var resizeThrottleMs = 100;
-          var resizeObserver = new ResizeObserver(function (entries) {
-            var now = performance.now();
-            if (now - lastResizeTime < resizeThrottleMs) {
-              return;
-            }
-            lastResizeTime = now;
-            var _iterator2 = _createForOfIteratorHelper(entries),
-              _step2;
-            try {
-              for (_iterator2.s(); !(_step2 = _iterator2.n()).done; ) {
-                var entry = _step2.value;
-                var _entry$contentRect = entry.contentRect,
-                  newWidth = _entry$contentRect.width,
-                  newHeight = _entry$contentRect.height;
-                var rect = slot.getBoundingClientRect();
-                var actualWidth = rect.width || newWidth;
-                var actualHeight = rect.height || newHeight;
-                renderOrUpdateAd(actualWidth, actualHeight);
-              }
-            } catch (err) {
-              _iterator2.e(err);
-            } finally {
-              _iterator2.f();
-            }
-          });
-          resizeObserver.observe(slot);
-          iframe.addEventListener("load", function () {
-            var _a;
-            // Check for companion ad overflow
-            if (adType === "companion") {
-              try {
-                var doc =
-                  (_a = iframe.contentWindow) === null || _a === void 0
-                    ? void 0
-                    : _a.document;
-                var adCard =
-                  doc === null || doc === void 0
-                    ? void 0
-                    : doc.getElementById("adgeist-card");
-                if (adCard) {
-                  var iframeHeight = iframe.clientHeight;
-                  // Use scrollHeight to get the full height of the content including overflow
-                  var cardHeight = adCard.scrollHeight;
-                  if (iframeHeight && cardHeight > iframeHeight) {
-                    iframe.style.display = "none";
-                    _this2.sdk.logger.log(
-                      "Companion ad overflowed (Content: "
-                        .concat(cardHeight, " > Iframe: ")
-                        .concat(iframeHeight, "), collapsing."),
-                    );
-                    // Stop tracking setup if collapsed
-                    return;
-                  }
-                }
-              } catch (e) {}
-            }
-            var adElement = document.querySelector("#".concat(adElementId));
-            if (adElement) {
-              var tracker = new AdTracker(
-                _this2.sdk,
-                adElementId,
-                adSpaceId,
-                adType,
-                buyType,
-                startTime,
-                bidResponseMetadata,
-                ad.creativeType,
-              );
-              tracker.resizeObserver = resizeObserver;
-              _this2.sdk.adTrackers.set(adElementId, tracker);
-            } else {
-              _this2.sdk.logger.log("No ad element found for tracking");
-              resizeObserver.disconnect();
-            }
-          });
-        },
-      },
-      {
-        key: "injectScript",
-        value: function injectScript(url, callback) {
-          var _this3 = this;
-          var trustedDomains = [
-            "trusted-domain.com",
-            "another-trusted-domain.com",
-          ];
-          if (
-            !url.match(
-              new RegExp("^https://(".concat(trustedDomains.join("|"), ")")),
-            )
-          ) {
-            this.sdk.logger.log("Invalid script URL: ".concat(url));
-            return;
-          }
-          var script = document.createElement("script");
-          script.src = url;
-          script.async = true;
-          script.onload = callback;
-          script.onerror = function () {
-            return _this3.sdk.logger.log("Script load failed: ".concat(url));
-          };
-          document.head.appendChild(script);
-        },
-      },
-      {
-        key: "getAdSlotAttributes",
-        value: function getAdSlotAttributes(slotElement) {
-          try {
-            return {
-              adSpaceId:
-                (slotElement === null || slotElement === void 0
-                  ? void 0
-                  : slotElement.getAttribute("data-ad-slot")) || "",
-              buyType:
-                (slotElement === null || slotElement === void 0
-                  ? void 0
-                  : slotElement.getAttribute("data-buy-type")) || "",
-              isAdspaceResponsive:
-                (slotElement === null || slotElement === void 0
-                  ? void 0
-                  : slotElement.getAttribute("data-responsive")) !== "false",
-              adType:
-                (slotElement === null || slotElement === void 0
-                  ? void 0
-                  : slotElement.getAttribute("data-slot-type")) || "banner",
-            };
-          } catch (error) {
-            return null;
-          }
-        },
-      },
-    ]);
-  })(SDKComponent);
-
-  var AdSlotObserver = /*#__PURE__*/ (function (_SDKComponent) {
-    function AdSlotObserver(sdk) {
-      var _this;
-      _classCallCheck(this, AdSlotObserver);
-      _this = _callSuper(this, AdSlotObserver, [sdk]);
-      _this.observer = null;
-      _this.observer = null;
-      return _this;
-    }
-    _inherits(AdSlotObserver, _SDKComponent);
-    return _createClass(AdSlotObserver, [
-      {
-        key: "observeAdSlots",
-        value: function observeAdSlots() {
-          var _this2 = this;
-          var container =
-            document.querySelector(".ad-container") || document.body;
-          this.observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-              mutation.addedNodes.forEach(function (node) {
-                if (node.nodeType === Node.ELEMENT_NODE) {
-                  var element = node;
-                  if (element.classList.contains("adsbyadgeist")) {
-                    window.sspAdsQueue.push(element);
-                  }
-                  element
-                    .querySelectorAll(".adsbyadgeist")
-                    .forEach(function (adSlot) {
-                      return window.sspAdsQueue.push(adSlot);
-                    });
-                  _this2.processAdQueue();
-                }
-              });
-            });
-          });
-          this.observer.observe(container, {
-            childList: true,
-            subtree: true,
-          });
-          container
-            .querySelectorAll(".adsbyadgeist")
-            .forEach(function (adSlot) {
-              window.sspAdsQueue.push(adSlot);
-              _this2.processAdQueue();
-            });
-        },
-      },
-      {
-        key: "processAdQueue",
-        value: function processAdQueue() {
-          while (window.sspAdsQueue.length > 0) {
-            var adSlot = window.sspAdsQueue.shift();
-            if (adSlot) {
-              this.sdk.adLoader.loadAds([adSlot]);
-            }
-          }
-        },
-      },
-    ]);
-  })(SDKComponent);
-
-  var ConsentManager = /*#__PURE__*/ (function (_SDKComponent) {
-    function ConsentManager(sdk) {
-      var _this;
-      _classCallCheck(this, ConsentManager);
-      _this = _callSuper(this, ConsentManager, [sdk]);
-      _this.stylesInjected = false;
-      _this.consentCookieName = DEFAULTS.CONSENT_COOKIE_NAME;
-      _this.injectStyles();
-      return _this;
-    }
-    _inherits(ConsentManager, _SDKComponent);
-    return _createClass(ConsentManager, [
-      {
-        key: "injectStyles",
-        value: function injectStyles() {
-          if (
-            this.stylesInjected ||
-            document.getElementById("adgeist-consent-styles")
-          )
-            return;
-          var styleEl = document.createElement("style");
-          styleEl.id = "adgeist-consent-styles";
-          styleEl.textContent =
-            "\n      .adgeist-consent-modal {\n        position: fixed;\n        bottom: 20px;\n        left: 20px;\n        background: #fff;\n        border-radius: 16px;\n        box-shadow: 0 4px 20px rgba(0,0,0,0.15);\n        z-index: 9999;\n        max-width: 680px;\n        width: 90vw;\n        font-family: system-ui, -apple-system, sans-serif;\n      }\n\n      .consent-inner {\n        position: relative;\n        padding: 24px 60px 32px;\n      }\n      \n      .preferences-inner {\n        padding: 24px 20px 28px;\n      }\n\n      .close-btn {\n        position: absolute;\n        top: 2px;\n        right: 5px;\n        background: transparent;\n        border: none;\n        font-size: 32px;\n        font-weight: normal;\n        color: #666;\n        cursor: pointer;\n        padding: 0;\n        width: 36px;\n        height: 36px;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n      }\n\n      .adgeist-consent-modal h2 {\n        font-size: 16px;\n        font-weight: 600;\n        color: #333;\n        margin: 12px 0;\n        text-align: center;\n      }\n\n      .adgeist-consent-modal p {\n        font-size: 13px;\n        color: #666;\n        line-height: 1.5;\n        margin: 0 0 28px;\n        text-align: center;\n      }\n\n      .adgeist-consent-modal p a {\n        color: #0960AD;\n        font-weight: bold;\n        text-decoration: underline;\n      }\n\n      .button-group, .save-row {\n        display: flex;\n        gap: 12px;\n        justify-content: center;\n        flex-wrap: wrap;\n      }\n\n      .btn {\n        padding: 10px 20px;\n        border: none;\n        border-radius: 4px;\n        font-size: 14px;\n        font-weight: 500;\n        cursor: pointer;\n        min-width: 120px;\n        max-width: 200px;\n        flex: 1 1 auto;\n        white-space: nowrap;\n      }\n\n      .btn-customise {\n        background: #C5C6C8;\n        color: #000;\n        box-shadow:\n          inset 4px  0px  4px    rgba( 77,  77,  77, 0.355),\n          inset -4px -4px 13px   rgba( 51,  51,  51, 0.341), \n          inset 8px   3px 15px   rgba(164, 164, 164, 0.600),\n          inset 0px   0px  2px   rgba(236, 236, 236, 0.600);\n      }\n\n      .btn-essential, .btn-accept-all, .btn-save {\n        background: #63AA75;\n        color: #000;\n        box-shadow:\n          inset 4.26px  0px   4.26px  rgba( 38, 100,  42, 0.267),\n          inset -4.26px -4.26px 13.84px rgba( 51,  51,  51, 0.341),\n          inset 8.51px  3.19px 15.97px rgba(111, 201, 116, 0.400),\n          inset 0px     0px    2.13px  rgba(172, 255, 177, 0.400);\n      }\n\n      .toggles-container {\n        margin-top: 25px;\n      } \n\n      .toggle-row {\n        display: flex;\n        justify-content: space-between;\n        align-items: flex-start;\n        gap: 20px;\n        margin-bottom: 15px;\n      }\n\n      .toggle-row.last {\n        margin-bottom: 28px;\n      }\n\n      .toggle-info {\n        flex: 1;\n        max-width: 80%;\n      }\n\n      .toggle-info label {\n        font-size: 16px;\n        font-weight: 800;\n        color: #111;\n        display: block;\n        margin-bottom: 6px;\n      }\n\n      .toggle-info p {\n        font-size: 12px;\n        color: #222;\n        margin: 0;\n        line-height: 1.45;\n        text-align: left;\n      }\n\n      .toggle-switch {\n        position: relative;\n        width: 59px;\n        height: 30px;\n        border-radius: 15px;\n        overflow: hidden;\n        border: none;\n        padding: 0;\n        cursor: pointer;\n        background: #e5e7eb;\n        transition: background-color 0.3s ease;\n      }\n\n      .toggle-switch.on {\n        background: #63aa75;\n      }\n\n      .toggle-switch.disabled {\n        opacity: 0.5;\n        cursor: not-allowed;\n      }\n\n      .toggle-bg {\n        position: absolute;\n        inset: 0;\n        border-radius: 15px;\n        background: inherit;\n        box-shadow: inset 2px 2px 2px rgba(0,0,0,0.25);\n        transition: background-color 300ms ease-in-out;\n      }\n\n      .toggle-knob {\n        position: absolute;\n        top: 3px;\n        left: 3px;\n        width: 24px;\n        height: 24px;\n        border-radius: 50%;\n        transform: translateX(0);\n        transition: transform 300ms cubic-bezier(0.2,0.8,0.2,1);\n        background: linear-gradient(180deg, #f2f2f2 0%, #e8e8e8 100%);\n        box-shadow: \n          0 0.82px 1.15px -0.63px rgba(0,0,0,0.26),\n          0 2.11px 2.95px -1.25px rgba(0,0,0,0.25),\n          0 4.23px 5.92px -1.88px rgba(0,0,0,0.24),\n          0 8.01px 11.21px -2.5px rgba(0,0,0,0.22),\n          0 15.92px 22.29px -3.13px rgba(0,0,0,0.18),\n          0 35px 49px -3.75px rgba(0,0,0,0.09);\n      }\n\n      .toggle-switch.on .toggle-knob {\n        transform: translateX(29px);\n      }\n    ";
-          document.head.appendChild(styleEl);
-          this.stylesInjected = true;
-        },
-      },
-      {
-        key: "getUserConsent",
-        value: function getUserConsent() {
-          var match = document.cookie.match(
-            new RegExp("(^|;\\s*)".concat(this.consentCookieName, "=([^;]*)")),
-          );
-          if (!match) return [];
-          var consentValue = decodeURIComponent(match[2]);
-          // Split by '+' to get consent parts
-          var parts = consentValue.split(/[+]/);
-          // Capitalize each part
-          return parts.map(function (part) {
-            return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
-          });
-        },
-      },
-      {
-        key: "setConsent",
-        value: function setConsent(consent) {
-          var value = encodeURIComponent(consent);
-          var maxAge = 100 * 365 * 24 * 60 * 60; // ~100 years
-          var secure = location.protocol === "https:" ? "; Secure" : "";
-          document.cookie = ""
-            .concat(this.consentCookieName, "=")
-            .concat(value, "; Max-Age=")
-            .concat(maxAge, "; path=/; SameSite=Lax")
-            .concat(secure);
-        },
-      },
-      {
-        key: "removeElement",
-        value: function removeElement(id) {
-          var _a;
-          (_a = document.getElementById(id)) === null || _a === void 0
-            ? void 0
-            : _a.remove();
-        },
-      },
-      {
-        key: "createModal",
-        value: function createModal(id, className, html) {
-          this.removeElement(id);
-          var modal = document.createElement("div");
-          modal.id = id;
-          modal.className = className;
-          modal.role = "dialog";
-          modal.ariaModal = "true";
-          modal.innerHTML = html;
-          document.body.appendChild(modal);
-          return modal;
-        },
-      },
-      {
-        key: "showConsentBanner",
-        value: function showConsentBanner() {
-          var _this2 = this;
-          var _a, _b, _c, _d;
-          if (this.getUserConsent().length > 0) return;
-          var html =
-            '\n      <div class="consent-inner">\n        <button class="close-btn" aria-label="Close consent banner">\xD7</button>\n        <h2>We Value Your Privacy</h2>\n        <p>\n          adgeist.ai uses cookies and similar technologies to enhance your experience, analyze site traffic, and deliver personalized ads.\n          You can choose to accept all cookies, reject non-essential ones, or manage your preferences.\n          <a href="https://www.adgeist.ai/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>\n        </p>\n        <div class="button-group">\n          <button id="adgeist-consent-customise" class="btn btn-customise">Customise</button>\n          <button id="adgeist-consent-essential" class="btn btn-essential">Only essential</button>\n          <button id="adgeist-consent-accept-all" class="btn btn-accept-all">Accept all</button>\n        </div>\n      </div>\n    ';
-          var banner = this.createModal(
-            "adgeist-consent-banner",
-            "adgeist-consent-modal",
-            html,
-          );
-          (_a = banner.querySelector("#adgeist-consent-accept-all")) === null ||
-          _a === void 0
-            ? void 0
-            : _a.addEventListener("click", function () {
-                _this2.setConsent(CONSENT_TYPE.ACCEPTED_ALL);
-                _this2.removeElement("adgeist-consent-banner");
-              });
-          (_b = banner.querySelector("#adgeist-consent-essential")) === null ||
-          _b === void 0
-            ? void 0
-            : _b.addEventListener("click", function () {
-                _this2.setConsent(CONSENT_TYPE.ONLY_ESSENTIAL);
-                _this2.removeElement("adgeist-consent-banner");
-              });
-          (_c = banner.querySelector("#adgeist-consent-customise")) === null ||
-          _c === void 0
-            ? void 0
-            : _c.addEventListener("click", function () {
-                _this2.removeElement("adgeist-consent-banner");
-                _this2.showManagePreferences();
-              });
-          (_d = banner.querySelector(".close-btn")) === null || _d === void 0
-            ? void 0
-            : _d.addEventListener("click", function () {
-                _this2.removeElement("adgeist-consent-banner");
-              });
-        },
-      },
-      {
-        key: "showManagePreferences",
-        value: function showManagePreferences() {
-          var _this3 = this;
-          var _a, _b;
-          var toggles = [
-            {
-              id: "essential",
-              label: "Essential",
-              desc: "These cookies are necessary for Adgeist to operate securely, enable core features like login, and remember your privacy choices.",
-              disabled: true,
-              default: true,
-            },
-            {
-              id: "performance",
-              label: "Performance",
-              desc: "Used to understand how Adgeist is performing — helping us improve load times, stability, and overall experience.",
-              disabled: false,
-              default: false,
-            },
-            {
-              id: "advertising",
-              label: "Advertising",
-              desc: "Allows us to deliver more relevant ads, limit repetition, and measure campaign effectiveness across platforms.",
-              disabled: false,
-              default: false,
-            },
-            {
-              id: "personalization",
-              label: "Personalization",
-              desc: "Helps tailor your dashboard, suggestions, and content based on your preferences and usage patterns.",
-              disabled: false,
-              default: false,
-            },
-          ];
-          var toggleHtml = toggles
-            .map(function (t, i) {
-              return '\n        <div class="toggle-row'
-                .concat(
-                  i === toggles.length - 1 ? " last" : "",
-                  '">\n          <div class="toggle-info">\n            <label>',
-                )
-                .concat(t.label, "</label>\n            <p>")
-                .concat(
-                  t.desc,
-                  '</p>\n          </div>\n          <button\n            type="button"\n            id="toggle-',
-                )
-                .concat(t.id, '"\n            class="toggle-switch ')
-                .concat(t.default ? "on" : "", " ")
-                .concat(
-                  t.disabled ? "disabled" : "",
-                  '"\n            role="switch"\n            aria-checked="',
-                )
-                .concat(t.default, '"\n            ')
-                .concat(
-                  t.disabled ? "disabled" : "",
-                  '\n            aria-label="Toggle ',
-                )
-                .concat(
-                  t.label.toLowerCase(),
-                  ' cookies"\n          >\n            <span class="toggle-bg"></span>\n            <span class="toggle-knob"></span>\n          </button>\n        </div>\n      ',
-                );
-            })
-            .join("");
-          var html =
-            '\n      <div class="preferences-inner">\n        <button class="close-btn" aria-label="Close preferences">\xD7</button>\n        <h2>Manage Preferences</h2>\n        <div class="toggles-container">\n          '.concat(
-              toggleHtml,
-              '\n        </div>\n        <div class="save-row">\n          <button id="adgeist-save-preferences" class="btn btn-save">Save preferences</button>\n        </div>\n      </div>\n    ',
-            );
-          var modal = this.createModal(
-            "adgeist-manage-preferences",
-            "adgeist-consent-modal",
-            html,
-          );
-          // Toggle handlers
-          toggles.forEach(function (t) {
-            if (t.disabled) return;
-            var btn = modal.querySelector("#toggle-".concat(t.id));
-            btn === null || btn === void 0
-              ? void 0
-              : btn.addEventListener("click", function () {
-                  var nowOn = btn.classList.toggle("on");
-                  btn.setAttribute("aria-checked", nowOn ? "true" : "false");
-                });
-          });
-          // Save handler
-          (_a = modal.querySelector("#adgeist-save-preferences")) === null ||
-          _a === void 0
-            ? void 0
-            : _a.addEventListener("click", function () {
-                var _a;
-                var bits = 0;
-                if (modal.querySelector("#toggle-performance.on")) bits |= 4;
-                if (modal.querySelector("#toggle-advertising.on")) bits |= 2;
-                if (modal.querySelector("#toggle-personalization.on"))
-                  bits |= 1;
-                var consentMap = {
-                  0: CONSENT_TYPE.ONLY_ESSENTIAL,
-                  1: CONSENT_TYPE.PERSONALIZATION,
-                  2: CONSENT_TYPE.ADVERTISING,
-                  3: CONSENT_TYPE.ADVERTISING_PERSONALIZATION,
-                  4: CONSENT_TYPE.PERFORMANCE,
-                  5: CONSENT_TYPE.PERFORMANCE_PERSONALIZATION,
-                  6: CONSENT_TYPE.PERFORMANCE_ADVERTISING,
-                  7: CONSENT_TYPE.ACCEPTED_ALL,
-                };
-                var consent =
-                  (_a = consentMap[bits]) !== null && _a !== void 0
-                    ? _a
-                    : CONSENT_TYPE.ONLY_ESSENTIAL;
-                _this3.setConsent(consent);
-                _this3.removeElement("adgeist-manage-preferences");
-              });
-          (_b = modal.querySelector(".close-btn")) === null || _b === void 0
-            ? void 0
-            : _b.addEventListener("click", function () {
-                _this3.removeElement("adgeist-manage-preferences");
-              });
-        },
-      },
-      {
-        key: "updateAdgeistUserConsent",
-        value: function updateAdgeistUserConsent(consentType) {
-          this.setConsent(consentType);
-        },
-      },
-    ]);
-  })(SDKComponent);
-
-  // ---------------------------------------------------------------------------
-  // Types
-  // ---------------------------------------------------------------------------
-  var FingerprintManager = /*#__PURE__*/ (function () {
-    function FingerprintManager() {
-      _classCallCheck(this, FingerprintManager);
-      this.proAgent = null;
-      this.ossAgent = null;
-      this.adgeistAgent = null;
-      this.proPromise = null;
-      this.ossPromise = null;
-      this.adgeistPromise = null;
-    }
-    /** Start loading all fingerprint SDKs in parallel. */
-    return _createClass(FingerprintManager, [
-      {
-        key: "load",
-        value: function load() {
-          if (!this.proPromise) this.proPromise = this.loadPro();
-          if (!this.ossPromise) this.ossPromise = this.loadOss();
-          if (!this.adgeistPromise) this.adgeistPromise = this.loadAdgeist();
-        },
-      },
-      {
-        key: "loadPro",
+        key: "getHighEntropyData",
         value: (function () {
-          var _loadPro = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee() {
-              var PRO_API_KEY, PRO_REGION, FP, agent;
-              return _regenerator().w(
-                function (_context) {
-                  while (1)
-                    switch ((_context.p = _context.n)) {
+          var e = a(
+            x().m(function e() {
+              var t, n;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
                       case 0:
-                        PRO_API_KEY = "O2pIsjpntOGVTWGqUZSj";
-                        PRO_REGION = "ap";
-                        _context.p = 1;
-                        _context.n = 2;
-                        return import(
-                          "https://fpjscdn.net/v4/".concat(PRO_API_KEY)
+                        if (
+                          ((e.p = 0),
+                          (n = navigator),
+                          null === (t = n.userAgentData) || void 0 === t
+                            ? void 0
+                            : t.getHighEntropyValues)
+                        ) {
+                          e.n = 1;
+                          break;
+                        }
+                        return e.a(2, null);
+                      case 1:
+                        return (
+                          (e.n = 2),
+                          n.userAgentData.getHighEntropyValues([
+                            "architecture",
+                            "model",
+                            "platform",
+                            "platformVersion",
+                            "fullVersionList",
+                            "mobile",
+                          ])
                         );
                       case 2:
-                        FP = _context.v;
-                        _context.n = 3;
-                        return FP.start({
-                          region: PRO_REGION,
-                        });
+                        return e.a(2, e.v);
                       case 3:
-                        agent = _context.v;
-                        this.proAgent = agent;
-                        return _context.a(2, agent);
-                      case 4:
-                        _context.p = 4;
-                        _context.v;
-                        return _context.a(2, null);
+                        return ((e.p = 3), e.v, e.a(2, null));
                     }
                 },
-                _callee,
+                e,
+                null,
+                [[0, 3]],
+              );
+            }),
+          );
+          function t() {
+            return e.apply(this, arguments);
+          }
+          return t;
+        })(),
+      },
+      {
+        key: "getNetworkType",
+        value: (function () {
+          var e = a(
+            x().m(function e() {
+              var t, n, i, r;
+              return x().w(function (e) {
+                for (; 1; )
+                  switch (e.n) {
+                    case 0:
+                      if (
+                        ((i = navigator),
+                        (r =
+                          i.connection ||
+                          i.mozConnection ||
+                          i.webkitConnection),
+                        r)
+                      ) {
+                        e.n = 1;
+                        break;
+                      }
+                      return e.a(2, {
+                        type: "Unavailable (browser privacy)",
+                        effectiveType: "Unavailable (browser privacy)",
+                      });
+                    case 1:
+                      return e.a(2, {
+                        type:
+                          (null === (t = r.type) || void 0 === t
+                            ? void 0
+                            : t.toUpperCase()) ||
+                          "Unavailable (browser privacy)",
+                        effectiveType:
+                          (null === (n = r.effectiveType) || void 0 === n
+                            ? void 0
+                            : n.toUpperCase()) ||
+                          "Unavailable (browser privacy)",
+                      });
+                  }
+              }, e);
+            }),
+          );
+          function t() {
+            return e.apply(this, arguments);
+          }
+          return t;
+        })(),
+      },
+      {
+        key: "getDeviceInfo",
+        value: (function () {
+          var e = a(
+            x().m(function e() {
+              var t,
+                n,
+                i,
+                r,
+                a,
+                o,
+                s,
+                l,
+                c,
+                d,
+                u,
+                v,
+                p,
+                h,
+                g,
+                f,
+                m,
+                y,
+                b,
+                w,
+                k,
+                T,
+                E,
+                I,
+                A,
+                C,
+                M;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch (e.n) {
+                      case 0:
+                        if (!this.cachedDeviceInfo) {
+                          e.n = 1;
+                          break;
+                        }
+                        return e.a(2, this.cachedDeviceInfo);
+                      case 1:
+                        return (
+                          (h = le(navigator.userAgent)),
+                          (e.n = 2),
+                          Promise.all([
+                            this.getHighEntropyData(),
+                            this.checkNFC().catch(function () {
+                              return null;
+                            }),
+                          ])
+                        );
+                      case 2:
+                        return (
+                          (g = e.v),
+                          (f = S(g, 2)),
+                          (m = f[0]),
+                          (y = f[1]),
+                          (b =
+                            null !==
+                              (t = null == y ? void 0 : y.NFCsupported) &&
+                            void 0 !== t &&
+                            t),
+                          (w =
+                            null !== (n = null == y ? void 0 : y.NFCenabled) &&
+                            void 0 !== n &&
+                            n),
+                          (k = navigator),
+                          (T = ce(null == m ? void 0 : m.fullVersionList)),
+                          (E =
+                            (void 0 !== (null == m ? void 0 : m.architecture) &&
+                              m.architecture) ||
+                            null),
+                          (I =
+                            (void 0 !== (null == m ? void 0 : m.model) &&
+                              m.model) ||
+                            null),
+                          (e.n = 3),
+                          this.getNetworkType()
+                        );
+                      case 3:
+                        return (
+                          (A = e.v),
+                          (C =
+                            void 0 !== (null == m ? void 0 : m.mobile)
+                              ? m.mobile
+                              : void 0 !==
+                                  (null ===
+                                    (i =
+                                      null == k ? void 0 : k.userAgentData) ||
+                                  void 0 === i
+                                    ? void 0
+                                    : i.mobile)
+                                ? k.userAgentData.mobile
+                                : /mobile/i.test(navigator.userAgent)),
+                          (M = {
+                            deviceType:
+                              null ===
+                                (a =
+                                  (null === (r = h.device) || void 0 === r
+                                    ? void 0
+                                    : r.type) || (C ? "Mobile" : "Desktop")) ||
+                              void 0 === a
+                                ? void 0
+                                : a.toUpperCase(),
+                            screenWidth: window.screen.width,
+                            screenHeight: window.screen.height,
+                            screenPixelRatio: window.devicePixelRatio,
+                            screenDensity: this.getReportedPPI(),
+                            osName:
+                              null ===
+                                (s =
+                                  (null == m ? void 0 : m.platform) ||
+                                  (null === (o = h.os) || void 0 === o
+                                    ? void 0
+                                    : o.name) ||
+                                  navigator.platform ||
+                                  "Unavailable (browser privacy)") ||
+                              void 0 === s
+                                ? void 0
+                                : s.toUpperCase(),
+                            osVersion:
+                              (null == m ? void 0 : m.platformVersion) ||
+                              (null === (l = h.os) || void 0 === l
+                                ? void 0
+                                : l.version) ||
+                              null,
+                            noOfProcessors:
+                              navigator.hardwareConcurrency || null,
+                            browserName:
+                              (null ===
+                                (d =
+                                  T.name ||
+                                  (null === (c = h.browser) || void 0 === c
+                                    ? void 0
+                                    : c.name)) || void 0 === d
+                                ? void 0
+                                : d.toUpperCase()) || null,
+                            browserVersion:
+                              T.version ||
+                              (null === (u = h.browser) || void 0 === u
+                                ? void 0
+                                : u.version) ||
+                              null,
+                            networkType: null == A ? void 0 : A.effectiveType,
+                            networkConnectionType: null == A ? void 0 : A.type,
+                            isTouchScreenCapable: navigator.maxTouchPoints > 0,
+                            isNFCCapable: b,
+                            isNFCEnabled: w,
+                            isGPUCapable: !!k.gpu,
+                            isVRCapable: !!("xr" in navigator),
+                            isScreenReaderEnabled:
+                              null !==
+                                (p =
+                                  null === (v = window.matchMedia) ||
+                                  void 0 === v
+                                    ? void 0
+                                    : v.call(window, "(forced-colors: active)")
+                                        .matches) &&
+                              void 0 !== p &&
+                              p,
+                            webglRenderer: (function () {
+                              try {
+                                var e = document.createElement("canvas");
+                                var n = e.getContext("webgl");
+                                return (
+                                  (null == n
+                                    ? void 0
+                                    : n.getParameter(n.RENDERER)) || null
+                                );
+                              } catch (t) {
+                                return null;
+                              }
+                            })(),
+                            coreArchitecture:
+                              (null == E ? void 0 : E.toUpperCase()) || null,
+                            deviceModel:
+                              (null == I ? void 0 : I.toUpperCase()) || null,
+                          }),
+                          (this.cachedDeviceInfo = M),
+                          e.a(2, M)
+                        );
+                    }
+                },
+                e,
+                this,
+              );
+            }),
+          );
+          function t() {
+            return e.apply(this, arguments);
+          }
+          return t;
+        })(),
+      },
+    ]);
+  })();
+  var ue = "UxYprR2jUKf3otes80Bi";
+  var ve = "https://fpjscdn.net/v4/".concat(ue);
+  var pe = "https://cdn.adgeist.ai/identifier/v1.0.3/visitorid.js";
+  var he = (function () {
+    function e() {
+      (s(this, e),
+        (this.fpProAgent = null),
+        (this.adgeistAgent = null),
+        (this.fpProPromise = null),
+        (this.adgeistPromise = null),
+        (this.cachedAdgeistResult = null));
+    }
+    return c(e, [
+      {
+        key: "load",
+        value: function e() {
+          (this.fpProPromise || (this.fpProPromise = this.loadFpPro()),
+            this.adgeistPromise || (this.adgeistPromise = this.loadAdgeist()));
+        },
+      },
+      {
+        key: "loadFpPro",
+        value: (function () {
+          var e = a(
+            x().m(function e() {
+              var t, n, i;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
+                      case 0:
+                        return ((t = "ap"), (e.p = 1), (e.n = 2), import(ve));
+                      case 2:
+                        return ((n = e.v), (e.n = 3), n.start({ region: t }));
+                      case 3:
+                        return ((i = e.v), (this.fpProAgent = i), e.a(2, i));
+                      case 4:
+                        return ((e.p = 4), e.v, e.a(2, null));
+                    }
+                },
+                e,
                 this,
                 [[1, 4]],
               );
             }),
           );
-          function loadPro() {
-            return _loadPro.apply(this, arguments);
+          function t() {
+            return e.apply(this, arguments);
           }
-          return loadPro;
-        })(),
-      },
-      {
-        key: "loadOss",
-        value: (function () {
-          var _loadOss = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee2() {
-              var FP, agent;
-              return _regenerator().w(
-                function (_context2) {
-                  while (1)
-                    switch ((_context2.p = _context2.n)) {
-                      case 0:
-                        _context2.p = 0;
-                        _context2.n = 1;
-                        return import("https://openfpcdn.io/fingerprintjs/v4");
-                      case 1:
-                        FP = _context2.v;
-                        _context2.n = 2;
-                        return FP.default.load();
-                      case 2:
-                        agent = _context2.v;
-                        this.ossAgent = agent;
-                        return _context2.a(2, agent);
-                      case 3:
-                        _context2.p = 3;
-                        _context2.v;
-                        return _context2.a(2, null);
-                    }
-                },
-                _callee2,
-                this,
-                [[0, 3]],
-              );
-            }),
-          );
-          function loadOss() {
-            return _loadOss.apply(this, arguments);
-          }
-          return loadOss;
+          return t;
         })(),
       },
       {
         key: "loadAdgeist",
         value: (function () {
-          var _loadAdgeist = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee3() {
-              var FP, agent;
-              return _regenerator().w(
-                function (_context3) {
-                  while (1)
-                    switch ((_context3.p = _context3.n)) {
+          var e = a(
+            x().m(function e() {
+              var t, n, i, r, a, o;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
                       case 0:
-                        _context3.p = 0;
-                        _context3.n = 1;
-                        return import("https://cdn.adgeist.ai/identifier/v1/visitorid.js");
+                        return ((e.p = 0), (e.n = 1), import(pe));
                       case 1:
-                        FP = _context3.v;
-                        _context3.n = 2;
-                        return FP.load();
+                        return ((t = e.v), (e.n = 2), t.load());
                       case 2:
-                        agent = _context3.v;
-                        this.adgeistAgent = agent;
-                        return _context3.a(2, agent);
+                        return (
+                          (n = e.v),
+                          (i = n.get),
+                          (r = n.getComponents),
+                          (a = n.version),
+                          (o = n.env),
+                          (this.adgeistAgent = {
+                            get: i,
+                            getComponents: r,
+                            version: a,
+                            env: o,
+                          }),
+                          e.a(2, this.adgeistAgent)
+                        );
                       case 3:
-                        _context3.p = 3;
-                        _context3.v;
-                        return _context3.a(2, null);
+                        return ((e.p = 3), e.v, e.a(2, null));
                     }
                 },
-                _callee3,
+                e,
                 this,
                 [[0, 3]],
               );
             }),
           );
-          function loadAdgeist() {
-            return _loadAdgeist.apply(this, arguments);
+          function t() {
+            return e.apply(this, arguments);
           }
-          return loadAdgeist;
-        })(), // -----------------------------------------------------------------------
-        // Result fetching
-        // -----------------------------------------------------------------------
-        /** Get visitor ID for a specific fingerprint provider. */
+          return t;
+        })(),
       },
       {
         key: "getVisitorId",
         value: (function () {
-          var _getVisitorId = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee4(type) {
-              var result, _result, _result2, _t4;
-              return _regenerator().w(
-                function (_context4) {
-                  while (1)
-                    switch (_context4.n) {
+          var e = a(
+            x().m(function e(t, n) {
+              var i, r, a;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch (e.n) {
                       case 0:
-                        _t4 = type;
-                        _context4.n =
-                          _t4 === "pro"
-                            ? 1
-                            : _t4 === "oss"
-                              ? 3
-                              : _t4 === "adgeist"
-                                ? 5
-                                : 7;
+                        ((a = t), (e.n = "fp-pro" === a ? 1 : 3));
                         break;
                       case 1:
-                        _context4.n = 2;
-                        return this.getProResult();
+                        return ((e.n = 2), this.getFpProIdentifier());
                       case 2:
-                        result = _context4.v;
-                        return _context4.a(
-                          2,
-                          (result === null || result === void 0
-                            ? void 0
-                            : result.visitor_id) || "",
+                        return (
+                          (i = e.v),
+                          e.a(2, (null == i ? void 0 : i.visitor_id) || "")
                         );
                       case 3:
-                        _context4.n = 4;
-                        return this.getOssResult();
+                        return ((e.n = 4), this.getAdgeistIdentifier(n));
                       case 4:
-                        _result = _context4.v;
-                        return _context4.a(
-                          2,
-                          (_result === null || _result === void 0
-                            ? void 0
-                            : _result.visitorId) || "",
+                        return (
+                          (r = e.v),
+                          e.a(2, (null == r ? void 0 : r.visitorId) || "")
                         );
                       case 5:
-                        _context4.n = 6;
-                        return this.getAdgeistResult();
-                      case 6:
-                        _result2 = _context4.v;
-                        return _context4.a(
-                          2,
-                          (_result2 === null || _result2 === void 0
-                            ? void 0
-                            : _result2.visitorId) || "",
-                        );
-                      case 7:
-                        return _context4.a(2);
+                        return e.a(2);
                     }
                 },
-                _callee4,
+                e,
                 this,
               );
             }),
           );
-          function getVisitorId(_x) {
-            return _getVisitorId.apply(this, arguments);
+          function t(t, n) {
+            return e.apply(this, arguments);
           }
-          return getVisitorId;
+          return t;
         })(),
       },
       {
-        key: "getResult",
+        key: "getIdentifier",
         value: (function () {
-          var _getResult = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee5(type) {
-              var _t5;
-              return _regenerator().w(
-                function (_context5) {
-                  while (1)
-                    switch (_context5.n) {
+          var e = a(
+            x().m(function e(t, n) {
+              var i;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch (e.n) {
                       case 0:
-                        _t5 = type;
-                        _context5.n =
-                          _t5 === "pro"
-                            ? 1
-                            : _t5 === "oss"
-                              ? 2
-                              : _t5 === "adgeist"
-                                ? 3
-                                : 4;
+                        ((i = t),
+                          (e.n = "fp-pro" === i ? 1 : "adgeist" === i ? 2 : 3));
                         break;
                       case 1:
-                        return _context5.a(2, this.getProResult());
+                        return e.a(2, this.getFpProIdentifier());
                       case 2:
-                        return _context5.a(2, this.getOssResult());
+                        return e.a(2, this.getAdgeistIdentifier(n));
                       case 3:
-                        return _context5.a(2, this.getAdgeistResult());
+                        return e.a(2, null);
                       case 4:
-                        return _context5.a(2);
+                        return e.a(2);
                     }
                 },
-                _callee5,
+                e,
                 this,
               );
             }),
           );
-          function getResult(_x2) {
-            return _getResult.apply(this, arguments);
+          function t(t, n) {
+            return e.apply(this, arguments);
           }
-          return getResult;
-        })(), // -----------------------------------------------------------------------
-        // Individual provider helpers
-        // -----------------------------------------------------------------------
-      },
-      {
-        key: "getProResult",
-        value: (function () {
-          var _getProResult = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee6() {
-              var agent;
-              return _regenerator().w(
-                function (_context6) {
-                  while (1)
-                    switch ((_context6.p = _context6.n)) {
-                      case 0:
-                        _context6.p = 0;
-                        if (!this.proPromise) this.proPromise = this.loadPro();
-                        _context6.n = 1;
-                        return this.proPromise;
-                      case 1:
-                        agent = _context6.v;
-                        if (agent) {
-                          _context6.n = 2;
-                          break;
-                        }
-                        return _context6.a(2, null);
-                      case 2:
-                        _context6.n = 3;
-                        return agent.get();
-                      case 3:
-                        return _context6.a(2, _context6.v);
-                      case 4:
-                        _context6.p = 4;
-                        _context6.v;
-                        return _context6.a(2, null);
-                    }
-                },
-                _callee6,
-                this,
-                [[0, 4]],
-              );
-            }),
-          );
-          function getProResult() {
-            return _getProResult.apply(this, arguments);
-          }
-          return getProResult;
+          return t;
         })(),
       },
       {
-        key: "getOssResult",
+        key: "getFpProIdentifier",
         value: (function () {
-          var _getOssResult = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee7() {
-              var agent;
-              return _regenerator().w(
-                function (_context7) {
-                  while (1)
-                    switch ((_context7.p = _context7.n)) {
+          var e = a(
+            x().m(function e() {
+              var t;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
                       case 0:
-                        _context7.p = 0;
-                        if (!this.ossPromise) this.ossPromise = this.loadOss();
-                        _context7.n = 1;
-                        return this.ossPromise;
+                        return (
+                          (e.p = 0),
+                          this.fpProPromise ||
+                            (this.fpProPromise = this.loadFpPro()),
+                          (e.n = 1),
+                          this.fpProPromise
+                        );
                       case 1:
-                        agent = _context7.v;
-                        if (agent) {
-                          _context7.n = 2;
+                        if (((t = e.v), t)) {
+                          e.n = 2;
                           break;
                         }
-                        return _context7.a(2, null);
+                        return e.a(2, null);
                       case 2:
-                        _context7.n = 3;
-                        return agent.get();
+                        return ((e.n = 3), t.get());
                       case 3:
-                        return _context7.a(2, _context7.v);
+                        return e.a(2, e.v);
                       case 4:
-                        _context7.p = 4;
-                        _context7.v;
-                        return _context7.a(2, null);
+                        return ((e.p = 4), e.v, e.a(2, null));
                     }
                 },
-                _callee7,
+                e,
                 this,
                 [[0, 4]],
               );
             }),
           );
-          function getOssResult() {
-            return _getOssResult.apply(this, arguments);
+          function t() {
+            return e.apply(this, arguments);
           }
-          return getOssResult;
+          return t;
         })(),
       },
       {
-        key: "getAdgeistResult",
+        key: "getAdgeistIdentifier",
         value: (function () {
-          var _getAdgeistResult = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee8() {
-              var agent;
-              return _regenerator().w(
-                function (_context8) {
-                  while (1)
-                    switch ((_context8.p = _context8.n)) {
+          var e = a(
+            x().m(function e(t) {
+              var n;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
                       case 0:
-                        _context8.p = 0;
-                        if (!this.adgeistPromise)
-                          this.adgeistPromise = this.loadAdgeist();
-                        _context8.n = 1;
-                        return this.adgeistPromise;
+                        return (
+                          (e.p = 0),
+                          this.adgeistPromise ||
+                            (this.adgeistPromise = this.loadAdgeist()),
+                          (e.n = 1),
+                          this.adgeistPromise
+                        );
                       case 1:
-                        agent = _context8.v;
-                        if (agent) {
-                          _context8.n = 2;
+                        if (((n = e.v), n)) {
+                          e.n = 2;
                           break;
                         }
-                        return _context8.a(2, null);
+                        return e.a(2, null);
                       case 2:
-                        _context8.n = 3;
-                        return agent.get();
+                        return ((e.n = 3), n.get(t));
                       case 3:
-                        return _context8.a(2, _context8.v);
+                        return e.a(2, e.v);
                       case 4:
-                        _context8.p = 4;
-                        _context8.v;
-                        return _context8.a(2, null);
+                        return ((e.p = 4), e.v, e.a(2, null));
                     }
                 },
-                _callee8,
+                e,
                 this,
                 [[0, 4]],
               );
             }),
           );
-          function getAdgeistResult() {
-            return _getAdgeistResult.apply(this, arguments);
+          function t(t) {
+            return e.apply(this, arguments);
           }
-          return getAdgeistResult;
+          return t;
+        })(),
+      },
+      {
+        key: "getAdgeistFingerprintingComponents",
+        value: (function () {
+          var e = a(
+            x().m(function e() {
+              var t;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
+                      case 0:
+                        return (
+                          (e.p = 0),
+                          this.adgeistPromise ||
+                            (this.adgeistPromise = this.loadAdgeist()),
+                          (e.n = 1),
+                          this.adgeistPromise
+                        );
+                      case 1:
+                        if (((t = e.v), t)) {
+                          e.n = 2;
+                          break;
+                        }
+                        return e.a(2, null);
+                      case 2:
+                        return ((e.n = 3), t.getComponents());
+                      case 3:
+                        return e.a(2, e.v);
+                      case 4:
+                        return ((e.p = 4), e.v, e.a(2, null));
+                    }
+                },
+                e,
+                this,
+                [[0, 4]],
+              );
+            }),
+          );
+          function t() {
+            return e.apply(this, arguments);
+          }
+          return t;
+        })(),
+      },
+      {
+        key: "getAdgeistFingerprintingVersion",
+        value: (function () {
+          var e = a(
+            x().m(function e() {
+              var t, n;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch (e.n) {
+                      case 0:
+                        return (
+                          this.adgeistPromise ||
+                            (this.adgeistPromise = this.loadAdgeist()),
+                          (e.n = 1),
+                          this.adgeistPromise
+                        );
+                      case 1:
+                        return (
+                          (n = e.v),
+                          e.a(
+                            2,
+                            null !== (t = null == n ? void 0 : n.version) &&
+                              void 0 !== t
+                              ? t
+                              : null,
+                          )
+                        );
+                    }
+                },
+                e,
+                this,
+              );
+            }),
+          );
+          function t() {
+            return e.apply(this, arguments);
+          }
+          return t;
+        })(),
+      },
+      {
+        key: "getAdgeistFingerprintingEnv",
+        value: (function () {
+          var e = a(
+            x().m(function e() {
+              var t, n;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch (e.n) {
+                      case 0:
+                        return (
+                          this.adgeistPromise ||
+                            (this.adgeistPromise = this.loadAdgeist()),
+                          (e.n = 1),
+                          this.adgeistPromise
+                        );
+                      case 1:
+                        return (
+                          (n = e.v),
+                          e.a(
+                            2,
+                            null !== (t = null == n ? void 0 : n.env) &&
+                              void 0 !== t
+                              ? t
+                              : null,
+                          )
+                        );
+                    }
+                },
+                e,
+                this,
+              );
+            }),
+          );
+          function t() {
+            return e.apply(this, arguments);
+          }
+          return t;
+        })(),
+      },
+      {
+        key: "getCustomFingerprint",
+        value: (function () {
+          var e = a(
+            x().m(function e() {
+              var t, n, i;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
+                      case 0:
+                        if (((e.p = 0), !this.cachedAdgeistResult)) {
+                          e.n = 1;
+                          break;
+                        }
+                        return e.a(2, this.cachedAdgeistResult);
+                      case 1:
+                        return (
+                          this.adgeistPromise ||
+                            (this.adgeistPromise = this.loadAdgeist()),
+                          (e.n = 2),
+                          this.adgeistPromise
+                        );
+                      case 2:
+                        if (((t = e.v), t)) {
+                          e.n = 3;
+                          break;
+                        }
+                        return e.a(2, void 0);
+                      case 3:
+                        return ((e.n = 4), t.get());
+                      case 4:
+                        return (
+                          (n = e.v),
+                          (i = w(
+                            w({ visits: 0, signals: {} }, n),
+                            {},
+                            { version: t.version },
+                          )),
+                          (this.cachedAdgeistResult = i),
+                          e.a(2, i)
+                        );
+                      case 5:
+                        return ((e.p = 5), e.v, e.a(2, void 0));
+                    }
+                },
+                e,
+                this,
+                [[0, 5]],
+              );
+            }),
+          );
+          function t() {
+            return e.apply(this, arguments);
+          }
+          return t;
         })(),
       },
     ]);
   })();
-
-  var CDPEventCollector = /*#__PURE__*/ (function () {
-    function CDPEventCollector(cdpManager) {
-      _classCallCheck(this, CDPEventCollector);
-      this.userDetails = {};
-      this.cdpManager = cdpManager;
-      this.userDetails = {};
-      this.fingerprintManager = new FingerprintManager();
-      this.fingerprintManager.load();
+  var ge = (function () {
+    function e(t) {
+      (s(this, e),
+        (this.userDetails = {}),
+        (this.cdpManager = t),
+        (this.userDetails = {}),
+        (this.fingerprintManager = new he()),
+        this.fingerprintManager.load());
     }
-    /**
-     * Retrieves the visitor ID for a specific fingerprint provider.
-     * @param type - The fingerprint provider type: "pro", "oss", or "adgeist".
-     * @returns Visitor ID string.
-     */
-    return _createClass(CDPEventCollector, [
+    return c(e, [
       {
         key: "getDeviceFingerprint",
         value: (function () {
-          var _getDeviceFingerprint = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee() {
-              var type,
-                _args = arguments;
-              return _regenerator().w(
-                function (_context) {
-                  while (1)
-                    switch (_context.n) {
-                      case 0:
-                        type =
-                          _args.length > 0 && _args[0] !== undefined
-                            ? _args[0]
-                            : "adgeist";
-                        return _context.a(
-                          2,
-                          this.fingerprintManager.getVisitorId(type),
-                        );
-                    }
+          var e = a(
+            x().m(function e() {
+              var t,
+                n = arguments;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    if (0 === e.n)
+                      return (
+                        (t =
+                          n.length > 0 && void 0 !== n[0] ? n[0] : "adgeist"),
+                        e.a(2, this.fingerprintManager.getVisitorId(t))
+                      );
                 },
-                _callee,
+                e,
                 this,
               );
             }),
           );
-          function getDeviceFingerprint() {
-            return _getDeviceFingerprint.apply(this, arguments);
+          function t() {
+            return e.apply(this, arguments);
           }
-          return getDeviceFingerprint;
+          return t;
         })(),
-        /**
-         * Collects page metadata including title and meta tags.
-         * @returns Metadata object.
-         */
       },
       {
         key: "collectPageMetadata",
-        value: function collectPageMetadata() {
-          var metadata = {
-            title: document.title || null,
-            meta: {},
-          };
-          document.querySelectorAll("meta").forEach(function (meta) {
-            var name =
-              meta.getAttribute("name") || meta.getAttribute("property");
-            var content = meta.getAttribute("content");
-            if (name && content) metadata.meta[name] = content;
-          });
-          return metadata;
+        value: function e() {
+          var t = { title: document.title || null, meta: {} };
+          return (
+            document.querySelectorAll("meta").forEach(function (e) {
+              var n = e.getAttribute("name") || e.getAttribute("property");
+              var i = e.getAttribute("content");
+              n && i && (t.meta[n] = i);
+            }),
+            t
+          );
         },
-        /**
-         * Sets or updates user details.
-         * @param details - User details (e.g., { userId: '123', email: 'user@example.com' }).
-         * @returns Updated user details.
-         */
       },
       {
         key: "setUserDetails",
-        value: function setUserDetails(details) {
-          if (_typeof(details) !== "object" || details === null) {
-            this.cdpManager.logger.error("Invalid user details");
-            return this.userDetails;
-          }
-          this.userDetails = _objectSpread2(
-            _objectSpread2({}, this.userDetails),
-            details,
-          );
-          return this.userDetails;
+        value: function e(t) {
+          return "object" !== M(t) || null === t
+            ? (this.cdpManager.logger.error("Invalid user details"),
+              this.userDetails)
+            : ((this.userDetails = w(w({}, this.userDetails), t)),
+              this.userDetails);
         },
       },
     ]);
   })();
-
-  /**
-   * CDPEventSender class to handle sending CDP-related events.
-   */
-  var CDPEventSender = /*#__PURE__*/ (function () {
-    function CDPEventSender(cdpManager, collector) {
-      _classCallCheck(this, CDPEventSender);
-      this.cdpManager = cdpManager;
-      this.collector = collector;
-      this.cdpUrl = cdpManager.cdpUrl;
+  var fe = (function () {
+    function e(t, n) {
+      (s(this, e),
+        (this.cdpManager = t),
+        (this.collector = n),
+        (this.cdpUrl = t.cdpUrl));
     }
-    /**
-     * Sends data to the CDP.
-     * @param eventType - Event type.
-     * @param eventProperties - Event properties.
-     */
-    return _createClass(CDPEventSender, [
+    return c(e, [
       {
         key: "sendToCDP",
         value: (function () {
-          var _sendToCDP = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(
-              function _callee(eventType, eventProperties) {
-                var jwtToken, response, errorMessage, _t;
-                return _regenerator().w(
-                  function (_context) {
-                    while (1)
-                      switch ((_context.p = _context.n)) {
-                        case 0:
-                          if (this.cdpManager.shouldIngestEventsToCDP) {
-                            _context.n = 1;
-                            break;
-                          }
-                          return _context.a(2);
-                        case 1:
-                          _context.p = 1;
-                          // TODO: Retrieve JWT token from authentication service
-                          jwtToken = "";
-                          if (jwtToken) {
-                            _context.n = 2;
-                            break;
-                          }
-                          return _context.a(2);
-                        case 2:
-                          _context.n = 3;
-                          return fetch("".concat(this.cdpUrl, "/ingest"), {
+          var e = a(
+            x().m(function e(t, n) {
+              var i, r, a, o;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
+                      case 0:
+                        if (this.cdpManager.shouldIngestEventsToCDP) {
+                          e.n = 1;
+                          break;
+                        }
+                        return e.a(2);
+                      case 1:
+                        if (((e.p = 1), (i = ""), i)) {
+                          e.n = 2;
+                          break;
+                        }
+                        return e.a(2);
+                      case 2:
+                        return (
+                          (e.n = 3),
+                          fetch("".concat(this.cdpUrl, "/ingest"), {
                             method: "POST",
                             headers: {
                               "Content-Type": "application/json",
-                              Authorization: "Bearer ".concat(jwtToken),
+                              Authorization: "Bearer ".concat(i),
                             },
                             body: JSON.stringify({
-                              event_type: eventType,
-                              traits: _objectSpread2(
+                              event_type: t,
+                              traits: w(
                                 {
                                   consent_given:
                                     this.cdpManager.consentManager.getUserConsent()
@@ -4372,1605 +4027,579 @@
                                 page_url: window.location.href,
                                 page_title: document.title,
                               },
-                              event_properties: eventProperties,
+                              event_properties: n,
                             }),
-                          });
-                        case 3:
-                          response = _context.v;
-                          if (response.ok) {
-                            _context.n = 4;
-                            break;
-                          }
-                          throw new Error(
-                            "HTTP error: ".concat(response.status),
-                          );
-                        case 4:
-                          this.cdpManager.logger.log(
-                            "CDP event ".concat(
-                              eventType,
-                              " sent successfully",
-                            ),
-                          );
-                          _context.n = 6;
+                          })
+                        );
+                      case 3:
+                        if (((r = e.v), r.ok)) {
+                          e.n = 4;
                           break;
-                        case 5:
-                          _context.p = 5;
-                          _t = _context.v;
-                          errorMessage =
-                            _t instanceof Error ? _t.message : String(_t);
+                        }
+                        throw new Error("HTTP error: ".concat(r.status));
+                      case 4:
+                        (this.cdpManager.logger.log(
+                          "CDP event ".concat(t, " sent successfully"),
+                        ),
+                          (e.n = 6));
+                        break;
+                      case 5:
+                        ((e.p = 5),
+                          (o = e.v),
+                          (a = o instanceof Error ? o.message : String(o)),
                           this.cdpManager.logger.error(
                             "Failed to send CDP event "
-                              .concat(eventType, ": ")
-                              .concat(errorMessage),
-                          );
-                        case 6:
-                          return _context.a(2);
-                      }
-                  },
-                  _callee,
-                  this,
-                  [[1, 5]],
-                );
-              },
-            ),
+                              .concat(t, ": ")
+                              .concat(a),
+                          ));
+                      case 6:
+                        return e.a(2);
+                    }
+                },
+                e,
+                this,
+                [[1, 5]],
+              );
+            }),
           );
-          function sendToCDP(_x, _x2) {
-            return _sendToCDP.apply(this, arguments);
+          function t(t, n) {
+            return e.apply(this, arguments);
           }
-          return sendToCDP;
+          return t;
         })(),
-        /**
-         * Collects fingerprints from all providers and sends them to CDP.
-         * @param userDetails - User details to include in the payload.
-         */
       },
       {
         key: "addFingerprintInCDP",
         value: (function () {
-          var _addFingerprintInCDP = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee2(userDetails) {
-              var _a,
-                _b,
-                _c,
-                _d,
-                fm,
-                _yield$Promise$all,
-                _yield$Promise$all2,
-                proResult,
-                ossResult,
-                adgeistResult,
-                adgeist,
-                requestPayload,
-                distinctId;
-              return _regenerator().w(
-                function (_context2) {
-                  while (1)
-                    switch (_context2.n) {
+          var e = a(
+            x().m(function e(t) {
+              var n, i;
+              var r, a, o, s, l, c, d, u, v, p, h;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch (e.n) {
                       case 0:
-                        fm = this.collector.fingerprintManager;
-                        _context2.n = 1;
-                        return Promise.all([
-                          fm.getResult("pro").catch(function () {
-                            return null;
-                          }),
-                          fm.getResult("oss").catch(function () {
-                            return null;
-                          }),
-                          fm.getResult("adgeist").catch(function () {
-                            return null;
-                          }),
-                        ]);
-                      case 1:
-                        _yield$Promise$all = _context2.v;
-                        _yield$Promise$all2 = _slicedToArray(
-                          _yield$Promise$all,
-                          3,
-                        );
-                        proResult = _yield$Promise$all2[0];
-                        ossResult = _yield$Promise$all2[1];
-                        adgeistResult = _yield$Promise$all2[2];
-                        adgeist = adgeistResult;
-                        requestPayload = _objectSpread2(
-                          _objectSpread2(
-                            _objectSpread2(
-                              _objectSpread2(
-                                {
-                                  user_id: userDetails.userId,
-                                },
-                                userDetails.publisherName
-                                  ? {
-                                      publisher_name: userDetails.publisherName,
-                                    }
-                                  : {
-                                      publisher_name: window.location.origin,
-                                    },
+                        return (
+                          (r = this.collector.fingerprintManager),
+                          (e.n = 1),
+                          Promise.allSettled([
+                            r.getIdentifier("fp-pro"),
+                            r.getIdentifier(
+                              "adgeist",
+                              w(
+                                w(
+                                  { id: t.userId },
+                                  t.publisherName
+                                    ? { companyName: t.publisherName }
+                                    : { companyName: window.location.origin },
+                                ),
+                                t.email ? { email: t.email } : {},
                               ),
-                              userDetails.name
-                                ? {
-                                    name: userDetails.name,
-                                  }
-                                : {},
                             ),
-                            userDetails.email
-                              ? {
-                                  email: userDetails.email,
-                                }
-                              : {},
-                          ),
-                          {},
-                          {
-                            pro_visitor_id:
-                              (_a =
-                                proResult === null || proResult === void 0
-                                  ? void 0
-                                  : proResult.visitor_id) !== null &&
-                              _a !== void 0
-                                ? _a
-                                : null,
-                            oss_visitor_id:
-                              (_b =
-                                ossResult === null || ossResult === void 0
-                                  ? void 0
-                                  : ossResult.visitorId) !== null &&
-                              _b !== void 0
-                                ? _b
-                                : null,
-                            adgeist_fuzzy_match_visitor_id:
-                              (_c =
-                                adgeist === null || adgeist === void 0
-                                  ? void 0
-                                  : adgeist.visitorId) !== null && _c !== void 0
-                                ? _c
-                                : null,
-                            adgeist_deterministic_visitor_id:
-                              (_d =
-                                adgeist === null || adgeist === void 0
-                                  ? void 0
-                                  : adgeist.deterministicVisitorId) !== null &&
-                              _d !== void 0
-                                ? _d
-                                : null,
-                            adgeist_visitor_details: adgeist
-                              ? _objectSpread2(
-                                  {
-                                    version: adgeist.version,
-                                    visitorId: adgeist.visitorId,
-                                    isNew: adgeist.isNew,
-                                    visits: adgeist.visits,
-                                    signals: adgeist.signals,
-                                  },
-                                  adgeist.similarityScore
-                                    ? {
-                                        similarityScore:
-                                          adgeist.similarityScore,
-                                      }
-                                    : null,
-                                )
-                              : null,
-                          },
+                          ])
                         );
-                        distinctId =
-                          (adgeist === null || adgeist === void 0
-                            ? void 0
-                            : adgeist.visitorId) ||
-                          (proResult === null || proResult === void 0
-                            ? void 0
-                            : proResult.visitorId) ||
-                          (ossResult === null || ossResult === void 0
-                            ? void 0
-                            : ossResult.visitorId) ||
-                          userDetails.userId;
-                        _context2.n = 2;
-                        return this.cdpManager.postHogManager.capture(
-                          "fingerprinting",
-                          distinctId,
-                          requestPayload,
+                      case 1:
+                        return (
+                          (a = e.v),
+                          (e.n = 2),
+                          Promise.allSettled([
+                            r.getAdgeistFingerprintingComponents(),
+                            r.getAdgeistFingerprintingVersion(),
+                            r.getAdgeistFingerprintingEnv(),
+                          ])
                         );
                       case 2:
-                        return _context2.a(2);
+                        return (
+                          (o = e.v),
+                          (s = S(o, 3)),
+                          (l = s[0]),
+                          (c = s[1]),
+                          (d = s[2]),
+                          (u = "fulfilled" === a[0].status ? a[0].value : null),
+                          (v = "fulfilled" === a[1].status ? a[1].value : null),
+                          (p = w(
+                            w(
+                              w(
+                                w(
+                                  { user_id: t.userId },
+                                  t.publisherName
+                                    ? { publisher_name: t.publisherName }
+                                    : {
+                                        publisher_name: window.location.origin,
+                                      },
+                                ),
+                                t.name ? { name: t.name } : {},
+                              ),
+                              t.email ? { email: t.email } : {},
+                            ),
+                            {},
+                            {
+                              fp_pro_visitor_id:
+                                null !==
+                                  (n = null == u ? void 0 : u.visitor_id) &&
+                                void 0 !== n
+                                  ? n
+                                  : null,
+                              adgeist_visitor_id:
+                                null !==
+                                  (i = null == v ? void 0 : v.visitorId) &&
+                                void 0 !== i
+                                  ? i
+                                  : null,
+                              adgeist_fingerprinting_components:
+                                "fulfilled" === l.status ? l.value : null,
+                              adgeist_fingerprinting_version:
+                                "fulfilled" === c.status ? c.value : null,
+                              adgeist_fingerprinting_env:
+                                "fulfilled" === d.status ? d.value : null,
+                            },
+                          )),
+                          (h =
+                            (null == v ? void 0 : v.visitorId) ||
+                            (null == u ? void 0 : u.visitor_id) ||
+                            t.userId),
+                          (e.n = 3),
+                          this.cdpManager.postHogManager.capture(
+                            "fingerprinting",
+                            h,
+                            p,
+                          )
+                        );
+                      case 3:
+                        return e.a(2);
                     }
                 },
-                _callee2,
+                e,
                 this,
               );
             }),
           );
-          function addFingerprintInCDP(_x3) {
-            return _addFingerprintInCDP.apply(this, arguments);
+          function t(t) {
+            return e.apply(this, arguments);
           }
-          return addFingerprintInCDP;
+          return t;
         })(),
       },
     ]);
   })();
-
-  var CDPManager = /*#__PURE__*/ (function (_SDKComponent) {
-    function CDPManager(sdk) {
-      var _this;
-      _classCallCheck(this, CDPManager);
-      _this = _callSuper(this, CDPManager, [sdk]);
-      _this.lastMetadataSent = null;
-      _this.cdpUrl = sdk.cdpUrl;
-      _this.logger = sdk.logger;
-      _this.shouldIngestEventsToCDP = sdk.shouldIngestEventsToCDP;
-      _this.postHogManager = sdk.postHogManager;
-      _this.consentManager = new ConsentManager(_this);
-      _this.collector = new CDPEventCollector(_this);
-      _this.sender = new CDPEventSender(_this, _this.collector);
-      _this.lastMetadataSent = null;
-      return _this;
+  var me = (function (e) {
+    function t(e) {
+      var n;
+      return (
+        s(this, t),
+        (n = o(this, t, [e])),
+        (n.lastMetadataSent = null),
+        (n.cdpUrl = e.cdpUrl),
+        (n.logger = e.logger),
+        (n.shouldIngestEventsToCDP = e.shouldIngestEventsToCDP),
+        (n.postHogManager = e.postHogManager),
+        (n.consentManager = new ne(n)),
+        (n.collector = new ge(n)),
+        (n.sender = new fe(n, n.collector)),
+        (n.lastMetadataSent = null),
+        n
+      );
     }
-    /**
-     * Sets or updates user details and resends metadata if userId changes.
-     * @param details - User details (e.g., { userId: '123', email: 'user@example.com' }).
-     */
-    _inherits(CDPManager, _SDKComponent);
-    return _createClass(CDPManager, [
-      {
-        key: "setUserDetails",
-        value: (function () {
-          var _setUserDetails = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee(details) {
-              var previousUserId, errorMessage;
-              return _regenerator().w(
-                function (_context) {
-                  while (1)
-                    switch (_context.n) {
-                      case 0:
-                        previousUserId = this.collector.userDetails.userId;
-                        this.collector.setUserDetails(details);
-                        if (
-                          details.userId &&
-                          details.userId !== previousUserId
-                        ) {
-                          try {
-                            // const originalLastMetadataSent = this.lastMetadataSent;
-                            // this.lastMetadataSent = null;
-                            // await this.sendPageMetadata();
-                            // this.lastMetadataSent = originalLastMetadataSent;
-                            this.sender.addFingerprintInCDP(details);
-                          } catch (error) {
-                            errorMessage =
-                              error instanceof Error
-                                ? error.message
-                                : String(error);
-                            this.sdk.logger.error(
-                              "Failed to resend metadata: ".concat(
-                                errorMessage,
-                              ),
-                            );
-                          }
-                        }
-                      case 1:
-                        return _context.a(2);
-                    }
-                },
-                _callee,
-                this,
-              );
-            }),
-          );
-          function setUserDetails(_x) {
-            return _setUserDetails.apply(this, arguments);
-          }
-          return setUserDetails;
-        })(),
-        /**
-         * Sends page metadata to CDP if not already sent for the current URL.
-         */
-      },
-      {
-        key: "sendPageMetadata",
-        value: (function () {
-          var _sendPageMetadata = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee2() {
-              var currentUrl, metadata, errorMessage, _t;
-              return _regenerator().w(
-                function (_context2) {
-                  while (1)
-                    switch ((_context2.p = _context2.n)) {
-                      case 0:
-                        currentUrl = window.location.href;
-                        if (!(this.lastMetadataSent === currentUrl)) {
-                          _context2.n = 1;
-                          break;
-                        }
-                        return _context2.a(2);
-                      case 1:
-                        _context2.p = 1;
-                        metadata = this.collector.collectPageMetadata();
-                        _context2.n = 2;
-                        return this.sender.sendToCDP("METADATA", {
-                          pageUrl: currentUrl,
-                          metadata: metadata,
-                        });
-                      case 2:
-                        this.lastMetadataSent = currentUrl;
-                        _context2.n = 4;
-                        break;
-                      case 3:
-                        _context2.p = 3;
-                        _t = _context2.v;
-                        errorMessage =
-                          _t instanceof Error ? _t.message : String(_t);
-                        this.sdk.logger.error(
-                          "Failed to send page metadata: ".concat(errorMessage),
-                        );
-                      case 4:
-                        return _context2.a(2);
-                    }
-                },
-                _callee2,
-                this,
-                [[1, 3]],
-              );
-            }),
-          );
-          function sendPageMetadata() {
-            return _sendPageMetadata.apply(this, arguments);
-          }
-          return sendPageMetadata;
-        })(),
-        /**
-         * Tracks a custom event.
-         * @param eventType - Event type.
-         * @param eventData - Event data.
-         */
-      },
-      {
-        key: "trackCustomEvent",
-        value: (function () {
-          var _trackCustomEvent = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(
-              function _callee3(eventType, eventData) {
-                return _regenerator().w(
-                  function (_context3) {
-                    while (1)
-                      switch (_context3.n) {
+    return (
+      p(t, e),
+      c(t, [
+        {
+          key: "setUserDetails",
+          value: (function () {
+            var e = a(
+              x().m(function e(t) {
+                var n, i;
+                return x().w(
+                  function (e) {
+                    for (; 1; )
+                      switch (e.n) {
                         case 0:
-                          _context3.n = 1;
-                          return this.sender.sendToCDP(
-                            eventType,
-                            _objectSpread2(
-                              {
-                                pageUrl: window.location.href,
-                              },
-                              eventData,
-                            ),
-                          );
+                          if (
+                            ((n = this.collector.userDetails.userId),
+                            this.collector.setUserDetails(t),
+                            t.userId && t.userId !== n)
+                          )
+                            try {
+                              this.sender.addFingerprintInCDP(t);
+                            } catch (r) {
+                              ((i = r instanceof Error ? r.message : String(r)),
+                                this.sdk.logger.error(
+                                  "Failed to resend metadata: ".concat(i),
+                                ));
+                            }
                         case 1:
-                          return _context3.a(2);
+                          return e.a(2);
                       }
                   },
-                  _callee3,
+                  e,
                   this,
                 );
-              },
-            ),
-          );
-          function trackCustomEvent(_x2, _x3) {
-            return _trackCustomEvent.apply(this, arguments);
-          }
-          return trackCustomEvent;
-        })(),
-      },
-    ]);
-  })(SDKComponent);
-
-  var BROWSER_RULES = [
-    // Electron — before Chrome (Electron UA contains "Chrome/")
-    {
-      rx: /Electron\/([\d.]+)/i,
-      name: "Electron",
-    },
-    // Chrome Headless
-    {
-      rx: /HeadlessChrome\/([\d.]+)/i,
-      name: "Chrome Headless",
-    },
-    // Google Search App
-    {
-      rx: /GSA\/([\d.]+)/i,
-      name: "GSA",
-    },
-    // Firefox family — before Safari (FxiOS UA contains "Safari/")
-    {
-      rx: /FxiOS\/([\d.]+)/i,
-      name: "Firefox",
-    },
-    {
-      rx: /Firefox\/([\d.]+)/i,
-      name: "Firefox",
-    },
-    {
-      rx: /\bfocus\/([\d.]+)/i,
-      name: "Firefox Focus",
-    },
-    {
-      rx: /Mobile VR.*Firefox\/([\d.]+)/i,
-      name: "Firefox Reality",
-    },
-    // Edge family — before Chrome (Edge UA contains "Chrome/")
-    {
-      rx: /EdgiOS\/([\d.]+)/i,
-      name: "Edge",
-    },
-    {
-      rx: /EdgA\/([\d.]+)/i,
-      name: "Edge",
-    },
-    {
-      rx: /Edg\/([\d.]+)/i,
-      name: "Edge",
-    },
-    {
-      rx: /Edge\/([\d.]+)/i,
-      name: "Edge",
-    },
-    // Vivaldi — before Chrome
-    {
-      rx: /Vivaldi\/([\d.]+)/i,
-      name: "Vivaldi",
-    },
-    // Whale (Naver) — before Chrome
-    {
-      rx: /Whale\/([\d.]+)/i,
-      name: "Whale",
-    },
-    // Samsung Browser — before Chrome
-    {
-      rx: /SamsungBrowser\/([\d.]+)/i,
-      name: "Samsung Browser",
-    },
-    // MIUI Browser (Xiaomi/Redmi) — before Chrome
-    {
-      rx: /MiuiBrowser\/([\d.]+)/i,
-      name: "MIUI Browser",
-    },
-    // Silk (Amazon Kindle/Fire) — before Chrome
-    {
-      rx: /Silk\/([\d.]+)/i,
-      name: "Silk",
-    },
-    // Puffin
-    {
-      rx: /Puffin\/([\d.]+)/i,
-      name: "Puffin",
-    },
-    // DuckDuckGo
-    {
-      rx: /DuckDuckGo\/([\d.]+)/i,
-      name: "DuckDuckGo",
-    },
-    // Opera — OPR before Chrome; Touch and Mini before generic Opera
-    {
-      rx: /OPR\/([\d.]+)/i,
-      name: "Opera",
-    },
-    {
-      rx: /\bopt\/([\d.]+)/i,
-      name: "Opera Touch",
-    },
-    {
-      rx: /Opera Mini\/([\d.]+)/i,
-      name: "Opera Mini",
-    },
-    {
-      rx: /Opera\/([\d.]+)/i,
-      name: "Opera",
-    },
-    // UC Browser (token and ucweb variants)
-    {
-      rx: /(?:UC?Browser|UCWEB)\/([\d.]+)/i,
-      name: "UC Browser",
-    },
-    // WeChat
-    {
-      rx: /MicroMessenger\/([\d.]+)/i,
-      name: "WeChat",
-    },
-    // Yandex
-    {
-      rx: /YaBrowser\/([\d.]+)/i,
-      name: "Yandex",
-    },
-    // Konqueror
-    {
-      rx: /Konqueror\/([\d.]+)/i,
-      name: "Konqueror",
-    },
-    // Internet Explorer
-    {
-      rx: /Trident\/.+rv[: ]([\d.]+)/i,
-      name: "IE",
-    },
-    {
-      rx: /MSIE ([\d.]+)/i,
-      name: "IE",
-    },
-    // Oculus Browser
-    {
-      rx: /OculusBrowser\/([\d.]+)/i,
-      name: "Oculus Browser",
-    },
-    // Android WebView — before Chrome ("; wv)" marker in UA)
-    {
-      rx: /; wv\).*Chrome\/([\d.]+)/i,
-      name: "Chrome WebView",
-    },
-    // Chromium — before Chrome
-    {
-      rx: /Chromium\/([\d.]+)/i,
-      name: "Chromium",
-    },
-    // Chrome on iOS
-    {
-      rx: /CriOS\/([\d.]+)/i,
-      name: "Chrome",
-    },
-    // Android Browser (old AOSP — has Version/ but no Chrome/ token)
-    {
-      rx: /Android.+Version\/([\d.]+).*(?:Mobile\s+)?Safari/i,
-      name: "Android Browser",
-    },
-    // Chrome on desktop / Android
-    {
-      rx: /Chrome\/([\d.]+)/i,
-      name: "Chrome",
-    },
-    // Safari — last; most browsers include "Safari/" in their UA
-    {
-      rx: /Version\/([\d.]+).*Safari\//i,
-      name: "Safari",
-    },
-  ];
-  function detectBrowser(ua) {
-    var _a;
-    var _iterator = _createForOfIteratorHelper(BROWSER_RULES),
-      _step;
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
-        var rule = _step.value;
-        var m = rule.rx.exec(ua);
-        if (m) {
-          return {
-            name: rule.name,
-            version: (_a = m[1]) !== null && _a !== void 0 ? _a : null,
-          };
-        }
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-    return {
-      name: null,
-      version: null,
-    };
-  }
-  // ---------------------------------------------------------------------------
-  // OS detection
-  // ---------------------------------------------------------------------------
-  function detectOS(ua) {
-    // iOS — must check before macOS (both contain "Mac OS X")
-    var iosMatch =
-      /(?:iPhone|iPad|iPod)[^;]*;\s*CPU\s+(?:iPhone\s+)?OS\s+([\d_]+)/i.exec(
-        ua,
-      );
-    if (iosMatch) {
-      return {
-        name: "iOS",
-        version: iosMatch[1].replace(/_/g, "."),
-      };
-    }
-    // Android
-    var androidMatch = /Android\s+([\d.]+)/i.exec(ua);
-    if (androidMatch) {
-      return {
-        name: "Android",
-        version: androidMatch[1],
-      };
-    }
-    // Windows Phone / Mobile — before generic Windows
-    var winPhoneMatch = /Windows (?:Phone(?:\s*OS)?|Mobile)\s*([\d.]*)/i.exec(
-      ua,
-    );
-    if (winPhoneMatch) {
-      return {
-        name: "Windows Phone",
-        version: winPhoneMatch[1] || null,
-      };
-    }
-    // Windows — raw NT version
-    var windowsMatch = /Windows NT\s*([\d.]+)/i.exec(ua);
-    if (windowsMatch) {
-      return {
-        name: "Windows",
-        version: windowsMatch[1],
-      };
-    }
-    // macOS
-    var macMatch = /Mac OS X\s*([\d_.]+)/i.exec(ua);
-    if (macMatch) {
-      return {
-        name: "macOS",
-        version: macMatch[1].replace(/_/g, "."),
-      };
-    }
-    // Chrome OS
-    var crosMatch = /CrOS\s+\w+\s+([\d.]+)/i.exec(ua);
-    if (crosMatch) {
-      return {
-        name: "Chrome OS",
-        version: crosMatch[1],
-      };
-    }
-    // BlackBerry
-    var bbMatch = /BlackBerry\w*\/([\d.]+)/i.exec(ua);
-    if (bbMatch) {
-      return {
-        name: "BlackBerry",
-        version: bbMatch[1],
-      };
-    }
-    // Tizen
-    var tizenMatch = /Tizen\/([\d.]+)/i.exec(ua);
-    if (tizenMatch) {
-      return {
-        name: "Tizen",
-        version: tizenMatch[1],
-      };
-    }
-    // KaiOS
-    var kaiMatch = /KAIOS\/([\d.]+)/i.exec(ua);
-    if (kaiMatch) {
-      return {
-        name: "KaiOS",
-        version: kaiMatch[1],
-      };
-    }
-    // webOS
-    var webosMatch = /(?:web|hpw)OS\/([\d.]+)/i.exec(ua);
-    if (webosMatch) {
-      return {
-        name: "webOS",
-        version: webosMatch[1],
-      };
-    }
-    // Linux (after Android and Chrome OS)
-    if (/Linux/i.test(ua)) {
-      return {
-        name: "Linux",
-        version: null,
-      };
-    }
-    return {
-      name: null,
-      version: null,
-    };
-  }
-  // ---------------------------------------------------------------------------
-  // Device type detection
-  // ---------------------------------------------------------------------------
-  function detectDeviceType(ua) {
-    // Smart TV
-    if (
-      /Smart[\s-]?TV/i.test(ua) ||
-      /\bHbbTV\b/i.test(ua) ||
-      /Android TV/i.test(ua) ||
-      /Apple TV/i.test(ua) ||
-      /\bCrKey\b/i.test(ua) ||
-      /Roku\b/i.test(ua) ||
-      /AFT[A-Z]/i.test(ua) ||
-      /\bNetcast\b/i.test(ua) ||
-      /\b(?:SMART-TV|SmartTV)\b/i.test(ua) ||
-      /TV; rv:/i.test(ua)
-    ) {
-      return "smarttv";
-    }
-    // Wearable
-    if (
-      /\bWear\s*OS\b/i.test(ua) ||
-      /\bwatch\b/i.test(ua) ||
-      /Glass \d/i.test(ua)
-    ) {
-      return "wearable";
-    }
-    // Console
-    if (
-      /PlayStation/i.test(ua) ||
-      /\bXbox\b/i.test(ua) ||
-      /\bNintendo\b/i.test(ua)
-    ) {
-      return "console";
-    }
-    // Tablet
-    if (/iPad/i.test(ua)) return "tablet";
-    if (/Android(?!.*Mobile)/i.test(ua)) return "tablet";
-    if (/\b(?:tablet|tab)[;\/]/i.test(ua)) return "tablet";
-    // Mobile
-    if (/(?:iPhone|iPod)/i.test(ua)) return "mobile";
-    if (/Android.*Mobile/i.test(ua)) return "mobile";
-    if (/Mobile.*Firefox/i.test(ua)) return "mobile";
-    if (/CriOS/i.test(ua)) return "mobile";
-    if (/\bMobile\b/i.test(ua)) return "mobile";
-    return null;
-  }
-  // ---------------------------------------------------------------------------
-  // Main export
-  // ---------------------------------------------------------------------------
-  function parseUserAgent(ua) {
-    return {
-      browser: detectBrowser(ua),
-      os: detectOS(ua),
-      device: {
-        type: detectDeviceType(ua),
-      },
-    };
-  }
-
-  function resolveBrandFromList(list) {
-    var _a, _b;
-    if (!(list === null || list === void 0 ? void 0 : list.length))
-      return {
-        name: null,
-        version: null,
-      };
-    var filtered = list.filter(function (b) {
-      return !b.brand.includes("Not.A/Brand") && b.brand !== "Chromium";
-    });
-    var entry =
-      (_b =
-        (_a = filtered[0]) !== null && _a !== void 0
-          ? _a
-          : list.find(function (b) {
-              return b.brand === "Chromium";
-            })) !== null && _b !== void 0
-        ? _b
-        : null;
-    return entry
-      ? {
-          name: entry.brand,
-          version: entry.version,
-        }
-      : {
-          name: null,
-          version: null,
-        };
-  }
-  var DeviceInfoCollector = /*#__PURE__*/ (function (_SDKComponent) {
-    function DeviceInfoCollector(sdk) {
-      _classCallCheck(this, DeviceInfoCollector);
-      return _callSuper(this, DeviceInfoCollector, [sdk]);
-    }
-    _inherits(DeviceInfoCollector, _SDKComponent);
-    return _createClass(DeviceInfoCollector, [
-      {
-        key: "getReportedPPI",
-        value: function getReportedPPI() {
-          var div = document.createElement("div");
-          div.style.width = "1in";
-          document.body.appendChild(div);
-          var cssPixelsPerInch = div.offsetWidth;
-          document.body.removeChild(div);
-          var ppi = Math.round(cssPixelsPerInch * window.devicePixelRatio);
-          return ppi || 96;
+              }),
+            );
+            function t(t) {
+              return e.apply(this, arguments);
+            }
+            return t;
+          })(),
         },
-      },
-      {
-        key: "checkNFC",
-        value: (function () {
-          var _checkNFC = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee() {
-              var NFCsupported, status;
-              return _regenerator().w(
-                function (_context) {
-                  while (1)
-                    switch ((_context.p = _context.n)) {
-                      case 0:
-                        NFCsupported = "NDEFReader" in window;
-                        if (NFCsupported) {
-                          _context.n = 1;
+        {
+          key: "sendPageMetadata",
+          value: (function () {
+            var e = a(
+              x().m(function e() {
+                var t, n, i, r;
+                return x().w(
+                  function (e) {
+                    for (; 1; )
+                      switch ((e.p = e.n)) {
+                        case 0:
+                          if (
+                            ((t = window.location.href),
+                            this.lastMetadataSent !== t)
+                          ) {
+                            e.n = 1;
+                            break;
+                          }
+                          return e.a(2);
+                        case 1:
+                          return (
+                            (e.p = 1),
+                            (n = this.collector.collectPageMetadata()),
+                            (e.n = 2),
+                            this.sender.sendToCDP("METADATA", {
+                              pageUrl: t,
+                              metadata: n,
+                            })
+                          );
+                        case 2:
+                          ((this.lastMetadataSent = t), (e.n = 4));
                           break;
-                        }
-                        return _context.a(2, {
-                          NFCsupported: false,
-                          NFCenabled: false,
-                        });
-                      case 1:
-                        _context.p = 1;
-                        _context.n = 2;
-                        return navigator.permissions.query({
-                          name: "nfc",
-                        });
-                      case 2:
-                        status = _context.v;
-                        return _context.a(2, {
-                          NFCsupported: true,
-                          NFCenabled: status.state === "granted",
-                        });
-                      case 3:
-                        _context.p = 3;
-                        _context.v;
-                        return _context.a(2, {
-                          NFCsupported: true,
-                          NFCenabled: false,
-                        });
-                    }
-                },
-                _callee,
-                null,
-                [[1, 3]],
-              );
-            }),
-          );
-          function checkNFC() {
-            return _checkNFC.apply(this, arguments);
-          }
-          return checkNFC;
-        })(),
-      },
-      {
-        key: "getHighEntropyData",
-        value: (function () {
-          var _getHighEntropyData = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee2() {
-              var _a, nav;
-              return _regenerator().w(
-                function (_context2) {
-                  while (1)
-                    switch ((_context2.p = _context2.n)) {
-                      case 0:
-                        _context2.p = 0;
-                        nav = navigator;
-                        if (
-                          (_a = nav.userAgentData) === null || _a === void 0
-                            ? void 0
-                            : _a.getHighEntropyValues
-                        ) {
-                          _context2.n = 1;
-                          break;
-                        }
-                        return _context2.a(2, null);
-                      case 1:
-                        _context2.n = 2;
-                        return nav.userAgentData.getHighEntropyValues([
-                          "architecture",
-                          "model",
-                          "platform",
-                          "platformVersion",
-                          "fullVersionList",
-                          "mobile",
-                        ]);
-                      case 2:
-                        return _context2.a(2, _context2.v);
-                      case 3:
-                        _context2.p = 3;
-                        _context2.v;
-                        return _context2.a(2, null);
-                    }
-                },
-                _callee2,
-                null,
-                [[0, 3]],
-              );
-            }),
-          );
-          function getHighEntropyData() {
-            return _getHighEntropyData.apply(this, arguments);
-          }
-          return getHighEntropyData;
-        })(),
-      },
-      {
-        key: "getNetworkType",
-        value: (function () {
-          var _getNetworkType = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee3() {
-              var _a, _b, nav, conn;
-              return _regenerator().w(function (_context3) {
-                while (1)
-                  switch (_context3.n) {
-                    case 0:
-                      nav = navigator;
-                      conn =
-                        nav.connection ||
-                        nav.mozConnection ||
-                        nav.webkitConnection;
-                      if (conn) {
-                        _context3.n = 1;
-                        break;
+                        case 3:
+                          ((e.p = 3),
+                            (r = e.v),
+                            (i = r instanceof Error ? r.message : String(r)),
+                            this.sdk.logger.error(
+                              "Failed to send page metadata: ".concat(i),
+                            ));
+                        case 4:
+                          return e.a(2);
                       }
-                      return _context3.a(2, {
-                        type: "Unavailable (browser privacy)",
-                        effectiveType: "Unavailable (browser privacy)",
-                      });
-                    case 1:
-                      return _context3.a(2, {
-                        type:
-                          ((_a = conn.type) === null || _a === void 0
-                            ? void 0
-                            : _a.toUpperCase()) ||
-                          "Unavailable (browser privacy)",
-                        effectiveType:
-                          ((_b = conn.effectiveType) === null || _b === void 0
-                            ? void 0
-                            : _b.toUpperCase()) ||
-                          "Unavailable (browser privacy)",
-                      });
-                  }
-              }, _callee3);
-            }),
-          );
-          function getNetworkType() {
-            return _getNetworkType.apply(this, arguments);
-          }
-          return getNetworkType;
-        })(),
-      },
-      {
-        key: "getDeviceInfo",
-        value: (function () {
-          var _getDeviceInfo = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee4() {
-              var _a,
-                _b,
-                _c,
-                _d,
-                _e,
-                _f,
-                _g,
-                _h,
-                _j,
-                _k,
-                _l,
-                _m,
-                _o,
-                uaResult,
-                _yield$Promise$all,
-                _yield$Promise$all2,
-                heData,
-                nfcResult,
-                NFCsupported,
-                NFCenabled,
-                nav,
-                resolvedBrowser,
-                architecture,
-                deviceModel,
-                networkInfo,
-                isMobile;
-              return _regenerator().w(
-                function (_context4) {
-                  while (1)
-                    switch (_context4.n) {
-                      case 0:
-                        uaResult = parseUserAgent(navigator.userAgent);
-                        _context4.n = 1;
-                        return Promise.all([
-                          this.getHighEntropyData(),
-                          this.checkNFC().catch(function () {
-                            return null;
-                          }),
-                        ]);
-                      case 1:
-                        _yield$Promise$all = _context4.v;
-                        _yield$Promise$all2 = _slicedToArray(
-                          _yield$Promise$all,
-                          2,
-                        );
-                        heData = _yield$Promise$all2[0];
-                        nfcResult = _yield$Promise$all2[1];
-                        NFCsupported =
-                          (_a =
-                            nfcResult === null || nfcResult === void 0
-                              ? void 0
-                              : nfcResult.NFCsupported) !== null &&
-                          _a !== void 0
-                            ? _a
-                            : false;
-                        NFCenabled =
-                          (_b =
-                            nfcResult === null || nfcResult === void 0
-                              ? void 0
-                              : nfcResult.NFCenabled) !== null && _b !== void 0
-                            ? _b
-                            : false;
-                        nav = navigator;
-                        resolvedBrowser = resolveBrandFromList(
-                          heData === null || heData === void 0
-                            ? void 0
-                            : heData.fullVersionList,
-                        );
-                        architecture =
-                          (heData === null || heData === void 0
-                            ? void 0
-                            : heData.architecture) !== undefined
-                            ? heData.architecture || null
-                            : null;
-                        deviceModel =
-                          (heData === null || heData === void 0
-                            ? void 0
-                            : heData.model) !== undefined
-                            ? heData.model || null
-                            : null;
-                        _context4.n = 2;
-                        return this.getNetworkType();
-                      case 2:
-                        networkInfo = _context4.v;
-                        isMobile =
-                          (heData === null || heData === void 0
-                            ? void 0
-                            : heData.mobile) !== undefined
-                            ? heData.mobile
-                            : ((_c =
-                                  nav === null || nav === void 0
-                                    ? void 0
-                                    : nav.userAgentData) === null ||
-                                _c === void 0
-                                  ? void 0
-                                  : _c.mobile) !== undefined
-                              ? nav.userAgentData.mobile
-                              : /mobile/i.test(navigator.userAgent);
-                        return _context4.a(2, {
-                          deviceType:
-                            (_e =
-                              ((_d = uaResult.device) === null || _d === void 0
-                                ? void 0
-                                : _d.type) ||
-                              (isMobile ? "Mobile" : "Desktop")) === null ||
-                            _e === void 0
-                              ? void 0
-                              : _e.toUpperCase(),
-                          screenWidth: window.screen.width,
-                          screenHeight: window.screen.height,
-                          screenPixelRatio: window.devicePixelRatio,
-                          screenDensity: this.getReportedPPI(),
-                          osName:
-                            (_g =
-                              (heData === null || heData === void 0
-                                ? void 0
-                                : heData.platform) ||
-                              ((_f = uaResult.os) === null || _f === void 0
-                                ? void 0
-                                : _f.name) ||
-                              navigator.platform ||
-                              "Unavailable (browser privacy)") === null ||
-                            _g === void 0
-                              ? void 0
-                              : _g.toUpperCase(),
-                          osVersion:
-                            (heData === null || heData === void 0
-                              ? void 0
-                              : heData.platformVersion) ||
-                            ((_h = uaResult.os) === null || _h === void 0
-                              ? void 0
-                              : _h.version) ||
-                            null,
-                          noOfProcessors: navigator.hardwareConcurrency || null,
-                          browserName:
-                            ((_k =
-                              resolvedBrowser.name ||
-                              ((_j = uaResult.browser) === null || _j === void 0
-                                ? void 0
-                                : _j.name)) === null || _k === void 0
-                              ? void 0
-                              : _k.toUpperCase()) || null,
-                          browserVersion:
-                            resolvedBrowser.version ||
-                            ((_l = uaResult.browser) === null || _l === void 0
-                              ? void 0
-                              : _l.version) ||
-                            null,
-                          networkType:
-                            networkInfo === null || networkInfo === void 0
-                              ? void 0
-                              : networkInfo.effectiveType,
-                          networkConnectionType:
-                            networkInfo === null || networkInfo === void 0
-                              ? void 0
-                              : networkInfo.type,
-                          isTouchScreenCapable: navigator.maxTouchPoints > 0,
-                          isNFCCapable: NFCsupported,
-                          isNFCEnabled: NFCenabled,
-                          isGPUCapable: !!nav.gpu,
-                          isVRCapable: !!("xr" in navigator),
-                          isScreenReaderEnabled:
-                            (_o =
-                              (_m = window.matchMedia) === null || _m === void 0
-                                ? void 0
-                                : _m.call(window, "(forced-colors: active)")
-                                    .matches) !== null && _o !== void 0
-                              ? _o
-                              : false,
-                          webglRenderer: (function () {
-                            try {
-                              var canvas = document.createElement("canvas");
-                              var gl = canvas.getContext("webgl");
-                              return (
-                                (gl === null || gl === void 0
-                                  ? void 0
-                                  : gl.getParameter(gl.RENDERER)) || null
-                              );
-                            } catch (_a) {
-                              return null;
-                            }
-                          })(),
-                          coreArchitecture:
-                            (architecture === null || architecture === void 0
-                              ? void 0
-                              : architecture.toUpperCase()) || null,
-                          deviceModel:
-                            (deviceModel === null || deviceModel === void 0
-                              ? void 0
-                              : deviceModel.toUpperCase()) || null,
-                        });
-                    }
-                },
-                _callee4,
-                this,
-              );
-            }),
-          );
-          function getDeviceInfo() {
-            return _getDeviceInfo.apply(this, arguments);
-          }
-          return getDeviceInfo;
-        })(),
-      },
-    ]);
-  })(SDKComponent);
-
-  var POSTHOG_API_KEY = "phc_kqTQTisRrHXss5HknH3g7XbPdyrEAw49oa3ssRUaxaSK";
-  var POSTHOG_INGEST_URL = "https://us.i.posthog.com/i/v0/e/";
-  var PostHogManager = /*#__PURE__*/ (function () {
-    function PostHogManager() {
-      _classCallCheck(this, PostHogManager);
+                  },
+                  e,
+                  this,
+                  [[1, 3]],
+                );
+              }),
+            );
+            function t() {
+              return e.apply(this, arguments);
+            }
+            return t;
+          })(),
+        },
+        {
+          key: "trackCustomEvent",
+          value: (function () {
+            var e = a(
+              x().m(function e(t, n) {
+                return x().w(
+                  function (e) {
+                    for (; 1; )
+                      switch (e.n) {
+                        case 0:
+                          return (
+                            (e.n = 1),
+                            this.sender.sendToCDP(
+                              t,
+                              w({ pageUrl: window.location.href }, n),
+                            )
+                          );
+                        case 1:
+                          return e.a(2);
+                      }
+                  },
+                  e,
+                  this,
+                );
+              }),
+            );
+            function t(t, n) {
+              return e.apply(this, arguments);
+            }
+            return t;
+          })(),
+        },
+      ])
+    );
+  })(O);
+  var ye = "phc_kqTQTisRrHXss5HknH3g7XbPdyrEAw49oa3ssRUaxaSK";
+  var be = "https://us.i.posthog.com/i/v0/e/";
+  var we = (function () {
+    function e() {
+      s(this, e);
     }
-    return _createClass(PostHogManager, [
+    return c(e, [
       {
         key: "capture",
         value: (function () {
-          var _capture = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(
-              function _callee(eventName, distinctId, properties) {
-                return _regenerator().w(
-                  function (_context) {
-                    while (1)
-                      switch ((_context.p = _context.n)) {
-                        case 0:
-                          _context.p = 0;
-                          _context.n = 1;
-                          return fetch(POSTHOG_INGEST_URL, {
+          var e = a(
+            x().m(function e(t, n, i) {
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
+                      case 0:
+                        return (
+                          (e.p = 0),
+                          (e.n = 1),
+                          fetch(be, {
                             method: "POST",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
+                            headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
-                              api_key: POSTHOG_API_KEY,
-                              event: eventName,
-                              distinct_id: distinctId,
-                              properties: _objectSpread2({}, properties),
+                              api_key: ye,
+                              event: t,
+                              distinct_id: n,
+                              properties: w({}, i),
                             }),
-                          });
-                        case 1:
-                          _context.n = 3;
-                          break;
-                        case 2:
-                          _context.p = 2;
-                          _context.v;
-                        case 3:
-                          return _context.a(2);
-                      }
-                  },
-                  _callee,
-                  null,
-                  [[0, 2]],
-                );
-              },
-            ),
+                          })
+                        );
+                      case 1:
+                        e.n = 3;
+                        break;
+                      case 2:
+                        ((e.p = 2), e.v);
+                      case 3:
+                        return e.a(2);
+                    }
+                },
+                e,
+                null,
+                [[0, 2]],
+              );
+            }),
           );
-          function capture(_x, _x2, _x3) {
-            return _capture.apply(this, arguments);
+          function t(t, n, i) {
+            return e.apply(this, arguments);
           }
-          return capture;
+          return t;
         })(),
       },
     ]);
   })();
-  // ---------------------------------------------------------------------------
-  // OLD SDK-BASED POSTHOG IMPLEMENTATION (kept for reference)
-  // ---------------------------------------------------------------------------
-  //
-  // const POSTHOG_API_HOST = "https://us.i.posthog.com";
-  //
-  // declare global {
-  //   interface Window {
-  //     posthog: any;
-  //   }
-  // }
-  //
-  // class PostHogManager {
-  //   private loaded = false;
-  //   private loadPromise: Promise<void> | null = null;
-  //
-  //   /** Load and initialize PostHog. Safe to call multiple times. */
-  //   load(): void {
-  //     if (!this.loadPromise) {
-  //       this.loadPromise = this.initPostHog();
-  //     }
-  //   }
-  //
-  //   private async initPostHog(): Promise<void> {
-  //     if (this.loaded) return;
-  //     if (typeof window === "undefined") return;
-  //
-  //     // If PostHog is already on the page, skip injection
-  //     if (window.posthog && window.posthog.__loaded) {
-  //       this.loaded = true;
-  //       return;
-  //     }
-  //
-  //     try {
-  //       await this.injectPostHogSnippet();
-  //       this.loaded = true;
-  //     } catch {
-  //       // Silently fail — PostHog is non-critical
-  //     }
-  //   }
-  //
-  //   private injectPostHogSnippet(): Promise<void> {
-  //     return new Promise<void>((resolve, reject) => {
-  //       const ph: any = (window.posthog = window.posthog || []);
-  //       if (ph.__SV || ph.__loaded) {
-  //         resolve();
-  //         return;
-  //       }
-  //
-  //       ph._i = [];
-  //       ph.init = function (
-  //         token: string,
-  //         config: Record<string, any>,
-  //         name?: string,
-  //       ) {
-  //         function proxy(parent: any, method: string) {
-  //           const parts = method.split(".");
-  //           if (parts.length === 2) {
-  //             parent = parent[parts[0] as string];
-  //             method = parts[1] as string;
-  //           }
-  //           parent[method] = function () {
-  //             parent.push(
-  //               [method].concat(Array.prototype.slice.call(arguments, 0)),
-  //             );
-  //           };
-  //         }
-  //
-  //         const u: any = (ph[name || "posthog"] = name ? (ph[name] = []) : ph);
-  //         u.people = u.people || [];
-  //         u.toString = function (full?: boolean) {
-  //           let s = "posthog";
-  //           if (name && name !== "posthog") s += "." + name;
-  //           if (!full) s += " (stub)";
-  //           return s;
-  //         };
-  //         u.people.toString = function () {
-  //           return u.toString(true) + ".people (stub)";
-  //         };
-  //
-  //         const methods =
-  //           "init capture calculateEventProperties register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty createPersonProfile setInternalOrTestUser opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(
-  //             " ",
-  //           );
-  //         for (let i = 0; i < methods.length; i++) {
-  //           proxy(u, methods[i] as string);
-  //         }
-  //
-  //         ph._i.push([token, config, name]);
-  //       };
-  //       ph.__SV = 1;
-  //
-  //       const script = document.createElement("script");
-  //       script.type = "text/javascript";
-  //       script.crossOrigin = "anonymous";
-  //       script.async = true;
-  //       script.src =
-  //         POSTHOG_API_HOST.replace(".i.posthog.com", "-assets.i.posthog.com") +
-  //         "/static/array.js";
-  //
-  //       script.onload = () => resolve();
-  //       script.onerror = () => reject(new Error("PostHog script failed to load"));
-  //
-  //       const first = document.getElementsByTagName("script")[0];
-  //       if (first?.parentNode) {
-  //         first.parentNode.insertBefore(script, first);
-  //       } else {
-  //         document.head.appendChild(script);
-  //       }
-  //
-  //       ph.init(POSTHOG_API_KEY, {
-  //         api_host: POSTHOG_API_HOST,
-  //         autocapture: false,
-  //         capture_pageview: false,
-  //         capture_pageleave: false,
-  //         capture_dead_clicks: false,
-  //         disable_session_recording: true,
-  //         capture_performance: { web_vitals: false },
-  //         disable_surveys: true,
-  //         disable_external_dependency_loading: true,
-  //         person_profiles: "identified_only",
-  //       });
-  //     });
-  //   }
-  //
-  //   /** Ensure PostHog is ready before calling methods. */
-  //   private async ensureLoaded(): Promise<any | null> {
-  //     this.load();
-  //     await this.loadPromise;
-  //     return typeof window !== "undefined" && window.posthog
-  //       ? window.posthog
-  //       : null;
-  //   }
-  //
-  //   /** Capture a PostHog event. */
-  //   async capture(
-  //     eventName: string,
-  //     properties?: Record<string, any>,
-  //   ): Promise<void> {
-  //     const ph = await this.ensureLoaded();
-  //     if (ph) ph.capture(eventName, properties);
-  //   }
-  //
-  //   /** Identify a user in PostHog. */
-  //   async identify(
-  //     distinctId: string,
-  //     properties?: Record<string, any>,
-  //   ): Promise<void> {
-  //     const ph = await this.ensureLoaded();
-  //     if (ph) ph.identify(distinctId, properties);
-  //   }
-  // }
-
-  var AdgeistSDK = /*#__PURE__*/ (function () {
-    function AdgeistSDK() {
-      var _this = this;
-      _classCallCheck(this, AdgeistSDK);
-      this.handleRouteChange = function () {
-        setTimeout(function () {
-          _this.cdpManager.sendPageMetadata();
-          _this.adTrackers.forEach(function (tracker) {
-            return tracker.destroy();
-          });
-          _this.adTrackers.clear();
-          _this.adSlotObserver.observeAdSlots();
-          _this.seenAdSpaces.clear();
-        }, 200);
-      };
-      var script = document.currentScript;
+  var ke = (function () {
+    function e() {
+      var t = this;
+      (s(this, e),
+        (this.handleRouteChange = function () {
+          setTimeout(function () {
+            (t.cdpManager.sendPageMetadata(),
+              t.adTrackers.forEach(function (e) {
+                return e.destroy();
+              }),
+              t.adTrackers.clear(),
+              t.adSlotObserver.observeAdSlots(),
+              t.seenAdSpaces.clear());
+          }, 200);
+        }));
+      var n = document.currentScript;
       this.seenAdSpaces = new Set();
-      this.adServeUrl =
-        (script === null || script === void 0
-          ? void 0
-          : script.getAttribute("data-ad-serve-url")) ||
-        "https://beta.v2.bg-services.adgeist.ai";
-      this.adTrackingUrl =
-        (script === null || script === void 0
-          ? void 0
-          : script.getAttribute("data-ad-tracking-url")) ||
-        "https://beta.v2.bg-services.adgeist.ai";
-      this.cdpUrl =
-        (script === null || script === void 0
-          ? void 0
-          : script.getAttribute("data-cdp-url")) ||
-        "https://rl2ptnqw5f.execute-api.ap-south-1.amazonaws.com";
-      this.shouldIngestEventsToCDP =
-        !(script === null || script === void 0
-          ? void 0
-          : script.getAttribute("data-should-ingest-events-to-cdp")) ||
-        (script === null || script === void 0
-          ? void 0
-          : script.getAttribute("data-should-ingest-events-to-cdp")) === "true";
-      this.isTest =
-        (script === null || script === void 0
-          ? void 0
-          : script.getAttribute("data-test-mode")) === "true";
-      this.publisherId =
-        (script === null || script === void 0
-          ? void 0
-          : script.getAttribute("data-publisher-id")) || "";
-      // Initialize independent logger with configuration based on test mode
-      this.logger = new Logger({
-        enableConsoleLogging: true,
-        enableRemoteLogging: true,
-        logPrefix: "[AdgeistSDK]",
-      });
-      this.postHogManager = new PostHogManager();
-      this.cdpManager = new CDPManager(this);
-      this.adLoader = new AdLoader(this);
-      this.adSlotObserver = new AdSlotObserver(this);
-      this.adAudioManager = new AdAudioManager(this);
-      this.deviceInfoCollector = new DeviceInfoCollector(this);
-      this.adTrackers = new Map();
-      this.deviceInfo = null;
+      var i = "https://beta.v2.bg-services.adgeist.ai";
+      ((this.adServeUrl =
+        (null == n ? void 0 : n.getAttribute("data-ad-serve-url")) || i),
+        (this.adTrackingUrl =
+          (null == n ? void 0 : n.getAttribute("data-ad-tracking-url")) || i),
+        (this.cdpUrl =
+          (null == n ? void 0 : n.getAttribute("data-cdp-url")) ||
+          "https://rl2ptnqw5f.execute-api.ap-south-1.amazonaws.com"),
+        (this.shouldIngestEventsToCDP =
+          !(null != n && n.getAttribute("data-should-ingest-events-to-cdp")) ||
+          "true" ===
+            (null == n
+              ? void 0
+              : n.getAttribute("data-should-ingest-events-to-cdp"))),
+        (this.isTest =
+          "true" === (null == n ? void 0 : n.getAttribute("data-test-mode"))),
+        (this.publisherId =
+          (null == n ? void 0 : n.getAttribute("data-publisher-id")) || ""),
+        (this.logger = new ie({
+          enableConsoleLogging: !0,
+          enableRemoteLogging: !0,
+          logPrefix: "[AdgeistSDK]",
+        })),
+        (this.postHogManager = new we()),
+        (this.cdpManager = new me(this)),
+        (this.adLoader = new ee(this)),
+        (this.adSlotObserver = new te(this)),
+        (this.adAudioManager = new D(this)),
+        (this.deviceInfoCollector = new de(this)),
+        (this.adTrackers = new Map()),
+        (this.deviceInfo = null),
+        (this.fingerprint = null));
     }
-    return _createClass(AdgeistSDK, [
+    return c(e, [
       {
         key: "init",
         value: (function () {
-          var _init = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee() {
-              var errorMessage, _t;
-              return _regenerator().w(
-                function (_context) {
-                  while (1)
-                    switch ((_context.p = _context.n)) {
+          var e = a(
+            x().m(function e() {
+              var t, n, i, r, a, o, s;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch ((e.p = e.n)) {
                       case 0:
-                        _context.p = 0;
-                        _context.n = 1;
-                        return this.deviceInfoCollector.getDeviceInfo();
-                      case 1:
-                        this.deviceInfo = _context.v;
-                        _context.n = 2;
-                        return this.cdpManager.sendPageMetadata();
-                      case 2:
-                        this.adSlotObserver.observeAdSlots();
-                        this.logger.log("SDK initialized successfully");
-                        _context.n = 4;
-                        break;
-                      case 3:
-                        _context.p = 3;
-                        _t = _context.v;
-                        errorMessage =
-                          _t instanceof Error ? _t.message : String(_t);
-                        this.logger.error(
-                          "Initialization failed: ".concat(errorMessage),
+                        return (
+                          (e.p = 0),
+                          (t = this.cdpManager.collector.fingerprintManager),
+                          (e.n = 1),
+                          Promise.all([
+                            t.getVisitorId("adgeist"),
+                            t.getAdgeistFingerprintingVersion(),
+                          ])
                         );
+                      case 1:
+                        return (
+                          (n = e.v),
+                          (i = S(n, 2)),
+                          (r = i[0]),
+                          (a = i[1]),
+                          r &&
+                            (this.fingerprint = { visitorId: r, version: a }),
+                          (e.n = 2),
+                          this.deviceInfoCollector.getDeviceInfo()
+                        );
+                      case 2:
+                        return (
+                          (this.deviceInfo = e.v),
+                          (e.n = 3),
+                          this.cdpManager.sendPageMetadata()
+                        );
+                      case 3:
+                        (this.adSlotObserver.observeAdSlots(),
+                          this.logger.log("SDK initialized successfully"),
+                          (e.n = 5));
+                        break;
                       case 4:
-                        return _context.a(2);
+                        ((e.p = 4),
+                          (s = e.v),
+                          (o = s instanceof Error ? s.message : String(s)),
+                          this.logger.error(
+                            "Initialization failed: ".concat(o),
+                          ));
+                      case 5:
+                        return e.a(2);
                     }
                 },
-                _callee,
+                e,
                 this,
-                [[0, 3]],
+                [[0, 4]],
               );
             }),
           );
-          function init() {
-            return _init.apply(this, arguments);
+          function t() {
+            return e.apply(this, arguments);
           }
-          return init;
+          return t;
         })(),
       },
       {
         key: "destroy",
         value: (function () {
-          var _destroy = _asyncToGenerator(
-            /*#__PURE__*/ _regenerator().m(function _callee2() {
-              var observer;
-              return _regenerator().w(
-                function (_context2) {
-                  while (1)
-                    switch (_context2.n) {
+          var e = a(
+            x().m(function e() {
+              var t;
+              return x().w(
+                function (e) {
+                  for (; 1; )
+                    switch (e.n) {
                       case 0:
-                        // Type assertion for the observer property
-                        observer = this.adSlotObserver.observer;
-                        if (observer) {
-                          observer.disconnect();
-                          this.adSlotObserver.observer = null;
-                        }
-                        this.adTrackers.forEach(function (tracker) {
-                          return tracker.destroy();
-                        });
-                        this.adTrackers.clear();
-                        this.seenAdSpaces.clear();
-                        window.removeEventListener(
-                          "popstate",
-                          this.handleRouteChange,
-                        );
+                        ((t = this.adSlotObserver.observer),
+                          t &&
+                            (t.disconnect(),
+                            (this.adSlotObserver.observer = null)),
+                          this.adTrackers.forEach(function (e) {
+                            return e.destroy();
+                          }),
+                          this.adTrackers.clear(),
+                          this.seenAdSpaces.clear(),
+                          window.removeEventListener(
+                            "popstate",
+                            this.handleRouteChange,
+                          ));
                       case 1:
-                        return _context2.a(2);
+                        return e.a(2);
                     }
                 },
-                _callee2,
+                e,
                 this,
               );
             }),
           );
-          function destroy() {
-            return _destroy.apply(this, arguments);
+          function t() {
+            return e.apply(this, arguments);
           }
-          return destroy;
+          return t;
         })(),
       },
     ]);
   })();
-
-  (function () {
-    // Initialize SDK
-    var sdkInstance = new AdgeistSDK();
-    // Setup global interface
-    window.sspAdsQueue = window.sspAdsQueue || [];
-    window.adsbyadgeist = window.adsbyadgeist || {
-      push: function push() {
-        for (
-          var _len = arguments.length, args = new Array(_len), _key = 0;
-          _key < _len;
-          _key++
-        ) {
-          args[_key] = arguments[_key];
-        }
-        sdkInstance.adLoader.loadAds(args.length ? args : null);
-      },
-      trackCustomEvent: function trackCustomEvent(eventType, eventData) {
-        return sdkInstance.cdpManager.trackCustomEvent(eventType, eventData);
-      },
-      setUserDetails: function setUserDetails(details) {
-        return sdkInstance.cdpManager.setUserDetails(details);
-      },
-      showConsentBanner: function showConsentBanner() {
-        return sdkInstance.cdpManager.consentManager.showConsentBanner();
-      },
-      updateAdgeistUserConsent: function updateAdgeistUserConsent(consentType) {
-        return sdkInstance.cdpManager.consentManager.updateAdgeistUserConsent(
-          consentType,
-        );
-      },
-      getUserConsent: function getUserConsent() {
-        return sdkInstance.cdpManager.consentManager.getUserConsent();
-      },
-      destroy: function destroy() {
-        return sdkInstance.destroy();
-      },
-      version: DEFAULTS.ADGEIST_VERSION,
-      CONSENT_TYPE: CONSENT_TYPE,
-    };
-    // Handle SPA route changes
-    var originalPushState = history.pushState;
-    var originalReplaceState = history.replaceState;
-    history.pushState = function () {
-      for (
-        var _len2 = arguments.length, args = new Array(_len2), _key2 = 0;
-        _key2 < _len2;
-        _key2++
-      ) {
-        args[_key2] = arguments[_key2];
-      }
-      originalPushState.apply(this, args);
-      sdkInstance.handleRouteChange();
-    };
-    history.replaceState = function () {
-      for (
-        var _len3 = arguments.length, args = new Array(_len3), _key3 = 0;
-        _key3 < _len3;
-        _key3++
-      ) {
-        args[_key3] = arguments[_key3];
-      }
-      originalReplaceState.apply(this, args);
-      sdkInstance.handleRouteChange();
-    };
-    window.addEventListener("popstate", sdkInstance.handleRouteChange);
-    // Initialize metadata sending on page load
-    if (
-      document.readyState === "complete" ||
-      document.readyState === "interactive"
-    ) {
-      setTimeout(function () {
-        return sdkInstance.cdpManager.sendPageMetadata();
-      }, 0);
-    } else {
-      document.addEventListener("DOMContentLoaded", function () {
-        return sdkInstance.cdpManager.sendPageMetadata();
-      });
-    }
-    // Start SDK
-    sdkInstance.init();
-    // Return the SDK instance for module systems
-    return window.adsbyadgeist;
+  !(function () {
+    var e = new ke();
+    ((window.sspAdsQueue = window.sspAdsQueue || []),
+      (window.adsbyadgeist = window.adsbyadgeist || {
+        push: function t() {
+          for (var n = arguments.length, i = new Array(n), r = 0; r < n; r++)
+            i[r] = arguments[r];
+          e.adLoader.loadAds(i.length ? i : null);
+        },
+        trackCustomEvent: function t(n, i) {
+          return e.cdpManager.trackCustomEvent(n, i);
+        },
+        setUserDetails: function t(n) {
+          return e.cdpManager.setUserDetails(n);
+        },
+        showConsentBanner: function t() {
+          return e.cdpManager.consentManager.showConsentBanner();
+        },
+        updateAdgeistUserConsent: function t(n) {
+          return e.cdpManager.consentManager.updateAdgeistUserConsent(n);
+        },
+        getUserConsent: function t() {
+          return e.cdpManager.consentManager.getUserConsent();
+        },
+        destroy: function t() {
+          return e.destroy();
+        },
+        version: N.ADGEIST_VERSION,
+        CONSENT_TYPE: H,
+      }));
+    var t = history.pushState;
+    var n = history.replaceState;
+    return (
+      (history.pushState = function () {
+        for (var n = arguments.length, i = new Array(n), r = 0; r < n; r++)
+          i[r] = arguments[r];
+        (t.apply(this, i), e.handleRouteChange());
+      }),
+      (history.replaceState = function () {
+        for (var t = arguments.length, i = new Array(t), r = 0; r < t; r++)
+          i[r] = arguments[r];
+        (n.apply(this, i), e.handleRouteChange());
+      }),
+      window.addEventListener("popstate", e.handleRouteChange),
+      "complete" === document.readyState ||
+      "interactive" === document.readyState
+        ? setTimeout(function () {
+            return e.cdpManager.sendPageMetadata();
+          }, 0)
+        : document.addEventListener("DOMContentLoaded", function () {
+            return e.cdpManager.sendPageMetadata();
+          }),
+      e.init(),
+      window.adsbyadgeist
+    );
   })();
-  // Export for module systems
-  var index = typeof window !== "undefined" ? window.adsbyadgeist : {};
-
-  return index;
+  var xe = "undefined" != typeof window ? window.adsbyadgeist : {};
+  return xe;
 });
-//# sourceMappingURL=adgeist-sdk.js.map
