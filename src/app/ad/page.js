@@ -24,7 +24,7 @@ const AllAd = () => {
         apiKey:
           "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
         scriptSrc:
-          "https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/publisher/1.0.0/publisher.min.js",
+          "https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/publisher/v1-beta/publisher.min.js",
         origin: "https://hackathon-lake-nine.vercel.app",
         env: "development",
         isTestMode: false,

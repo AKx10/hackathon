@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         {children}
         <Script
           async
-          src="https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/advertiser/1.0.0/advertiser.min.js"
+          src="https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/advertiser/v1-beta/advertiser.min.js"
         />
       </body>
     </html>
