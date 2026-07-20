@@ -12,13 +12,23 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
+      <head>
+        <link
+          rel="preload"
+          href="https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/advertiser/v1-beta/advertiser.min.js"
+          as="script"
+        ></link>
+        <link
+          rel="preload"
+          href="https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/publisher/v1-beta/publisher.min.js"
+          as="script"
+        ></link>
         <Script
           async
           src="https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/advertiser/v1-beta/advertiser.min.js"
         />
-      </body>
+      </head>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
