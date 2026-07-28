@@ -46,7 +46,8 @@ const AllAd = () => {
       publisherId: "69313010b753c523ef72a5d4",
       apiKey:
         "1e3357a7a4572ec9eb787761ca94740c17cd5f8adaa3cc7e214d33ec706d478b",
-      scriptSrc: "/creativebyadgeist.js",
+      scriptSrc:
+        "https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/publisher/v1-beta/publisher.min.js",
       origin: "https://hackathon-lake-nine.vercel.app", // Platform Origin
       env: "development",
       isTestMode: false,
