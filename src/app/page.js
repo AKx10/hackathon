@@ -2,6 +2,8 @@
 import { useNavigate } from "./quiz/components/Navigation/Navigate";
 import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { identifyUser, trackConversion } from "@/lib/adgeist";
+import AdgeistIdsForm from "@/component/AdgeistIdsForm";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -50,10 +52,12 @@ export default function Home() {
           </div>
         </div>
 
+        <AdgeistIdsForm />
+
         <div className="flex flex gap-3 items-center">
           <button
             onClick={() => {
-              adgeistAdvertiser.trackConversionEvent("purchase", {
+              trackConversion("purchase", {
                 userName: "Akshay",
                 userEmail: "akshay@test.com",
                 amount: 1500,
@@ -65,7 +69,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => {
-              adgeistAdvertiser.trackConversionEvent("add_to_cart", {
+              trackConversion("add_to_cart", {
                 userName: "Akshay",
                 userEmail: "akshay@test.com",
               });
@@ -77,7 +81,7 @@ export default function Home() {
 
           <button
             onClick={() => {
-              adgeistAdvertiser.trackConversionEvent("route_to_ad_page");
+              trackConversion("route_to_ad_page");
               router.push("/ad");
             }}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
@@ -154,6 +158,7 @@ export default function Home() {
             <div className="flex items-center justify-center w-full ">
               <button
                 onClick={() => {
+                  identifyUser({ name: userName, email: userEmail });
                   navigate.push("/quiz");
                 }}
                 className="btn btn-primary font-mono"
@@ -172,7 +177,7 @@ export default function Home() {
                 including quizzes, assessments, and informational content, to
                 help you:
               </p>
-              <p className="flex mt-2 flex-col">
+              <div className="flex mt-2 flex-col">
                 <ul>
                   <li className="font-mono ">
                     * Identify your career interests and preferences.
@@ -201,7 +206,7 @@ export default function Home() {
                     skills.
                   </li>
                 </ul>
-              </p>
+              </div>
             </a>
           </div>
         </div>

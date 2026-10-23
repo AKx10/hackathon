@@ -1,48 +1,21 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 
+// Numbers are px, strings ("100%", "250px") pass through, empty means unset so
+// the SDK sizes the slot from the ad space.
+const toCss = (size) =>
+  !size ? undefined : typeof size === "number" ? `${size}px` : size;
+
+// The SDK discovers `.adsbyadgeist` slots on its own; data-ad-slot is the only
+// attribute it reads. Size comes from our CSS.
 const AdBanner = ({
   adspaceName = "",
   dataadslot,
-  dataslottype,
-  databuytype,
   dataresponsive = false,
-  dataresponsivetype = "square",
-  width = 300,
-  height = 300,
+  width,
+  height,
 }) => {
-  const [reloading, setReloading] = React.useState(false);
-
-  const loadAd = () => {
-    try {
-    } catch (err) {}
-  };
-
-  useEffect(() => {
-    if (!reloading) {
-      loadAd();
-    }
-  }, [reloading]);
-
-  if (reloading) {
-    return (
-      <div
-        style={{
-          width: typeof width == "number" ? `${width}px` : width,
-          height: typeof height == "number" ? `${height}px` : height,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#f0f0f0",
-          textAlign: "center",
-        }}
-      >
-        loading
-      </div>
-    );
-  }
-
   return (
     <div>
       {!!adspaceName && (
@@ -57,24 +30,12 @@ const AdBanner = ({
       <ins
         className="adsbyadgeist"
         style={{
-          display: "block",
+          display: "inline-block",
           textDecoration: "none",
-          width: dataresponsive
-            ? "100%"
-            : typeof width === "number"
-            ? `${width}px`
-            : width,
-          height: dataresponsive
-            ? "100%"
-            : typeof height === "number"
-            ? `${height}px`
-            : height,
+          width: dataresponsive ? "100%" : toCss(width),
+          height: toCss(height),
         }}
         data-ad-slot={dataadslot}
-        data-slot-type={dataslottype}
-        data-buy-type={"FIXED"}
-        data-responsive={dataresponsive}
-        data-responsive-type={dataresponsivetype}
       ></ins>
     </div>
   );

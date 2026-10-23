@@ -1,6 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Script from "next/script";
+import AdgeistScripts, {
+  ADVERTISER_SDK_URL,
+  PUBLISHER_SDK_URL,
+} from "@/component/AdgeistScripts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,22 +16,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link
-          rel="preload"
-          href="https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/advertiser/v1-beta/advertiser.min.js"
-          as="script"
-        ></link>
-        <link
-          rel="preload"
-          href="https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/publisher/v1-beta/publisher.min.js"
-          as="script"
-        ></link>
-        <Script
-          async
-          src="https://adgeist-cdn-beta.s3.ap-south-1.amazonaws.com/advertiser/v1-beta/advertiser.min.js"
-        />
+        <link rel="preload" href={ADVERTISER_SDK_URL} as="script"></link>
+        <link rel="preload" href={PUBLISHER_SDK_URL} as="script"></link>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <AdgeistScripts />
+      </body>
     </html>
   );
 }
